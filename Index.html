@@ -20,7 +20,32 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        h1, h2, h3 {
+        /* Header Layout with Logo */
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #004080;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        .header-top h1 {
+            color: #004080;
+            margin: 0;
+            border: none;
+            padding: 0;
+            font-size: 24px;
+        }
+        .header-top p {
+            margin: 5px 0 0 0;
+            color: #555;
+        }
+        .logo-img {
+            height: 65px;
+            object-fit: contain;
+        }
+
+        h2, h3 {
             color: #004080;
             border-bottom: 2px solid #004080;
             padding-bottom: 5px;
@@ -94,18 +119,25 @@
             body { background-color: #fff; margin: 0; padding: 0; }
             .container { box-shadow: none; padding: 0; }
             input, textarea { border: 1px solid #ddd; }
-            .btn-add { display: none; } /* Hide buttons when printing */
+            .btn-add { display: none; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>CLERK OF WORKS INSPECTION REPORT</h1>
-    <p><strong>Rand Associates</strong></p>
+    <!-- Header with Title and Logo Top Right -->
+    <div class="header-top">
+        <div>
+            <h1>CLERK OF WORKS INSPECTION REPORT</h1>
+        </div>
+        <div>
+            <img src="RAND Master Icon Col RGB.png" alt="Rand Associates Logo" class="logo-img">
+        </div>
+    </div>
 
     <!-- SECTION 1 & 2 -->
-    <h2>1. GENERAL OVERVIEW & ADMINISTRATION</h2>
+    <h2>1. GENERAL OVERVIEW</h2>
     <div class="table-wrapper">
         <table>
             <tr>
@@ -146,7 +178,7 @@
     </div>
     
     <h3>Additional Notes</h3>
-    <textarea class="notes-area" placeholder="Enter any additional general site observations"></textarea>
+    <textarea class="notes-area" placeholder="Enter any additional general site observations..."></textarea>
 
     <!-- SECTION 7: MODULAR CHECKLISTS -->
     <h2>3. MODULAR ON-SITE QUALITY VERIFICATION CHECKLISTS</h2>
@@ -212,7 +244,7 @@
                 <td><input type="text" class="finding-input" id="finding-solar-7" placeholder="Enter findings..."></td>
             </tr>
             <tr>
-                <td>Solar Diverter Present</td>
+                <td>Solar Diverter / Battery Storage System Present & Safe</td>
                 <td class="center"><input type="checkbox"></td>
                 <td class="center"><input type="checkbox" class="action-req-cb" data-id="solar-8" data-category="Photovoltaic Solar Panels" data-item="Battery Storage System"></td>
                 <td class="center"><input type="checkbox"></td>
@@ -240,7 +272,7 @@
                 <td><input type="text" class="finding-input" id="finding-cwi-1" placeholder="Enter findings..."></td>
             </tr>
             <tr>
-                <td>Injection Hole Drill Pattern</td>
+                <td>Injection Hole Drill Pattern Compliance</td>
                 <td class="center"><input type="checkbox"></td>
                 <td class="center"><input type="checkbox" class="action-req-cb" data-id="cwi-2" data-category="Cavity Wall Insulation" data-item="Drill Pattern Compliance"></td>
                 <td class="center"><input type="checkbox"></td>
@@ -296,7 +328,7 @@
                 <td><input type="text" class="finding-input" id="finding-win-2" placeholder="Enter findings..."></td>
             </tr>
             <tr>
-                <td>Toughened / Safety Glass Requirement Met (<800mm floor / <1500mm door)</td>
+                <td>Toughened / Safety Glass Requirement Met (&lt;800mm floor / &lt;1500mm door)</td>
                 <td class="center"><input type="checkbox"></td>
                 <td class="center"><input type="checkbox" class="action-req-cb" data-id="win-3" data-category="Windows & Glazing" data-item="Toughened / Safety Glass Requirement"></td>
                 <td class="center"><input type="checkbox"></td>
@@ -359,7 +391,7 @@
                 <td><input type="text" class="finding-input" id="finding-loft-2" placeholder="Enter findings..."></td>
             </tr>
             <tr>
-                <td>Warning Signage Posted at Hatch</td>
+                <td>Warning Signage Posted at Hatch (Safety/Material/Depth/Date)</td>
                 <td class="center"><input type="checkbox"></td>
                 <td class="center"><input type="checkbox" class="action-req-cb" data-id="loft-3" data-category="Loft Insulation & Ventilation" data-item="Warning Signage at Hatch"></td>
                 <td class="center"><input type="checkbox"></td>
@@ -390,7 +422,7 @@
     </div>
 
     <!-- MECHANICAL VENTILATION SYSTEMS -->
-    <h3>Mechanical Ventilation Systems</h3>
+    <h3>Mechanical Ventilation Systems (Approved Doc F 2021)</h3>
     <div id="fans-container">
         <!-- Fan 1 Container -->
         <div class="fan-section" id="fan-section-1">
@@ -412,7 +444,7 @@
                         <td><input type="text" class="finding-input" id="finding-vent-1-fan1" placeholder="Enter findings..."></td>
                     </tr>
                     <tr>
-                        <td>Wall or Ceiling Mounting Security</td>
+                        <td>Wall or Ceiling Mounting</td>
                         <td class="center"><input type="checkbox"></td>
                         <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-2-fan1" data-category="Mechanical Ventilation (Fan 1)" data-item="Mounting Security"></td>
                         <td class="center"><input type="checkbox"></td>
@@ -426,21 +458,21 @@
                         <td><input type="text" class="finding-input" id="finding-vent-3-fan1" placeholder="Enter findings..."></td>
                     </tr>
                     <tr>
-                        <td>Local Fused Isolation Switch Installed</td>
+                        <td>Local Fused Isolation Switch</td>
                         <td class="center"><input type="checkbox"></td>
                         <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-4-fan1" data-category="Mechanical Ventilation (Fan 1)" data-item="Isolation Switch Installed"></td>
                         <td class="center"><input type="checkbox"></td>
                         <td><input type="text" class="finding-input" id="finding-vent-4-fan1" placeholder="Enter findings..."></td>
                     </tr>
                     <tr>
-                        <td>External Ducting Grille</td>
+                        <td>External Ducting Grillely</td>
                         <td class="center"><input type="checkbox"></td>
                         <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-5-fan1" data-category="Mechanical Ventilation (Fan 1)" data-item="External Ducting Grille"></td>
                         <td class="center"><input type="checkbox"></td>
                         <td><input type="text" class="finding-input" id="finding-vent-5-fan1" placeholder="Enter findings..."></td>
                     </tr>
                     <tr>
-                        <td>Measured Trickle & Boost Airflow Rates</td>
+                        <td>Measured Trickle & Boost Airflow Commissioning Rates</td>
                         <td class="center"><input type="checkbox"></td>
                         <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-6-fan1" data-category="Mechanical Ventilation (Fan 1)" data-item="Trickle & Boost Airflow Rates"></td>
                         <td class="center"><input type="checkbox"></td>
@@ -455,7 +487,7 @@
     <button type="button" id="btn-add-fan" class="btn-add">+ Add Another Fan</button>
 
     <!-- HEATING & HOT WATER SYSTEMS -->
-    <h3>Heating & Hot Water Systems (Approved Doc L & BS 7671)</h3>
+    <h3>Heating & Hot Water Systems</h3>
     <div class="table-wrapper">
         <table>
             <tr>
@@ -480,14 +512,14 @@
                 <td><input type="text" class="finding-input" id="finding-heat-2" placeholder="Enter findings..."></td>
             </tr>
             <tr>
-                <td>System Controls & Warranty Integrity (No Breaches)</td>
+                <td>System Controls & Warranty Integrity</td>
                 <td class="center"><input type="checkbox"></td>
                 <td class="center"><input type="checkbox" class="action-req-cb" data-id="heat-3" data-category="Heating & Hot Water" data-item="System Controls & Warranty"></td>
                 <td class="center"><input type="checkbox"></td>
                 <td><input type="text" class="finding-input" id="finding-heat-3" placeholder="Enter findings..."></td>
             </tr>
             <tr>
-                <td>Secondary Heating System Type, Location</td>
+                <td>Secondary Heating System Type & Location</td>
                 <td class="center"><input type="checkbox"></td>
                 <td class="center"><input type="checkbox" class="action-req-cb" data-id="heat-4" data-category="Heating & Hot Water" data-item="Secondary Heating System & Safety"></td>
                 <td class="center"><input type="checkbox"></td>
@@ -544,160 +576,7 @@
             </tr>
         </table>
     </div>
-
 </div>
-
-<!-- JAVASCRIPT FOR AUTOMATION -->
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const registerBody = document.getElementById('remedial-register-body');
-        let fanCount = 1;
-
-        // Function to handle adding/removing/updating rows in the register
-        function updateRegisterRow(id, category, item, customNotes, isChecked) {
-            let existingRow = document.getElementById('reg-row-' + id);
-            
-            // Format the final finding text (Item + Notes)
-            let finalFindingText = item;
-            if (customNotes && customNotes.trim() !== "") {
-                finalFindingText += " - " + customNotes;
-            }
-
-            if (isChecked) {
-                // If checked and row doesn't exist, create it
-                if (!existingRow) {
-                    const tr = document.createElement('tr');
-                    tr.id = 'reg-row-' + id;
-                    tr.className = 'auto-populated';
-                    tr.innerHTML = `
-                        <td><strong>${category}</strong></td>
-                        <td class="finding-cell">${finalFindingText}</td>
-                        <td><input type="text" class="short-input" placeholder="H/M/L"></td>
-                        <td><textarea placeholder="Remedial action..."></textarea></td>
-                        <td><input type="date"></td>
-                        <td><input type="date"></td>
-                        <td><input type="text" placeholder="Sign Off"></td>
-                    `;
-                    registerBody.appendChild(tr);
-                } else {
-                    // If checked and row exists, update the text live
-                    existingRow.querySelector('.finding-cell').innerText = finalFindingText;
-                }
-            } else {
-                // If unchecked, remove the row if it exists
-                if (existingRow) {
-                    existingRow.remove();
-                }
-            }
-        }
-
-        // --- EVENT DELEGATION ---
-        // Instead of attaching events to specific inputs (which breaks when we add new fans), 
-        // we listen to the whole document and check what was interacted with.
-
-        // Event listener for Checkboxes
-        document.addEventListener('change', function(e) {
-            if (e.target && e.target.classList.contains('action-req-cb')) {
-                const id = e.target.getAttribute('data-id');
-                const categoryName = e.target.getAttribute('data-category');
-                const itemName = e.target.getAttribute('data-item');
-                
-                const noteInput = document.getElementById('finding-' + id);
-                const customNotes = noteInput ? noteInput.value : '';
-                
-                updateRegisterRow(id, categoryName, itemName, customNotes, e.target.checked);
-            }
-        });
-
-        // Event listener for Text Inputs (Live updating the register if the box is already checked)
-        document.addEventListener('input', function(e) {
-            if (e.target && e.target.classList.contains('finding-input')) {
-                const id = e.target.id.replace('finding-', '');
-                const cb = document.querySelector(`.action-req-cb[data-id="${id}"]`);
-                
-                if (cb && cb.checked) {
-                    const categoryName = cb.getAttribute('data-category');
-                    const itemName = cb.getAttribute('data-item');
-                    updateRegisterRow(id, categoryName, itemName, e.target.value, true);
-                }
-            }
-        });
-
-        // --- DYNAMIC FAN ADDITION ---
-        const btnAddFan = document.getElementById('btn-add-fan');
-        const fansContainer = document.getElementById('fans-container');
-
-        btnAddFan.addEventListener('click', function() {
-            fanCount++; // Increase the fan number
-            
-            // Create a new div wrapper for the fan
-            const newFanDiv = document.createElement('div');
-            newFanDiv.className = 'fan-section';
-            newFanDiv.id = 'fan-section-' + fanCount;
-
-            // Template literal for the new table, dynamically injecting the fanCount into IDs and Categories
-            newFanDiv.innerHTML = `
-                <h4>Fan ${fanCount}</h4>
-                <div class="table-wrapper">
-                    <table>
-                        <tr>
-                            <th>Item Description</th>
-                            <th class="center">Sat.</th>
-                            <th class="center">Action Req.</th>
-                            <th class="center">N/A</th>
-                            <th>Inspection Finding / Reference</th>
-                        </tr>
-                        <tr>
-                            <td>Unit Type (Intermittent / dMEV / MEV / PIV) & Model/ Manufacturer</td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-1-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Unit Type & Manufacturer"></td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td><input type="text" class="finding-input" id="finding-vent-1-fan${fanCount}" placeholder="Enter findings..."></td>
-                        </tr>
-                        <tr>
-                            <td>Wall or Ceiling Mounting Security</td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-2-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Mounting Security"></td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td><input type="text" class="finding-input" id="finding-vent-2-fan${fanCount}" placeholder="Enter findings..."></td>
-                        </tr>
-                        <tr>
-                            <td>Ducting Material (Rigid/Flexi taut) & Insulation in Cold Voids</td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-3-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Ducting Material & Insulation"></td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td><input type="text" class="finding-input" id="finding-vent-3-fan${fanCount}" placeholder="Enter findings..."></td>
-                        </tr>
-                        <tr>
-                            <td>Local Fused Isolation Switch Installed</td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-4-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Isolation Switch Installed"></td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td><input type="text" class="finding-input" id="finding-vent-4-fan${fanCount}" placeholder="Enter findings..."></td>
-                        </tr>
-                        <tr>
-                            <td>External Ducting Grille / Gravity Flap Fixed Properly</td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-5-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="External Ducting Grille"></td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td><input type="text" class="finding-input" id="finding-vent-5-fan${fanCount}" placeholder="Enter findings..."></td>
-                        </tr>
-                        <tr>
-                            <td>Measured Trickle & Boost Airflow Commissioning Rates (Doc F Verification)</td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-6-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Trickle & Boost Airflow Rates"></td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td><input type="text" class="finding-input" id="finding-vent-6-fan${fanCount}" placeholder="Enter findings..."></td>
-                        </tr>
-                    </table>
-                </div>
-            `;
-            
-            // Append the new fan table to our container
-            fansContainer.appendChild(newFanDiv);
-        });
-    });
-</script>
 
 </body>
 </html>
