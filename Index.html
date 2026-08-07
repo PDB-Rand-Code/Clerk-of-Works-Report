@@ -4,109 +4,142 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clerk of Works Inspection</title>
-  <!-- Styling & Libraries -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body class="bg-slate-100 p-4 text-slate-800">
 
-  <div id="report-container" class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow-md space-y-6">
-    <h1 class="text-2xl font-bold border-b pb-2 text-slate-800">Clerk of Works Inspection Report</h1>
+  <div id="report-container" class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-md space-y-6">
     
-    <!-- Pre-fill Details Section -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- Header with Company Logo -->
+    <div class="flex items-center justify-between border-b pb-4">
       <div>
-        <label class="block text-sm font-semibold mb-1">Client Email:</label>
-        <input type="email" id="clientEmail" class="w-full border rounded p-2 bg-slate-50" placeholder="client@example.com">
+        <h1 class="text-2xl font-bold text-slate-900">Clerk of Works Inspection</h1>
+        <p class="text-xs text-slate-500">PAS 2035 & Building Regulations Audit</p>
+      </div>
+      <!-- Logo upload reference -->
+      <img src="logo.png" alt="Company Logo" class="h-16 object-contain" onerror="this.style.display='none'">
+    </div>
+    
+    <!-- Pre-fill Details -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-lg border">
+      <div>
+        <label class="block text-xs font-bold text-slate-600 uppercase">Client Email</label>
+        <input type="email" id="clientEmail" class="w-full border rounded p-2 mt-1 bg-white text-sm" placeholder="client@example.com">
       </div>
       <div>
-        <label class="block text-sm font-semibold mb-1">MCS Cert / Site Ref:</label>
-        <input type="text" id="siteRef" class="w-full border rounded p-2 bg-slate-50" placeholder="e.g. MCS-12345">
+        <label class="block text-xs font-bold text-slate-600 uppercase">Site Ref / MCS Cert</label>
+        <input type="text" id="siteRef" class="w-full border rounded p-2 mt-1 bg-white text-sm" placeholder="e.g. MCS-12345">
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-600 uppercase">Inspection Date</label>
+        <input type="date" id="inspectDate" class="w-full border rounded p-2 mt-1 bg-white text-sm">
       </div>
     </div>
 
-    <!-- Compliance Checklist Section -->
-    <div class="space-y-4">
-      <h2 class="text-lg font-bold border-b pb-1 text-slate-700">Compliance Audits</h2>
-      
-      <div class="flex items-center justify-between border-b pb-2">
-        <span class="text-sm font-medium">Approved Doc F: Trickle Vent Capacity (≥8,000mm²)</span>
-        <select id="docF" class="border rounded p-2 bg-slate-50 font-semibold">
-          <option value="Pass">Pass</option>
-          <option value="Fail">Fail</option>
-          <option value="N/A">N/A</option>
-        </select>
-      </div>
-
-      <div class="flex items-center justify-between border-b pb-2">
-        <span class="text-sm font-medium">Approved Doc L: Insulation Depth (Target 300mm)</span>
-        <select id="docL" class="border rounded p-2 bg-slate-50 font-semibold">
-          <option value="Pass">Pass</option>
-          <option value="Fail">Fail</option>
-          <option value="N/A">N/A</option>
-        </select>
-      </div>
-
-      <div class="flex items-center justify-between border-b pb-2">
-        <span class="text-sm font-medium">Approved Doc P / BS 7671: Electrical & Solar Isolation</span>
-        <select id="docP" class="border rounded p-2 bg-slate-50 font-semibold">
-          <option value="Pass">Pass</option>
-          <option value="Fail">Fail</option>
-          <option value="N/A">N/A</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Notes Section -->
+    <!-- Structured Audit Table -->
     <div>
-      <label class="block text-sm font-semibold mb-1">Inspector Notes & Findings:</label>
-      <textarea id="notes" rows="4" class="w-full border rounded p-2 bg-slate-50" placeholder="Enter site findings or specific issues observed..."></textarea>
+      <h2 class="text-base font-bold text-slate-800 mb-2">Regulatory & Compliance Audit Table</h2>
+      <table class="w-full text-left border-collapse border border-slate-200 text-sm">
+        <thead>
+          <tr class="bg-slate-100 border-b border-slate-200">
+            <th class="p-2 border-r border-slate-200 font-semibold">Requirement</th>
+            <th class="p-2 border-r border-slate-200 font-semibold">Standard Code</th>
+            <th class="p-2 font-semibold w-28">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-slate-200">
+            <td class="p-2 border-r border-slate-200">Trickle Vent Capacity (≥8,000mm²)</td>
+            <td class="p-2 border-r border-slate-200">Approved Doc F (2021)</td>
+            <td class="p-2">
+              <select id="docF" class="w-full border rounded p-1 bg-white">
+                <option value="Pass">Pass</option>
+                <option value="Fail">Fail</option>
+                <option value="N/A">N/A</option>
+              </select>
+            </td>
+          </tr>
+          <tr class="border-b border-slate-200">
+            <td class="p-2 border-r border-slate-200">Insulation Depth & Continuity</td>
+            <td class="p-2 border-r border-slate-200">Approved Doc L / PAS 2035</td>
+            <td class="p-2">
+              <select id="docL" class="w-full border rounded p-1 bg-white">
+                <option value="Pass">Pass</option>
+                <option value="Fail">Fail</option>
+                <option value="N/A">N/A</option>
+              </select>
+            </td>
+          </tr>
+          <tr class="border-b border-slate-200">
+            <td class="p-2 border-r border-slate-200">Electrical & Isolation Switches</td>
+            <td class="p-2 border-r border-slate-200">Approved Doc P / BS 7671</td>
+            <td class="p-2">
+              <select id="docP" class="w-full border rounded p-1 bg-white">
+                <option value="Pass">Pass</option>
+                <option value="Fail">Fail</option>
+                <option value="N/A">N/A</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Identified Issues & Action Items -->
+    <div class="space-y-3">
+      <h2 class="text-base font-bold text-slate-800 border-b pb-1">Identified Issues & Remedial Actions</h2>
+      <div>
+        <label class="block text-xs font-semibold text-slate-600 mb-1">Specific Defects / Non-Compliance Notes:</label>
+        <textarea id="issueNotes" rows="4" class="w-full border rounded p-2 bg-slate-50 text-sm" placeholder="Detail any specific non-compliance issues or site observations here..."></textarea>
+      </div>
     </div>
   </div>
 
-  <!-- Buttons (Hidden on final PDF export) -->
-  <div class="max-w-3xl mx-auto mt-6 flex gap-4">
-    <button onclick="saveDraft()" class="w-1/2 bg-slate-700 text-white py-3 rounded-lg font-semibold hover:bg-slate-800">Save Draft</button>
+  <!-- Action Controls -->
+  <div class="max-w-4xl mx-auto mt-6 flex gap-4">
+    <button onclick="saveDraft()" class="w-1/2 bg-slate-700 text-white py-3 rounded-lg font-semibold hover:bg-slate-800">Save Local Draft</button>
     <button onclick="generateAndEmail()" class="w-1/2 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700">Generate & Email PDF</button>
   </div>
 
-  <!-- Embedded JavaScript Logic -->
   <script>
-    // 1. Initialize EmailJS
+    // Initialize EmailJS with your Public Key
     (function() {
-      emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your Public Key
+      emailjs.init("-2sKrx5HAwjNRC3pmg");
     })();
 
-    // 2. Save Draft to Browser Storage
+    // Set today's date by default
+    document.getElementById('inspectDate').valueAsDate = new Date();
+
     function saveDraft() {
       const formData = {
         clientEmail: document.getElementById('clientEmail').value,
         siteRef: document.getElementById('siteRef').value,
+        inspectDate: document.getElementById('inspectDate').value,
         docF: document.getElementById('docF').value,
         docL: document.getElementById('docL').value,
         docP: document.getElementById('docP').value,
-        notes: document.getElementById('notes').value
+        issueNotes: document.getElementById('issueNotes').value
       };
       localStorage.setItem('inspectionDraft', JSON.stringify(formData));
-      alert('Draft saved locally!');
+      alert('Draft saved on this device!');
     }
 
-    // 3. Load Saved Draft Automatically
     window.onload = function() {
       const saved = localStorage.getItem('inspectionDraft');
       if (saved) {
         const data = JSON.parse(saved);
         document.getElementById('clientEmail').value = data.clientEmail || '';
         document.getElementById('siteRef').value = data.siteRef || '';
+        if (data.inspectDate) document.getElementById('inspectDate').value = data.inspectDate;
         document.getElementById('docF').value = data.docF || 'Pass';
         document.getElementById('docL').value = data.docL || 'Pass';
         document.getElementById('docP').value = data.docP || 'Pass';
-        document.getElementById('notes').value = data.notes || '';
+        document.getElementById('issueNotes').value = data.issueNotes || '';
       }
     };
 
-    // 4. Generate PDF and Send Email
     async function generateAndEmail() {
       const element = document.getElementById('report-container');
       const recipientEmail = document.getElementById('clientEmail').value;
@@ -117,8 +150,8 @@
       }
 
       const opt = {
-        margin: 0.5,
-        filename: `Inspection_Report_${document.getElementById('siteRef').value}.pdf`,
+        margin: 0.4,
+        filename: `Inspection_${document.getElementById('siteRef').value || 'Report'}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
@@ -133,10 +166,11 @@
           content_attachment: pdfBase64
         };
 
-        await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams); // Replace IDs
+        // Your specific EmailJS Service ID and Template ID
+        await emailjs.send('service_yx7r98i', 'template_w3x6wij', templateParams);
         alert('Report successfully emailed to ' + recipientEmail);
       } catch (error) {
-        alert('Failed to send email. Check connection or EmailJS keys.');
+        alert('Could not dispatch email. Check connection or admin service authorization.');
         console.error(error);
       }
     }
