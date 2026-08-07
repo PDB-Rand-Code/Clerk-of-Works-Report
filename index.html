@@ -577,6 +577,143 @@
         </table>
     </div>
 </div>
+<div style="text-align: right; margin: 20px 0;">
+    <a href="mailto:?subject=Clerk%20of%20Works%20Inspection%20Report&body=Please%20find%20attached%20the%20completed%20inspection%20report." 
+       style="background-color: #004080; color: white; padding: 12px 20px; text-decoration: none; border-radius: 4px; font-weight: bold;">
+       Email Report Link
+    </a>
+</div>
 
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const actionCheckboxes = document.querySelectorAll('.action-req-cb');
+        const registerBody = document.getElementById('remedial-register-body');
+        const btnAddFan = document.getElementById('btn-add-fan');
+        const fansContainer = document.getElementById('fans-container');
+        let fanCount = 1;
+
+        // Function to update the Main Remedial Register based on ticked boxes
+        function updateRegister() {
+            // Keep manually entered rows or clear auto-populated ones? 
+            // Let's rebuild auto-populated rows:
+            const existingAutoRows = registerBody.querySelectorAll('.auto-populated');
+            existingAutoRows.forEach(row => row.remove());
+
+            actionCheckboxes.forEach(cb => {
+                if (cb.checked) {
+                    const category = cb.getAttribute('data-category');
+                    const item = cb.getAttribute('data-item');
+                    const findingInputId = 'finding-' + cb.getAttribute('data-id');
+                    const findingInput = document.getElementById(findingInputId);
+                    const findingText = findingInput ? findingInput.value : '';
+
+                    const tr = document.createElement('tr');
+                    tr.className = 'auto-populated';
+                    tr.innerHTML = `
+                        <td><strong>${category}</strong><br>${item}</td>
+                        <td><input type="text" value="${findingText}" placeholder="Detail defect..."></td>
+                        <td>
+                            <select>
+                                <option value="High">High</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </td>
+                        <td><input type="text" placeholder="State remedy action..."></td>
+                        <td><input type="date"></td>
+                        <td><input type="date"></td>
+                        <td><input type="text" class="short-input"></td>
+                    `;
+                    registerBody.appendChild(tr);
+                }
+            });
+        }
+
+        // Listen for changes on action required checkboxes
+        actionCheckboxes.forEach(cb => {
+            cb.addEventListener('change', updateRegister);
+        });
+
+        // Listen for typing in finding inputs to update active register rows dynamically if needed
+        document.querySelectorAll('.finding-input').forEach(input => {
+            input.addEventListener('input', () => {
+                // Optional real-time sync could go here, but checking/unchecking triggers it cleanly
+            });
+        });
+
+        // Add Fan functionality
+        if (btnAddFan && fansContainer) {
+            btnAddFan.addEventListener('click', function () {
+                fanCount++;
+                const newFanDiv = document.createElement('div');
+                newFanDiv.className = 'fan-section';
+                newFanDiv.id = `fan-section-${fanCount}`;
+                newFanDiv.innerHTML = `
+                    <h4>Fan ${fanCount}</h4>
+                    <div class="table-wrapper">
+                        <table>
+                            <tr>
+                                <th>Item Description</th>
+                                <th class="center">Sat.</th>
+                                <th class="center">Action Req.</th>
+                                <th class="center">N/A</th>
+                                <th>Inspection Finding / Reference</th>
+                            </tr>
+                            <tr>
+                                <td>Unit Type (Intermittent / dMEV / MEV / PIV) & Model/ Manufacturer</td>
+                                <td class="center"><input type="checkbox"></td>
+                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-1-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Unit Type & Manufacturer"></td>
+                                <td class="center"><input type="checkbox"></td>
+                                <td><input type="text" class="finding-input" id="finding-vent-1-fan${fanCount}" placeholder="Enter findings..."></td>
+                            </tr>
+                            <tr>
+                                <td>Wall or Ceiling Mounting Security</td>
+                                <td class="center"><input type="checkbox"></td>
+                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-2-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Mounting Security"></td>
+                                <td class="center"><input type="checkbox"></td>
+                                <td><input type="text" class="finding-input" id="finding-vent-2-fan${fanCount}" placeholder="Enter findings..."></td>
+                            </tr>
+                            <tr>
+                                <td>Ducting Material (Rigid/Flexi taut) & Insulation in Cold Voids</td>
+                                <td class="center"><input type="checkbox"></td>
+                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-3-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Ducting Material & Insulation"></td>
+                                <td class="center"><input type="checkbox"></td>
+                                <td><input type="text" class="finding-input" id="finding-vent-3-fan${fanCount}" placeholder="Enter findings..."></td>
+                            </tr>
+                            <tr>
+                                <td>Local Fused Isolation Switch Installed</td>
+                                <td class="center"><input type="checkbox"></td>
+                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-4-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Isolation Switch Installed"></td>
+                                <td class="center"><input type="checkbox"></td>
+                                <td><input type="text" class="finding-input" id="finding-vent-4-fan${fanCount}" placeholder="Enter findings..."></td>
+                            </tr>
+                            <tr>
+                                <td>External Ducting Grille / Gravity Flap Fixed Properly</td>
+                                <td class="center"><input type="checkbox"></td>
+                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-5-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="External Ducting Grille"></td>
+                                <td class="center"><input type="checkbox"></td>
+                                <td><input type="text" class="finding-input" id="finding-vent-5-fan${fanCount}" placeholder="Enter findings..."></td>
+                            </tr>
+                            <tr>
+                                <td>Measured Trickle & Boost Airflow Commissioning Rates (Doc F Verification)</td>
+                                <td class="center"><input type="checkbox"></td>
+                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-6-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Trickle & Boost Airflow Rates"></td>
+                                <td class="center"><input type="checkbox"></td>
+                                <td><input type="text" class="finding-input" id="finding-vent-6-fan${fanCount}" placeholder="Enter findings..."></td>
+                            </tr>
+                        </table>
+                    </div>
+                `;
+                fansContainer.appendChild(newFanDiv);
+
+                // Re-bind new checkboxes to the listener
+                const newlyAddedCheckboxes = newFanDiv.querySelectorAll('.action-req-cb');
+                newlyAddedCheckboxes.forEach(cb => {
+                    cb.addEventListener('change', updateRegister);
+                });
+            });
+        }
+    });
+</script>
 </html>
