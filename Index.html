@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clerk of Works Inspection</title>
+  <!-- Styling & Libraries -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body class="bg-slate-100 p-4 text-slate-800">
+
+  <div id="report-container" class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow-md space-y-6">
+    <h1 class="text-2xl font-bold border-b pb-2 text-slate-800">Clerk of Works Inspection Report</h1>
+    
+    <!-- Pre-fill Details Section -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-semibold mb-1">Client Email:</label>
+        <input type="email" id="clientEmail" class="w-full border rounded p-2 bg-slate-50" placeholder="client@example.com">
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">MCS Cert / Site Ref:</label>
+        <input type="text" id="siteRef" class="w-full border rounded p-2 bg-slate-50" placeholder="e.g. MCS-12345">
+      </div>
+    </div>
+
+    <!-- Compliance Checklist Section -->
+    <div class="space-y-4">
+      <h2 class="text-lg font-bold border-b pb-1 text-slate-700">Compliance Audits</h2>
+      
+      <div class="flex items-center justify-between border-b pb-2">
+        <span class="text-sm font-medium">Approved Doc F: Trickle Vent Capacity (≥8,000mm²)</span>
+        <select id="docF" class="border rounded p-2 bg-slate-50 font-semibold">
+          <option value="Pass">Pass</option>
+          <option value="Fail">Fail</option>
+          <option value="N/A">N/A</option>
+        </select>
+      </div>
+
+      <div class="flex items-center justify-between border-b pb-2">
+        <span class="text-sm font-medium">Approved Doc L: Insulation Depth (Target 300mm)</span>
+        <select id="docL" class="border rounded p-2 bg-slate-50 font-semibold">
+          <option value="Pass">Pass</option>
+          <option value="Fail">Fail</option>
+          <option value="N/A">N/A</option>
+        </select>
+      </div>
+
+      <div class="flex items-center justify-between border-b pb-2">
+        <span class="text-sm font-medium">Approved Doc P / BS 7671: Electrical & Solar Isolation</span>
+        <select id="docP" class="border rounded p-2 bg-slate-50 font-semibold">
+          <option value="Pass">Pass</option>
+          <option value="Fail">Fail</option>
+          <option value="N/A">N/A</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Notes Section -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Inspector Notes & Findings:</label>
+      <textarea id="notes" rows="4" class="w-full border rounded p-2 bg-slate-50" placeholder="Enter site findings or specific issues observed..."></textarea>
+    </div>
+  </div>
+
+  <!-- Buttons (Hidden on final PDF export) -->
+  <div class="max-w-3xl mx-auto mt-6 flex gap-4">
+    <button onclick="saveDraft()" class="w-1/2 bg-slate-700 text-white py-3 rounded-lg font-semibold hover:bg-slate-800">Save Draft</button>
+    <button onclick="generateAndEmail()" class="w-1/2 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700">Generate & Email PDF</button>
+  </div>
+
+  <!-- Embedded JavaScript Logic -->
+  <script>
+    // 1. Initialize EmailJS
+    (function() {
+      emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your Public Key
+    })();
+
+    // 2. Save Draft to Browser Storage
+    function saveDraft() {
+      const formData = {
+        clientEmail: document.getElementById('clientEmail').value,
+        siteRef: document.getElementById('siteRef').value,
+        docF: document.getElementById('docF').value,
+        docL: document.getElementById('docL').value,
+        docP: document.getElementById('docP').value,
+        notes: document.getElementById('notes').value
+      };
+      localStorage.setItem('inspectionDraft', JSON.stringify(formData));
+      alert('Draft saved locally!');
+    }
+
+    // 3. Load Saved Draft Automatically
+    window.onload = function() {
+      const saved = localStorage.getItem('inspectionDraft');
+      if (saved) {
+        const data = JSON.parse(saved);
+        document.getElementById('clientEmail').value = data.clientEmail || '';
+        document.getElementById('siteRef').value = data.siteRef || '';
+        document.getElementById('docF').value = data.docF || 'Pass';
+        document.getElementById('docL').value = data.docL || 'Pass';
+        document.getElementById('docP').value = data.docP || 'Pass';
+        document.getElementById('notes').value = data.notes || '';
+      }
+    };
+
+    // 4. Generate PDF and Send Email
+    async function generateAndEmail() {
+      const element = document.getElementById('report-container');
+      const recipientEmail = document.getElementById('clientEmail').value;
+
+      if (!recipientEmail) {
+        alert("Please enter a client email address before sending.");
+        return;
+      }
+
+      const opt = {
+        margin: 0.5,
+        filename: `Inspection_Report_${document.getElementById('siteRef').value}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
+
+      try {
+        const pdfBase64 = await html2pdf().set(opt).from(element).outputPdf('datauristring');
+
+        const templateParams = {
+          to_email: recipientEmail,
+          site_ref: document.getElementById('siteRef').value,
+          content_attachment: pdfBase64
+        };
+
+        await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams); // Replace IDs
+        alert('Report successfully emailed to ' + recipientEmail);
+      } catch (error) {
+        alert('Failed to send email. Check connection or EmailJS keys.');
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>
