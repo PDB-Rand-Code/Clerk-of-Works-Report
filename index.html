@@ -40,6 +40,13 @@
             margin: 5px 0 0 0;
             color: #555;
         }
+        #header-address {
+            font-weight: bold;
+            color: #004080;
+            font-size: 1.1em;
+            margin-top: 8px;
+            min-height: 20px;
+        }
         .logo-img {
             height: 65px;
             object-fit: contain;
@@ -51,7 +58,7 @@
             padding-bottom: 5px;
         }
         h2 { margin-top: 40px; }
-        h4 { color: #333; margin-top: 20px; margin-bottom: 10px; font-size: 1.2em; }
+        h4 { color: #333; margin-top: 20px; margin-bottom: 10px; font-size: 1.2em; display: flex; align-items: center; }
         .table-wrapper {
             overflow-x: auto;
             margin-bottom: 30px;
@@ -79,7 +86,7 @@
             height: 25px;
             cursor: pointer;
         }
-        input[type="text"], input[type="date"], textarea {
+        input[type="text"], input[type="date"], textarea, select {
             width: 95%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -113,12 +120,18 @@
         .btn-add:hover {
             background-color: #00264d;
         }
+        
+        .location-select {
+            width: 200px;
+            margin-left: 15px;
+            padding: 6px;
+        }
 
         /* Print friendly CSS for PDF/Email generation */
         @media print {
             body { background-color: #fff; margin: 0; padding: 0; }
             .container { box-shadow: none; padding: 0; }
-            input, textarea { border: 1px solid #ddd; }
+            input, textarea, select { border: 1px solid #ddd; }
             .btn-add { display: none; }
         }
     </style>
@@ -130,6 +143,7 @@
     <div class="header-top">
         <div>
             <h1>CLERK OF WORKS INSPECTION REPORT</h1>
+            <div id="header-address"></div>
         </div>
         <div>
             <img src="rand-logo.png" alt="Rand Associates Logo" class="logo-img">
@@ -149,14 +163,14 @@
                 <th>Contractor Name:</th><td><input type="text"></td>
             </tr>
             <tr>
-                <th>Property Address:</th><td><textarea></textarea></td>
+                <th>Property Address:</th><td><textarea id="prop-address" placeholder="Enter full address..."></textarea></td>
                 <th>Inspection Reference:</th><td><input type="text" value="1 of 1"></td>
             </tr>
         </table>
     </div>
 
     <!-- SECTION 4: MAIN REGISTER -->
-    <h2>2. MAIN INSPECTION FINDINGS & REMEDIAL ACTION REGISTER</h2>
+    <h2>2. MAIN INSPECTION FINDINGS</h2>
     <p><em>This register automatically populates defects and non-compliances when "Action Req." is ticked below.</em></p>
     <div class="table-wrapper">
         <table>
@@ -181,7 +195,7 @@
     <textarea class="notes-area" placeholder="Enter any additional general site observations..."></textarea>
 
     <!-- SECTION 7: MODULAR CHECKLISTS -->
-    <h2>3. MODULAR ON-SITE QUALITY VERIFICATION CHECKLISTS</h2>
+    <h2>3. ON-SITE CHECKLISTS</h2>
     
     <!-- SOLAR PV -->
     <h3>Solar PV Panels</h3>
@@ -223,7 +237,7 @@
                 <td><input type="text" class="finding-input" id="finding-solar-4" placeholder="Enter findings..."></td>
             </tr>
             <tr>
-                <td>Inverter Fire Detection (In loft space / enclosed area)</td>
+                <td>Inverter Fire Detection</td>
                 <td class="center"><input type="checkbox"></td>
                 <td class="center"><input type="checkbox" class="action-req-cb" data-id="solar-5" data-category="Photovoltaic Solar Panels" data-item="Inverter Fire Detection"></td>
                 <td class="center"><input type="checkbox"></td>
@@ -244,7 +258,7 @@
                 <td><input type="text" class="finding-input" id="finding-solar-7" placeholder="Enter findings..."></td>
             </tr>
             <tr>
-                <td>Solar Diverter / Battery Storage System Present & Safe</td>
+                <td>Solar Diverter</td>
                 <td class="center"><input type="checkbox"></td>
                 <td class="center"><input type="checkbox" class="action-req-cb" data-id="solar-8" data-category="Photovoltaic Solar Panels" data-item="Battery Storage System"></td>
                 <td class="center"><input type="checkbox"></td>
@@ -426,7 +440,16 @@
     <div id="fans-container">
         <!-- Fan 1 Container -->
         <div class="fan-section" id="fan-section-1">
-            <h4>Fan 1</h4>
+            <h4>Fan 1 
+                <select class="location-select">
+                    <option value="">Select Location...</option>
+                    <option value="Kitchen">Kitchen</option>
+                    <option value="Bathroom">Bathroom</option>
+                    <option value="WC">WC</option>
+                    <option value="En-suite">En-suite</option>
+                    <option value="Utility">Utility</option>
+                </select>
+            </h4>
             <div class="table-wrapper">
                 <table>
                     <tr>
@@ -465,7 +488,7 @@
                         <td><input type="text" class="finding-input" id="finding-vent-4-fan1" placeholder="Enter findings..."></td>
                     </tr>
                     <tr>
-                        <td>External Ducting Grillely</td>
+                        <td>External Ducting Grille</td>
                         <td class="center"><input type="checkbox"></td>
                         <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-5-fan1" data-category="Mechanical Ventilation (Fan 1)" data-item="External Ducting Grille"></td>
                         <td class="center"><input type="checkbox"></td>
@@ -539,6 +562,13 @@
                 <td class="center"><input type="checkbox"></td>
                 <td><input type="text" class="finding-input" id="finding-heat-6" placeholder="Enter findings..."></td>
             </tr>
+            <tr>
+                <td>Hot Water Tank Viability (Mains Pressure Shower/Bath vs Electric Shower)</td>
+                <td class="center"><input type="checkbox"></td>
+                <td class="center"><input type="checkbox" class="action-req-cb" data-id="heat-7" data-category="Heating & Hot Water" data-item="Bathing Setup"></td>
+                <td class="center"><input type="checkbox"></td>
+                <td><input type="text" class="finding-input" id="finding-heat-7" placeholder="Enter findings..."></td>
+            </tr>
         </table>
     </div>
 
@@ -567,13 +597,6 @@
                 <td class="center"><input type="checkbox"></td>
                 <td><input type="text" class="finding-input" id="finding-elec-2" placeholder="Enter findings..."></td>
             </tr>
-            <tr>
-                <td>Hot Water Tank Viability (Mains Pressure Shower/Bath vs Electric Shower)</td>
-                <td class="center"><input type="checkbox"></td>
-                <td class="center"><input type="checkbox" class="action-req-cb" data-id="elec-3" data-category="Electrical & Utilities" data-item="Bathing Setup"></td>
-                <td class="center"><input type="checkbox"></td>
-                <td><input type="text" class="finding-input" id="finding-elec-3" placeholder="Enter findings..."></td>
-            </tr>
         </table>
     </div>
 </div>
@@ -591,12 +614,19 @@
         const registerBody = document.getElementById('remedial-register-body');
         const btnAddFan = document.getElementById('btn-add-fan');
         const fansContainer = document.getElementById('fans-container');
+        const propAddressInput = document.getElementById('prop-address');
+        const headerAddressDisplay = document.getElementById('header-address');
         let fanCount = 1;
+
+        // Sync Property Address to Header Title
+        if (propAddressInput && headerAddressDisplay) {
+            propAddressInput.addEventListener('input', function() {
+                headerAddressDisplay.textContent = this.value;
+            });
+        }
 
         // Function to update the Main Remedial Register based on ticked boxes
         function updateRegister() {
-            // Keep manually entered rows or clear auto-populated ones? 
-            // Let's rebuild auto-populated rows:
             const existingAutoRows = registerBody.querySelectorAll('.auto-populated');
             existingAutoRows.forEach(row => row.remove());
 
@@ -613,17 +643,6 @@
                     tr.innerHTML = `
                         <td><strong>${category}</strong><br>${item}</td>
                         <td><input type="text" value="${findingText}" placeholder="Detail defect..."></td>
-                        <td>
-                            <select>
-                                <option value="High">High</option>
-                                <option value="Medium" selected>Medium</option>
-                                <option value="Low">Low</option>
-                            </select>
-                        </td>
-                        <td><input type="text" placeholder="State remedy action..."></td>
-                        <td><input type="date"></td>
-                        <td><input type="date"></td>
-                        <td><input type="text" class="short-input"></td>
                     `;
                     registerBody.appendChild(tr);
                 }
@@ -635,13 +654,6 @@
             cb.addEventListener('change', updateRegister);
         });
 
-        // Listen for typing in finding inputs to update active register rows dynamically if needed
-        document.querySelectorAll('.finding-input').forEach(input => {
-            input.addEventListener('input', () => {
-                // Optional real-time sync could go here, but checking/unchecking triggers it cleanly
-            });
-        });
-
         // Add Fan functionality
         if (btnAddFan && fansContainer) {
             btnAddFan.addEventListener('click', function () {
@@ -650,7 +662,16 @@
                 newFanDiv.className = 'fan-section';
                 newFanDiv.id = `fan-section-${fanCount}`;
                 newFanDiv.innerHTML = `
-                    <h4>Fan ${fanCount}</h4>
+                    <h4>Fan ${fanCount}
+                        <select class="location-select">
+                            <option value="">Select Location...</option>
+                            <option value="Kitchen">Kitchen</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="WC">WC</option>
+                            <option value="En-suite">En-suite</option>
+                            <option value="Utility">Utility</option>
+                        </select>
+                    </h4>
                     <div class="table-wrapper">
                         <table>
                             <tr>
@@ -707,7 +728,6 @@
                 `;
                 fansContainer.appendChild(newFanDiv);
 
-                // Re-bind new checkboxes to the listener
                 const newlyAddedCheckboxes = newFanDiv.querySelectorAll('.action-req-cb');
                 newlyAddedCheckboxes.forEach(cb => {
                     cb.addEventListener('change', updateRegister);
