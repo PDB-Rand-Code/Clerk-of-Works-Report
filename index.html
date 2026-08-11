@@ -7,8 +7,8 @@
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
+            margin: 10px;
+            padding: 10px;
             color: #333;
             background-color: #f9f9f9;
         }
@@ -16,10 +16,11 @@
             max-width: 1200px;
             margin: 0 auto;
             background: #fff;
-            padding: 30px;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
+        
         /* Header Layout with Logo */
         .header-top {
             display: flex;
@@ -28,6 +29,7 @@
             border-bottom: 2px solid #004080;
             padding-bottom: 15px;
             margin-bottom: 25px;
+            gap: 15px;
         }
         .header-top h1 {
             color: #004080;
@@ -57,20 +59,23 @@
             border-bottom: 2px solid #004080;
             padding-bottom: 5px;
         }
-        h2 { margin-top: 40px; }
-        h4 { color: #333; margin-top: 20px; margin-bottom: 10px; font-size: 1.2em; display: flex; align-items: center; }
+        h2 { margin-top: 35px; }
+        h4 { color: #333; margin-top: 20px; margin-bottom: 10px; font-size: 1.1em; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+        
         .table-wrapper {
             overflow-x: auto;
-            margin-bottom: 30px;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 25px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
+            min-width: 600px; /* Ensures tables remain legible on phone screens via scrolling */
         }
         th, td {
             border: 1px solid #ccc;
-            padding: 12px;
+            padding: 10px;
             text-align: left;
             vertical-align: top;
         }
@@ -80,19 +85,20 @@
         }
         .center { text-align: center; }
         
-        /* iPad friendly touch targets */
+        /* Touch target sizing for Phone & iPad */
         input[type="checkbox"] {
-            width: 25px;
-            height: 25px;
+            width: 28px;
+            height: 28px;
             cursor: pointer;
         }
         input[type="text"], input[type="date"], textarea, select {
-            width: 95%;
+            width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            font-size: 16px; /* Prevents auto-zoom on iOS */
+            font-size: 16px; /* Prevents auto-zoom on iOS safari */
             font-family: inherit;
+            box-sizing: border-box;
         }
         textarea {
             resize: vertical;
@@ -101,24 +107,26 @@
         .finding-input {
             min-height: 60px;
         }
-        .short-input { width: 50px !important; }
         .notes-area { min-height: 120px; width: 100%; }
         
-        /* Highlight action required rows in register */
+        /* Auto-populated register highlight */
         .auto-populated {
             background-color: #fff3e6;
         }
 
-        /* Button Styling */
+        /* Buttons */
         .btn-add, .btn-photo {
             background-color: #004080;
             color: #fff;
             border: none;
-            padding: 12px 20px;
+            padding: 14px 20px;
             font-size: 16px;
+            font-weight: bold;
             border-radius: 4px;
             cursor: pointer;
             margin-bottom: 20px;
+            min-height: 44px; /* Apple minimum touch target */
+            display: inline-block;
         }
         .btn-add:hover, .btn-photo:hover {
             background-color: #00264d;
@@ -126,31 +134,29 @@
         
         .location-select {
             width: 200px;
-            margin-left: 15px;
             padding: 6px;
         }
 
-        /* Photo Grid Layout */
+        /* Photo Grid */
         .photo-upload-container {
             margin-bottom: 30px;
         }
         .photo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 15px;
             margin-top: 15px;
         }
         .photo-card {
             border: 1px solid #ccc;
             border-radius: 6px;
-            padding: 15px;
+            padding: 12px;
             background: #fff;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            position: relative;
         }
         .photo-card img {
             width: 100%;
-            height: 200px;
+            height: 180px;
             object-fit: cover;
             border-radius: 4px;
             margin-bottom: 10px;
@@ -160,25 +166,32 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 10px;
-        }
-        .photo-card select {
-            width: 110px;
-            padding: 6px;
+            gap: 10px;
         }
         .btn-remove-photo {
             background-color: #d9534f;
             color: white;
             border: none;
-            padding: 6px 10px;
+            padding: 8px 12px;
             border-radius: 4px;
             cursor: pointer;
-        }
-        .btn-remove-photo:hover {
-            background-color: #c9302c;
+            min-height: 40px;
         }
 
-        /* Print friendly CSS for PDF/Email generation */
+        /* Mobile Adjustments for Phones */
+        @media (max-width: 600px) {
+            body { margin: 0; padding: 5px; }
+            .container { padding: 12px; }
+            .header-top {
+                flex-direction: column-reverse;
+                align-items: flex-start;
+            }
+            .logo-img { height: 50px; }
+            .location-select { width: 100%; margin-left: 0; margin-top: 5px; }
+            .btn-add, .btn-photo { width: 100%; text-align: center; }
+        }
+
+        /* Print CSS */
         @media print {
             body { background-color: #fff; margin: 0; padding: 0; }
             .container { box-shadow: none; padding: 0; }
@@ -190,7 +203,7 @@
 <body>
 
 <div class="container">
-    <!-- Header with Title and Logo Top Right -->
+    <!-- Header with Title and Logo -->
     <div class="header-top">
         <div>
             <h1>CLERK OF WORKS INSPECTION REPORT</h1>
@@ -201,7 +214,7 @@
         </div>
     </div>
 
-    <!-- SECTION 1 & 2 -->
+    <!-- SECTION 1 -->
     <h2>1. GENERAL OVERVIEW</h2>
     <div class="table-wrapper">
         <table>
@@ -220,25 +233,25 @@
         </table>
     </div>
 
-    <!-- SECTION 4: MAIN REGISTER -->
+    <!-- SECTION 2: MAIN REGISTER -->
     <h2>2. MAIN INSPECTION FINDINGS & REMEDIAL ACTION REGISTER</h2>
     <p><em>This register automatically populates defects and non-compliances when "Action Req." is ticked below.</em></p>
     <div class="table-wrapper">
         <table>
             <thead>
                 <tr>
-                    <th style="width: 50px;">No.</th>
-                    <th>Component</th>
-                    <th>Inspection Finding</th>
-                    <th>Priority (H/M/L)</th>
+                    <th style="width: 40px;">No.</th>
+                    <th style="width: 180px;">Component</th>
+                    <th style="width: 220px;">Inspection Finding</th>
+                    <th style="width: 110px;">Priority (H/M/L)</th>
                     <th>Recommended Remedial Action</th>
-                    <th>Target Comp.</th>
-                    <th>Actual Comp.</th>
-                    <th>Sign Off</th>
+                    <th style="width: 120px;">Target Comp.</th>
+                    <th style="width: 120px;">Actual Comp.</th>
+                    <th style="width: 90px;">Sign Off</th>
                 </tr>
             </thead>
             <tbody id="remedial-register-body">
-                <!-- Rows will be injected here automatically by JavaScript -->
+                <!-- Rows injected dynamically via JS -->
             </tbody>
         </table>
     </div>
@@ -249,15 +262,15 @@
     <!-- SECTION 3: SITE PHOTOGRAPHS -->
     <h2>3. SITE PHOTOGRAPHS & DEFECT REFERENCES</h2>
     <div class="photo-upload-container">
-        <p><em>Upload photos from your iPad gallery and assign them to the corresponding Action Required item number.</em></p>
+        <p><em>Upload photos from your gallery or take pictures directly using your phone/iPad camera.</em></p>
         <input type="file" id="photo-file-input" accept="image/*" multiple style="display: none;">
-        <button type="button" class="btn-photo" id="btn-add-photos">+ Upload Photos from Gallery</button>
+        <button type="button" class="btn-photo" id="btn-add-photos">+ Upload / Take Photos</button>
         <div class="photo-grid" id="photo-grid">
-            <!-- Uploaded photo cards appear here -->
+            <!-- Photos dynamically added here -->
         </div>
     </div>
 
-    <!-- SECTION 7: MODULAR CHECKLISTS -->
+    <!-- SECTION 4: MODULAR CHECKLISTS -->
     <h2>4. MODULAR ON-SITE QUALITY VERIFICATION CHECKLISTS</h2>
     
     <!-- SOLAR PV -->
@@ -266,9 +279,9 @@
         <table>
             <tr>
                 <th>Item Description</th>
-                <th class="center">Sat.</th>
-                <th class="center">Action Req.</th>
-                <th class="center">N/A</th>
+                <th class="center" style="width: 50px;">Sat.</th>
+                <th class="center" style="width: 60px;">Action Req.</th>
+                <th class="center" style="width: 50px;">N/A</th>
                 <th>Inspection Finding / Reference</th>
             </tr>
             <tr>
@@ -336,9 +349,9 @@
         <table>
             <tr>
                 <th>Item Description</th>
-                <th class="center">Sat.</th>
-                <th class="center">Action Req.</th>
-                <th class="center">N/A</th>
+                <th class="center" style="width: 50px;">Sat.</th>
+                <th class="center" style="width: 60px;">Action Req.</th>
+                <th class="center" style="width: 50px;">N/A</th>
                 <th>Inspection Finding / Reference</th>
             </tr>
             <tr>
@@ -385,9 +398,9 @@
         <table>
             <tr>
                 <th>Item Description</th>
-                <th class="center">Sat.</th>
-                <th class="center">Action Req.</th>
-                <th class="center">N/A</th>
+                <th class="center" style="width: 50px;">Sat.</th>
+                <th class="center" style="width: 60px;">Action Req.</th>
+                <th class="center" style="width: 50px;">N/A</th>
                 <th>Inspection Finding / Reference</th>
             </tr>
             <tr>
@@ -448,9 +461,9 @@
         <table>
             <tr>
                 <th>Item Description</th>
-                <th class="center">Sat.</th>
-                <th class="center">Action Req.</th>
-                <th class="center">N/A</th>
+                <th class="center" style="width: 50px;">Sat.</th>
+                <th class="center" style="width: 60px;">Action Req.</th>
+                <th class="center" style="width: 50px;">N/A</th>
                 <th>Inspection Finding / Reference</th>
             </tr>
             <tr>
@@ -517,9 +530,9 @@
                 <table>
                     <tr>
                         <th>Item Description</th>
-                        <th class="center">Sat.</th>
-                        <th class="center">Action Req.</th>
-                        <th class="center">N/A</th>
+                        <th class="center" style="width: 50px;">Sat.</th>
+                        <th class="center" style="width: 60px;">Action Req.</th>
+                        <th class="center" style="width: 50px;">N/A</th>
                         <th>Inspection Finding / Reference</th>
                     </tr>
                     <tr>
@@ -569,7 +582,6 @@
         </div>
     </div>
     
-    <!-- Add Fan Button -->
     <button type="button" id="btn-add-fan" class="btn-add">+ Add Another Fan</button>
 
     <!-- HEATING & HOT WATER SYSTEMS -->
@@ -578,9 +590,9 @@
         <table>
             <tr>
                 <th>Item Description</th>
-                <th class="center">Sat.</th>
-                <th class="center">Action Req.</th>
-                <th class="center">N/A</th>
+                <th class="center" style="width: 50px;">Sat.</th>
+                <th class="center" style="width: 60px;">Action Req.</th>
+                <th class="center" style="width: 50px;">N/A</th>
                 <th>Inspection Finding / Reference</th>
             </tr>
             <tr>
@@ -614,255 +626,225 @@
             <tr>
                 <td>Hot Water Cylinder Location, Sizing, Insulation & Heating Method</td>
                 <td class="center"><input type="checkbox"></td>
-                <td class="center"><input type="checkbox" class="action-req-cb" data-id="heat-5" data-category="Heating & Hot Water" data-item="Hot Water Cylinder setup"></td>
+                <td class="center"><input type="checkbox" class="action-req-cb" data-id="heat-5" data-category="Heating & Hot Water" data-item="Cylinder Sizing & Insulation"></td>
                 <td class="center"><input type="checkbox"></td>
                 <td><textarea class="finding-input" id="finding-heat-5" placeholder="Enter findings..."></textarea></td>
-            </tr>
-            <tr>
-                <td>Temperature/Pressure Relief Valve & Safe Overflow Termination Location</td>
-                <td class="center"><input type="checkbox"></td>
-                <td class="center"><input type="checkbox" class="action-req-cb" data-id="heat-6" data-category="Heating & Hot Water" data-item="Relief Valve & Overflow"></td>
-                <td class="center"><input type="checkbox"></td>
-                <td><textarea class="finding-input" id="finding-heat-6" placeholder="Enter findings..."></textarea></td>
-            </tr>
-            <tr>
-                <td>Hot Water Tank Viability (Mains Pressure Shower/Bath vs Electric Shower)</td>
-                <td class="center"><input type="checkbox"></td>
-                <td class="center"><input type="checkbox" class="action-req-cb" data-id="heat-7" data-category="Heating & Hot Water" data-item="Bathing Setup"></td>
-                <td class="center"><input type="checkbox"></td>
-                <td><textarea class="finding-input" id="finding-heat-7" placeholder="Enter findings..."></textarea></td>
-            </tr>
-        </table>
-    </div>
-
-    <!-- ELECTRICAL INFRASTRUCTURE & UTILITIES -->
-    <h3>Electrical Infrastructure & Utilities</h3>
-    <div class="table-wrapper">
-        <table>
-            <tr>
-                <th>Item Description</th>
-                <th class="center">Sat.</th>
-                <th class="center">Action Req.</th>
-                <th class="center">N/A</th>
-                <th>Inspection Finding / Reference</th>
-            </tr>
-            <tr>
-                <td>Energy Efficient Lighting Fitted (100% LED / Low Energy)</td>
-                <td class="center"><input type="checkbox"></td>
-                <td class="center"><input type="checkbox" class="action-req-cb" data-id="elec-1" data-category="Electrical & Utilities" data-item="Energy Efficient Lighting"></td>
-                <td class="center"><input type="checkbox"></td>
-                <td><textarea class="finding-input" id="finding-elec-1" placeholder="Enter findings..."></textarea></td>
-            </tr>
-            <tr>
-                <td>Electric Meter Type (Single / Dual Rate / Smart Meter)</td>
-                <td class="center"><input type="checkbox"></td>
-                <td class="center"><input type="checkbox" class="action-req-cb" data-id="elec-2" data-category="Electrical & Utilities" data-item="Electric Meter Type"></td>
-                <td class="center"><input type="checkbox"></td>
-                <td><textarea class="finding-input" id="finding-elec-2" placeholder="Enter findings..."></textarea></td>
             </tr>
         </table>
     </div>
 </div>
 
-</body>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const actionCheckboxes = document.querySelectorAll('.action-req-cb');
-        const registerBody = document.getElementById('remedial-register-body');
-        const btnAddFan = document.getElementById('btn-add-fan');
-        const fansContainer = document.getElementById('fans-container');
-        const propAddressInput = document.getElementById('prop-address');
-        const headerAddressDisplay = document.getElementById('header-address');
-        const btnAddPhotos = document.getElementById('btn-add-photos');
-        const photoFileInput = document.getElementById('photo-file-input');
-        const photoGrid = document.getElementById('photo-grid');
-        let fanCount = 1;
+document.addEventListener('DOMContentLoaded', function() {
+    const btnAddFan = document.getElementById('btn-add-fan');
+    const fansContainer = document.getElementById('fans-container');
+    const registerBody = document.getElementById('remedial-register-body');
+    const propAddressInput = document.getElementById('prop-address');
+    const headerAddressDiv = document.getElementById('header-address');
+    let fanCount = 1;
 
-        // Sync Property Address to Header Title
-        if (propAddressInput && headerAddressDisplay) {
-            propAddressInput.addEventListener('input', function() {
-                headerAddressDisplay.textContent = this.value;
-            });
-        }
-
-        // Function to update numbering and options across registered rows
-        function updateRegister() {
-            const existingAutoRows = registerBody.querySelectorAll('.auto-populated');
-            existingAutoRows.forEach(row => row.remove());
-
-            let counter = 1;
-            actionCheckboxes.forEach(cb => {
-                if (cb.checked) {
-                    const category = cb.getAttribute('data-category');
-                    const item = cb.getAttribute('data-item');
-                    const findingInputId = 'finding-' + cb.getAttribute('data-id');
-                    const findingInput = document.getElementById(findingInputId);
-                    const findingText = findingInput ? findingInput.value : '';
-
-                    const tr = document.createElement('tr');
-                    tr.className = 'auto-populated';
-                    tr.innerHTML = `
-                        <td class="center"><strong>${counter}</strong></td>
-                        <td><strong>${category}</strong><br>${item}</td>
-                        <td><textarea style="min-height:60px;" placeholder="Detail defect...">${findingText}</textarea></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    `;
-                    registerBody.appendChild(tr);
-                    counter++;
-                }
-            });
-            updatePhotoDropdowns();
-        }
-
-        // Update photo reference dropdowns based on total active action items
-        function updatePhotoDropdowns() {
-            const activeCount = registerBody.querySelectorAll('.auto-populated').length;
-            const selects = document.querySelectorAll('.photo-ref-select');
-            
-            selects.forEach(select => {
-                const currentVal = select.value;
-                let optionsHtml = '<option value="">-- Select Action --</option>';
-                for (let i = 1; i <= activeCount; i++) {
-                    optionsHtml += `<option value="Action ${i}" ${currentVal === 'Action ' + i ? 'selected' : ''}>Action ${i}</option>`;
-                }
-                select.innerHTML = optionsHtml;
-            });
-        }
-
-        // Listen for changes on action required checkboxes
-        actionCheckboxes.forEach(cb => {
-            cb.addEventListener('change', updateRegister);
+    // Header address sync
+    if (propAddressInput && headerAddressDiv) {
+        propAddressInput.addEventListener('input', function() {
+            headerAddressDiv.textContent = this.value;
         });
+    }
 
-        // Photo Upload Handling for iPad Gallery
-        if (btnAddPhotos && photoFileInput) {
-            btnAddPhotos.addEventListener('click', () => {
-                photoFileInput.click();
-            });
+    // Dynamic Fan Addition
+    if (btnAddFan && fansContainer) {
+        btnAddFan.addEventListener('click', function() {
+            fanCount++;
+            const fanSection = document.createElement('div');
+            fanSection.className = 'fan-section';
+            fanSection.id = `fan-section-${fanCount}`;
+            
+            fanSection.innerHTML = `
+                <h4>Fan ${fanCount} 
+                    <select class="location-select">
+                        <option value="">Select Location...</option>
+                        <option value="Kitchen">Kitchen</option>
+                        <option value="Bathroom">Bathroom</option>
+                        <option value="WC">WC</option>
+                        <option value="En-suite">En-suite</option>
+                        <option value="Utility">Utility</option>
+                    </select>
+                </h4>
+                <div class="table-wrapper">
+                    <table>
+                        <tr>
+                            <th>Item Description</th>
+                            <th class="center" style="width: 50px;">Sat.</th>
+                            <th class="center" style="width: 60px;">Action Req.</th>
+                            <th class="center" style="width: 50px;">N/A</th>
+                            <th>Inspection Finding / Reference</th>
+                        </tr>
+                        <tr>
+                            <td>Unit Type (Intermittent / dMEV / MEV / PIV) & Model/ Manufacturer</td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-1-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Unit Type & Manufacturer"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td><textarea class="finding-input" id="finding-vent-1-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>Wall or Ceiling Mounting</td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-2-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Mounting Security"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td><textarea class="finding-input" id="finding-vent-2-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>Ducting Material (Rigid/Flexi taut) & Insulation in Cold Voids</td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-3-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Ducting Material & Insulation"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td><textarea class="finding-input" id="finding-vent-3-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>Local Fused Isolation Switch</td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-4-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Isolation Switch Installed"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td><textarea class="finding-input" id="finding-vent-4-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>External Ducting Grille</td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-5-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="External Ducting Grille"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td><textarea class="finding-input" id="finding-vent-5-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>Measured Trickle & Boost Airflow Commissioning Rates</td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-6-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Trickle & Boost Airflow Rates"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td><textarea class="finding-input" id="finding-vent-6-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
+                        </tr>
+                    </table>
+                </div>
+            `;
+            fansContainer.appendChild(fanSection);
+        });
+    }
 
-            photoFileInput.addEventListener('change', function(e) {
-                const files = e.target.files;
-                if (!files) return;
-
-                Array.from(files).forEach(file => {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        const card = document.createElement('div');
-                        card.className = 'photo-card';
-                        
-                        const activeCount = registerBody.querySelectorAll('.auto-populated').length;
-                        let optionsHtml = '<option value="">-- Select Action --</option>';
-                        for (let i = 1; i <= activeCount; i++) {
-                            optionsHtml += `<option value="Action ${i}">Action ${i}</option>`;
-                        }
-
-                        card.innerHTML = `
-                            <img src="${event.target.result}" alt="Inspection Photo">
-                            <textarea placeholder="Add photo caption or description..." style="min-height:50px; margin-bottom:10px;"></textarea>
-                            <div class="photo-card-controls">
-                                <select class="photo-ref-select">
-                                    ${optionsHtml}
-                                </select>
-                                <button type="button" class="btn-remove-photo">Remove</button>
-                            </div>
-                        `;
-
-                        card.querySelector('.btn-remove-photo').addEventListener('click', () => {
-                            card.remove();
-                        });
-
-                        photoGrid.appendChild(card);
-                    };
-                    reader.readAsDataURL(file);
-                });
-                photoFileInput.value = ''; // Reset input
-            });
-        }
-
-        // Add Fan functionality
-        if (btnAddFan && fansContainer) {
-            btnAddFan.addEventListener('click', function () {
-                fanCount++;
-                const newFanDiv = document.createElement('div');
-                newFanDiv.className = 'fan-section';
-                newFanDiv.id = `fan-section-${fanCount}`;
-                newFanDiv.innerHTML = `
-                    <h4>Fan ${fanCount}
-                        <select class="location-select">
-                            <option value="">Select Location...</option>
-                            <option value="Kitchen">Kitchen</option>
-                            <option value="Bathroom">Bathroom</option>
-                            <option value="WC">WC</option>
-                            <option value="En-suite">En-suite</option>
-                            <option value="Utility">Utility</option>
+    // Action Required Checkboxes -> Dynamically populate Remedial Register
+    document.addEventListener('change', function(e) {
+        if (e.target && e.target.classList.contains('action-req-cb')) {
+            const cb = e.target;
+            const rowId = 'register-row-' + cb.dataset.id;
+            
+            if (cb.checked) {
+                const findingInput = document.getElementById('finding-' + cb.dataset.id);
+                const findingText = findingInput ? findingInput.value : "";
+                
+                const tr = document.createElement('tr');
+                tr.id = rowId;
+                tr.className = 'auto-populated';
+                tr.innerHTML = `
+                    <td class="center"><strong></strong></td>
+                    <td>${cb.dataset.category} - ${cb.dataset.item}</td>
+                    <td><span class="register-finding-text">${findingText || "No notes entered"}</span></td>
+                    <td>
+                        <select>
+                            <option value="">Priority...</option>
+                            <option value="H">High</option>
+                            <option value="M">Medium</option>
+                            <option value="L">Low</option>
                         </select>
-                    </h4>
-                    <div class="table-wrapper">
-                        <table>
-                            <tr>
-                                <th>Item Description</th>
-                                <th class="center">Sat.</th>
-                                <th class="center">Action Req.</th>
-                                <th class="center">N/A</th>
-                                <th>Inspection Finding / Reference</th>
-                            </tr>
-                            <tr>
-                                <td>Unit Type (Intermittent / dMEV / MEV / PIV) & Model/ Manufacturer</td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-1-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Unit Type & Manufacturer"></td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td><textarea class="finding-input" id="finding-vent-1-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
-                            </tr>
-                            <tr>
-                                <td>Wall or Ceiling Mounting Security</td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-2-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Mounting Security"></td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td><textarea class="finding-input" id="finding-vent-2-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
-                            </tr>
-                            <tr>
-                                <td>Ducting Material (Rigid/Flexi taut) & Insulation in Cold Voids</td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-3-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Ducting Material & Insulation"></td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td><textarea class="finding-input" id="finding-vent-3-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
-                            </tr>
-                            <tr>
-                                <td>Local Fused Isolation Switch Installed</td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-4-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Isolation Switch Installed"></td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td><textarea class="finding-input" id="finding-vent-4-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
-                            </tr>
-                            <tr>
-                                <td>External Ducting Grille / Gravity Flap Fixed Properly</td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-5-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="External Ducting Grille"></td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td><textarea class="finding-input" id="finding-vent-5-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
-                            </tr>
-                            <tr>
-                                <td>Measured Trickle & Boost Airflow Commissioning Rates (Doc F Verification)</td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-6-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Trickle & Boost Airflow Rates"></td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td><textarea class="finding-input" id="finding-vent-6-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
-                            </tr>
-                        </table>
-                    </div>
+                    </td>
+                    <td><textarea class="finding-input" placeholder="Enter action..."></textarea></td>
+                    <td><input type="date"></td>
+                    <td><input type="date"></td>
+                    <td class="center"><input type="checkbox"></td>
                 `;
-                fansContainer.appendChild(newFanDiv);
-
-                const newlyAddedCheckboxes = newFanDiv.querySelectorAll('.action-req-cb');
-                newlyAddedCheckboxes.forEach(cb => {
-                    cb.addEventListener('change', updateRegister);
-                });
-            });
+                registerBody.appendChild(tr);
+            } else {
+                const rowToRemove = document.getElementById(rowId);
+                if (rowToRemove) {
+                    rowToRemove.remove();
+                }
+            }
+            updateActionNumbers();
         }
     });
+
+    // Sync finding notes live into the register table
+    document.addEventListener('input', function(e) {
+        if (e.target && e.target.classList.contains('finding-input') && e.target.id) {
+            const idPart = e.target.id.replace('finding-', '');
+            const row = document.getElementById('register-row-' + idPart);
+            if (row) {
+                const span = row.querySelector('.register-finding-text');
+                if (span) {
+                    span.textContent = e.target.value || "No notes entered";
+                }
+            }
+        }
+    });
+
+    function updateActionNumbers() {
+        if (!registerBody) return;
+        const rows = registerBody.querySelectorAll('tr');
+        rows.forEach((row, index) => {
+            const numCell = row.querySelector('td:first-child strong');
+            if (numCell) {
+                numCell.textContent = index + 1;
+            }
+        });
+    }
+
+    // Photo Upload Handling
+    const btnAddPhotos = document.getElementById('btn-add-photos');
+    const photoFileInput = document.getElementById('photo-file-input');
+    const photoGrid = document.getElementById('photo-grid');
+
+    if (btnAddPhotos && photoFileInput) {
+        btnAddPhotos.addEventListener('click', function() {
+            photoFileInput.click();
+        });
+
+        photoFileInput.addEventListener('change', function(e) {
+            const files = e.target.files;
+            if (!files) return;
+
+            Array.from(files).forEach(file => {
+                if (!file.type.startsWith('image/')) return;
+
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const card = document.createElement('div');
+                    card.className = 'photo-card';
+                    card.innerHTML = `
+                        <img src="${evt.target.result}" alt="Inspection Photograph">
+                        <textarea placeholder="Photo description/notes..."></textarea>
+                        <div class="photo-card-controls">
+                            <label>Ref #: 
+                                <select style="width: auto; padding: 4px;">
+                                    <option value="">General</option>
+                                    <option value="1">Item 1</option>
+                                    <option value="2">Item 2</option>
+                                    <option value="3">Item 3</option>
+                                    <option value="4">Item 4</option>
+                                    <option value="5">Item 5</option>
+                                </select>
+                            </label>
+                            <button type="button" class="btn-remove-photo">Delete</button>
+                        </div>
+                    `;
+                    
+                    card.querySelector('.btn-remove-photo').addEventListener('click', function() {
+                        card.remove();
+                    });
+
+                    photoGrid.appendChild(card);
+                };
+                reader.readAsDataURL(file);
+            });
+            photoFileInput.value = '';
+        });
+    }
+});
 </script>
+
+</body>
 </html>
