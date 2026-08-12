@@ -213,6 +213,11 @@
             align-items: center;
             gap: 10px;
         }
+        .photo-ref-select {
+            width: 140px; 
+            padding: 6px;
+            font-size: 14px;
+        }
         .btn-remove-photo {
             background-color: #d9534f;
             color: white;
@@ -234,6 +239,7 @@
             .logo-img { height: 50px; }
             .location-select { width: 100%; margin-left: 0; margin-top: 5px; }
             .btn-add, .btn-photo { width: 100%; text-align: center; }
+            .photo-ref-select { width: 120px; }
         }
 
         /* Print CSS - keeps collapsed accordions hidden to save space */
@@ -280,7 +286,7 @@
     </div>
 
     <!-- SECTION 2: MAIN REGISTER -->
-    <h2>2. MAIN FINDINGS</h2>
+    <h2>2. MAIN INSPECTION FINDINGS & REMEDIAL ACTION REGISTER</h2>
     <p><em>This register automatically populates defects and non-compliances when "Action Req." is ticked below.</em></p>
     <div class="table-wrapper">
         <table>
@@ -308,7 +314,7 @@
     <!-- SECTION 3: SITE PHOTOGRAPHS -->
     <h2>3. SITE PHOTOGRAPHS & DEFECT REFERENCES</h2>
     <div class="photo-upload-container">
-        <p><em>Upload photos from your gallery or take pictures directly using your phone/iPad camera.</em></p>
+        <p><em>Upload photos from your gallery or take pictures directly using your phone/iPad camera. Use the 'Ref' dropdown to link photos to items in the register above.</em></p>
         <input type="file" id="photo-file-input" accept="image/*" multiple style="display: none;">
         <button type="button" class="btn-photo" id="btn-add-photos">+ Upload / Take Photos</button>
         <div class="photo-grid" id="photo-grid">
@@ -317,7 +323,7 @@
     </div>
 
     <!-- SECTION 4: MODULAR CHECKLISTS -->
-    <h2>4. ON-SITE CHECKLISTS</h2>
+    <h2>4. MODULAR ON-SITE QUALITY VERIFICATION CHECKLISTS</h2>
     
     <!-- SOLAR PV ACCORDION -->
     <div class="accordion-section">
@@ -860,6 +866,44 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // -- NEW: Functions to dynamically update Photo Dropdowns --
+    function getRegisterItems() {
+        const items = [];
+        const rows = registerBody.querySelectorAll('tr');
+        rows.forEach((row, index) => {
+            const num = index + 1;
+            const componentText = row.cells[1].textContent;
+            items.push({
+                id: row.id,
+                label: `${num}. ${componentText}`
+            });
+        });
+        return items;
+    }
+
+    function updateAllPhotoDropdowns() {
+        const items = getRegisterItems();
+        const selects = document.querySelectorAll('.photo-ref-select');
+        
+        selects.forEach(select => {
+            const currentValue = select.value;
+            select.innerHTML = '<option value="">General</option>';
+            
+            items.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.id;
+                // Truncate the text if it's too long so the dropdown doesn't become huge
+                opt.textContent = item.label.length > 45 ? item.label.substring(0, 42) + '...' : item.label;
+                select.appendChild(opt);
+            });
+            
+            // Re-select the previously chosen option if it still exists
+            if (currentValue && select.querySelector(`option[value="${currentValue}"]`)) {
+                select.value = currentValue;
+            }
+        });
+    }
+
     // Action Required Checkboxes -> Dynamically populate Remedial Register
     document.addEventListener('change', function(e) {
         if (e.target && e.target.classList.contains('action-req-cb')) {
@@ -917,6 +961,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 numCell.textContent = index + 1;
             }
         });
+        
+        // Every time a row number updates (or a row is added/removed), update the photo dropdowns
+        updateAllPhotoDropdowns();
     }
 
     // Photo Upload Handling
@@ -944,14 +991,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         <img src="${evt.target.result}" alt="Inspection Photograph">
                         <textarea placeholder="Photo description/notes..."></textarea>
                         <div class="photo-card-controls">
-                            <label>Ref #: 
-                                <select style="width: auto; padding: 4px;">
+                            <label>Ref: 
+                                <select class="photo-ref-select">
                                     <option value="">General</option>
-                                    <option value="1">Item 1</option>
-                                    <option value="2">Item 2</option>
-                                    <option value="3">Item 3</option>
-                                    <option value="4">Item 4</option>
-                                    <option value="5">Item 5</option>
                                 </select>
                             </label>
                             <button type="button" class="btn-remove-photo">Delete</button>
@@ -963,6 +1005,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
 
                     photoGrid.appendChild(card);
+                    
+                    // Immediately populate the dropdown on this newly created photo card
+                    updateAllPhotoDropdowns();
                 };
                 reader.readAsDataURL(file);
             });
