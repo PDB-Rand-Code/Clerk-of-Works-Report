@@ -280,7 +280,7 @@
     </div>
 
     <!-- SECTION 2: MAIN REGISTER -->
-    <h2>2. MAIN INSPECTION FINDINGS & REMEDIAL ACTION REGISTER</h2>
+    <h2>2. MAIN FINDINGS</h2>
     <p><em>This register automatically populates defects and non-compliances when "Action Req." is ticked below.</em></p>
     <div class="table-wrapper">
         <table>
@@ -317,7 +317,7 @@
     </div>
 
     <!-- SECTION 4: MODULAR CHECKLISTS -->
-    <h2>4. MODULAR ON-SITE QUALITY VERIFICATION CHECKLISTS</h2>
+    <h2>4. ON-SITE CHECKLISTS</h2>
     
     <!-- SOLAR PV ACCORDION -->
     <div class="accordion-section">
@@ -877,18 +877,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     <td class="center"><strong></strong></td>
                     <td>${cb.dataset.category} - ${cb.dataset.item}</td>
                     <td><span class="register-finding-text">${findingText || "No notes entered"}</span></td>
-                    <td>
-                        <select>
-                            <option value="">Priority...</option>
-                            <option value="H">High</option>
-                            <option value="M">Medium</option>
-                            <option value="L">Low</option>
-                        </select>
-                    </td>
-                    <td><textarea class="finding-input" placeholder="Enter action..."></textarea></td>
-                    <td><input type="date"></td>
-                    <td><input type="date"></td>
-                    <td class="center"><input type="checkbox"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="center"></td>
                 `;
                 registerBody.appendChild(tr);
             } else {
