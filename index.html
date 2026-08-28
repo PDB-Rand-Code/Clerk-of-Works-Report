@@ -166,8 +166,9 @@
         }
         textarea {
             resize: none; /* Prevent manual resize to let JS handle it */
-            overflow: hidden; /* Hide scrollbar for seamless expansion */
+            overflow: hidden !important; /* Hide scrollbar completely */
             min-height: 38px;
+            box-sizing: border-box;
         }
         .finding-input {
             min-height: 38px;
@@ -452,8 +453,8 @@
                 font-size: 10.5px !important;
                 padding: 3px 5px !important;
             }
+            /* Allow textareas to expand fully and prevent clipping/scrollbars in print */
             textarea { 
-                height: auto !important; 
                 overflow: visible !important; 
             }
             .notes-area {
@@ -1073,7 +1074,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Auto-Resize Textarea Logic ---
     function autoResizeTextarea(el) {
         el.style.height = 'auto'; // Reset to auto to calculate true scroll height
-        el.style.height = (el.scrollHeight) + 'px';
+        el.style.height = (el.scrollHeight + 4) + 'px'; // Add slight buffer to prevent any scrollbar triggers
     }
     
     // Attach listener to current and future textareas
