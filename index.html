@@ -7,16 +7,18 @@
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 10px;
-            padding: 10px;
+            margin: 0;
+            padding: 8px;
             color: #333;
             background-color: #f9f9f9;
+            font-size: 13px; /* Reduced base font size for better portrait fit */
+            line-height: 1.35;
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
             background: #fff;
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
@@ -27,8 +29,8 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 2px solid #004080;
-            padding-bottom: 15px;
-            margin-bottom: 25px;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
             gap: 15px;
         }
         .header-top h1 {
@@ -36,52 +38,56 @@
             margin: 0;
             border: none;
             padding: 0;
-            font-size: 24px;
+            font-size: 20px;
         }
         .header-top p {
-            margin: 5px 0 0 0;
+            margin: 3px 0 0 0;
             color: #555;
         }
         #header-address {
             font-weight: bold;
             color: #004080;
-            font-size: 1.1em;
-            margin-top: 8px;
-            min-height: 20px;
+            font-size: 1em;
+            margin-top: 5px;
+            min-height: 18px;
         }
         .logo-img {
-            height: 65px;
+            height: 55px;
             object-fit: contain;
         }
 
         h2 {
             color: #004080;
             border-bottom: 2px solid #004080;
-            padding-bottom: 5px;
-            margin-top: 35px;
+            padding-bottom: 4px;
+            margin-top: 25px;
+            margin-bottom: 10px;
             text-transform: uppercase;
+            font-size: 15px;
         }
         
         h3 {
             color: #004080;
+            font-size: 13.5px;
+            margin: 12px 0 6px 0;
         }
 
         h4 { 
             color: #333; 
-            margin-top: 20px; 
-            margin-bottom: 10px; 
-            font-size: 1.1em; 
+            margin-top: 15px; 
+            margin-bottom: 8px; 
+            font-size: 12px; 
             display: flex; 
             align-items: center; 
             flex-wrap: wrap; 
-            gap: 10px; 
+            gap: 8px; 
         }
 
         /* Building Regulation Reference Style */
         .b-reg-ref {
             display: block;
-            margin-top: 5px;
-            font-size: 0.85em;
+            margin-top: 3px;
+            font-size: 0.78em;
             color: #777;
             font-style: italic;
         }
@@ -90,13 +96,13 @@
         .accordion-header {
             background-color: #e6f0fa;
             color: #004080;
-            padding: 12px 15px;
+            padding: 8px 12px;
             cursor: pointer;
             border-radius: 4px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 15px;
+            margin-top: 10px;
             border: 1px solid #b3d1ff;
             transition: background-color 0.2s ease;
         }
@@ -107,14 +113,14 @@
             margin: 0;
             border: none;
             padding: 0;
-            font-size: 1.17em;
+            font-size: 13px;
         }
         .accordion-content {
             display: none; /* Hidden by default */
-            padding-top: 10px;
+            padding-top: 8px;
         }
         .accordion-icon {
-            font-size: 1.5em;
+            font-size: 1.3em;
             font-weight: bold;
             line-height: 1;
         }
@@ -122,19 +128,20 @@
         .table-wrapper {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
-            min-width: 600px;
+            margin-top: 5px;
+            min-width: 500px;
         }
         th, td {
             border: 1px solid #ccc;
-            padding: 10px;
+            padding: 6px 8px; /* Tighter padding for compact portrait layout */
             text-align: left;
             vertical-align: top;
+            font-size: 12.5px;
         }
         th {
             background-color: #f2f2f2;
@@ -144,33 +151,33 @@
         
         /* Touch target sizing for Phone & iPad */
         input[type="checkbox"] {
-            width: 28px;
-            height: 28px;
+            width: 22px;
+            height: 22px;
             cursor: pointer;
         }
         input[type="text"], input[type="date"], textarea, select {
             width: 100%;
-            padding: 10px;
+            padding: 6px 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            font-size: 16px;
+            font-size: 12.5px;
             font-family: inherit;
             box-sizing: border-box;
         }
         textarea {
             resize: none; /* Prevent manual resize to let JS handle it */
             overflow: hidden; /* Hide scrollbar for seamless expansion */
-            min-height: 80px;
+            min-height: 38px;
         }
         .finding-input {
-            min-height: 60px;
+            min-height: 38px;
         }
         .custom-row-input {
-            min-height: 44px;
+            min-height: 38px;
             border: 1px dashed #999;
             background-color: #fcfcfc;
         }
-        .notes-area { min-height: 120px; width: 100%; }
+        .notes-area { min-height: 80px; width: 100%; }
         
         .auto-populated {
             background-color: #fff3e6;
@@ -183,13 +190,13 @@
             background-color: #004080;
             color: #fff;
             border: none;
-            padding: 14px 20px;
-            font-size: 16px;
+            padding: 10px 16px;
+            font-size: 14px;
             font-weight: bold;
             border-radius: 4px;
             cursor: pointer;
-            margin-bottom: 20px;
-            min-height: 44px;
+            margin-bottom: 15px;
+            min-height: 38px;
             display: inline-block;
         }
         .btn-add:hover, .btn-photo:hover {
@@ -197,64 +204,66 @@
         }
         
         .location-select {
-            width: 200px;
-            padding: 6px;
+            width: 170px;
+            padding: 4px 6px;
+            font-size: 12px;
         }
 
         /* Photo Grid */
         .photo-upload-container {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         .photo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
+            grid-template-columns: repeat(2, 1fr); /* FORCED TO 2 COLUMNS ON SCREEN */
+            gap: 12px;
+            margin-top: 10px;
         }
         .photo-card {
             border: 1px solid #ccc;
             border-radius: 6px;
-            padding: 12px;
+            padding: 10px;
             background: #fff;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         .photo-card img {
             width: 100%;
-            height: 180px;
+            aspect-ratio: 1 / 1; /* Forces height to equal width (square preview) */
             object-fit: cover;
             border-radius: 4px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             background: #eee;
         }
         .photo-card-controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         .photo-ref-select {
-            width: 140px; 
-            padding: 6px;
-            font-size: 14px;
+            width: 130px; 
+            padding: 4px;
+            font-size: 12px;
         }
         .btn-remove-photo {
             background-color: #d9534f;
             color: white;
             border: none;
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 4px;
             cursor: pointer;
-            min-height: 40px;
+            min-height: 34px;
         }
         .btn-remove-row {
             background-color: #d9534f;
             color: white;
             border: none;
-            padding: 6px 12px;
+            padding: 4px 8px;
             border-radius: 4px;
             cursor: pointer;
-            min-height: 36px;
+            min-height: 30px;
             font-weight: bold;
+            font-size: 11px;
         }
         .btn-remove-photo:hover, .btn-remove-row:hover {
             background-color: #c9302c;
@@ -262,27 +271,216 @@
 
         /* Mobile Adjustments for Phones */
         @media (max-width: 600px) {
-            body { margin: 0; padding: 5px; }
-            .container { padding: 12px; }
+            body { margin: 0; padding: 4px; }
+            .container { padding: 10px; }
             .header-top {
                 flex-direction: column-reverse;
                 align-items: flex-start;
             }
-            .logo-img { height: 50px; }
-            .location-select { width: 100%; margin-left: 0; margin-top: 5px; }
+            .logo-img { height: 45px; }
+            .location-select { width: 100%; margin-left: 0; margin-top: 4px; }
             .btn-add, .btn-photo { width: 100%; text-align: center; }
-            .photo-ref-select { width: 120px; }
+            .photo-ref-select { width: 110px; }
+            .photo-grid { grid-template-columns: 1fr; }
         }
 
-        /* Print CSS */
+        /* Page Setup & Print CSS */
+        @page {
+            size: A4 portrait;
+            margin: 10mm 8mm; /* Tightened margins to prevent clipping */
+        }
+
         @media print {
-            body { background-color: #fff; margin: 0; padding: 0; }
-            .container { box-shadow: none; padding: 0; max-width: 100%; }
-            input, textarea, select { border: 1px solid #ddd; background: transparent !important; }
-            textarea { height: auto !important; overflow: visible !important; }
-            .btn-add, .btn-photo, .btn-remove-photo, .btn-remove-row, .no-print-col { display: none !important; }
-            .accordion-header { border: 1px solid #000; background-color: #eee !important; -webkit-print-color-adjust: exact; }
-            .accordion-icon { display: none; } /* Hide +/- when printing */
+            body { 
+                background-color: #fff; 
+                margin: 0; 
+                padding: 0; 
+                font-size: 11px; /* Further scaled down for strict portrait sheet fit */
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .container { 
+                box-shadow: none; 
+                padding: 0; 
+                max-width: 100%; 
+                width: 100%;
+            }
+
+            /* Prevent Headings from being separated from content */
+            h1, h2, h3, h4 { 
+                break-after: avoid; 
+                page-break-after: avoid; 
+            }
+
+            h1 { font-size: 17px !important; }
+            h2 { font-size: 13px !important; margin-top: 15px !important; margin-bottom: 6px !important; }
+            h3 { font-size: 12px !important; }
+            h4 { font-size: 11px !important; }
+
+            /* Header Section */
+            .header-top {
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+                margin-bottom: 10px !important;
+                padding-bottom: 8px !important;
+            }
+            .logo-img { height: 45px !important; }
+
+            /* Table compactness for print */
+            th, td {
+                padding: 4px 6px !important;
+                font-size: 10.5px !important;
+            }
+            input[type="checkbox"] {
+                width: 14px !important;
+                height: 14px !important;
+            }
+
+            /* Prevent Table Rows from splitting mid-row across pages */
+            tr { 
+                break-inside: avoid !important; 
+                page-break-inside: avoid !important; 
+            }
+            table {
+                page-break-inside: auto;
+                margin-bottom: 10px !important;
+            }
+
+            /* --- SECTION PAGE BREAK LOGIC --- */
+            /* Prevent Section 4 header from being isolated alone at the bottom of a page */
+            #section4-header {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
+            }
+            
+            /* Prevent individual accordion sections from splitting across pages */
+            .accordion-section.visible-section {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                page-break-before: auto !important;
+                break-before: auto !important;
+                margin-bottom: 15px !important;
+            }
+
+            /* Hide empty accordion sections completely in print */
+            .accordion-section.hidden-section {
+                display: none !important;
+            }
+
+            /* Hide Additional Notes block in print if it's empty */
+            .notes-area.empty-notes-area {
+                display: none !important;
+            }
+            #additional-notes-container.empty-notes-container {
+                display: none !important;
+            }
+
+            /* --- FIX FOR PDF PHOTO PAGE-BREAK & 4-PER-PAGE LAYOUT --- */
+            .photo-grid {
+                display: block !important; 
+                clear: both !important;
+            }
+            .photo-grid::after {
+                content: "" !important;
+                display: table !important;
+                clear: both !important;
+            }
+            .photo-card { 
+                display: inline-block !important; 
+                float: left !important;
+                width: 48.5% !important; 
+                margin: 0 1.5% 10px 0 !important;
+                padding: 6px !important;
+                box-sizing: border-box !important;
+                vertical-align: top !important;
+                
+                /* Strict page break rules to prevent slicing across pages */
+                break-inside: avoid !important; 
+                page-break-inside: avoid !important; 
+                -webkit-column-break-inside: avoid !important; 
+            }
+            .photo-card:nth-child(2n) {
+                margin-right: 0 !important;
+            }
+            .photo-card img {
+                width: 100% !important;
+                aspect-ratio: 1 / 1 !important;
+                height: auto !important;
+                max-height: none !important;
+                object-fit: cover !important;
+                margin-bottom: 4px !important;
+            }
+            .photo-card textarea {
+                min-height: 30px !important;
+                max-height: 55px !important;
+                font-size: 10px !important;
+                padding: 3px 4px !important;
+                line-height: 1.2 !important;
+            }
+            .photo-card-controls {
+                margin-top: 3px !important;
+                font-size: 10px !important;
+            }
+            .photo-ref-select {
+                font-size: 10px !important;
+                padding: 2px !important;
+                width: auto !important;
+                max-width: 120px !important;
+            }
+
+            /* Ensure all Accordion Sections expand and display when printed */
+            .accordion-content { 
+                display: block !important; 
+            }
+            .accordion-header { 
+                border: 1px solid #000; 
+                background-color: #e6f0fa !important; 
+                padding: 6px 10px !important;
+                margin-top: 8px !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .accordion-icon { 
+                display: none; 
+            }
+
+            /* Input and Textarea Styling for PDF Export */
+            input, textarea, select { 
+                border: 1px solid #bbb; 
+                background: transparent !important; 
+                box-shadow: none !important;
+                font-size: 10.5px !important;
+                padding: 3px 5px !important;
+            }
+            textarea { 
+                height: auto !important; 
+                overflow: visible !important; 
+            }
+            .notes-area {
+                min-height: 60px !important;
+            }
+
+            /* Hide Placeholder text on blank fields when printed */
+            ::placeholder { 
+                color: transparent !important; 
+            }
+
+            /* Hide Buttons and interactive controls */
+            .btn-add, .btn-photo, .btn-remove-photo, .btn-remove-row, .no-print-col { 
+                display: none !important; 
+            }
+
+            /* Color Preservation for Highlighted Rows */
+            .auto-populated {
+                background-color: #fff3e6 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .custom-finding-row {
+                background-color: #e6ffe6 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
         }
     </style>
 </head>
@@ -305,15 +503,20 @@
     <div class="table-wrapper">
         <table>
             <tr>
-                <th>Date of Inspection:</th><td><input type="date"></td>
-                <th>Inspected By:</th><td><input type="text"></td>
+                <th style="width: 18%;">Date of Inspection:</th>
+                <td style="width: 32%;"><input type="date"></td>
+                <th style="width: 18%;">Inspected By:</th>
+                <td style="width: 32%;"><input type="text"></td>
             </tr>
             <tr>
-                <th>Contractor Name:</th><td><input type="text"></td>
-                <th>Inspection Reference:</th><td><input type="text" value="1 of 1"></td>
+                <th>Contractor Name:</th>
+                <td><input type="text"></td>
+                <th>Inspection Reference:</th>
+                <td><input type="text" value="1 of 1"></td>
             </tr>
             <tr>
-                <th>Property Address:</th><td colspan="3"><textarea id="prop-address" placeholder="Enter full address..."></textarea></td>
+                <th>Property Address:</th>
+                <td colspan="3"><textarea id="prop-address" placeholder="Enter full address..."></textarea></td>
             </tr>
         </table>
     </div>
@@ -339,8 +542,10 @@
     <!-- Custom Finding Button -->
     <button type="button" id="btn-add-custom-finding" class="btn-add">+ Add Custom</button>
     
-    <h3>Additional Notes</h3>
-    <textarea class="notes-area" placeholder="Enter any additional general site observations..."></textarea>
+    <div id="additional-notes-container">
+        <h3>Additional Notes</h3>
+        <textarea class="notes-area" id="additional-notes-textarea" placeholder="Enter any additional general site observations..."></textarea>
+    </div>
 
     <!-- SECTION 3: SITE PHOTOGRAPHS -->
     <h2>3. SITE PHOTOGRAPHS & DEFECT REFERENCES</h2>
@@ -354,7 +559,7 @@
     </div>
 
     <!-- SECTION 4: MODULAR CHECKLISTS -->
-    <h2>4. ON-SITE CHECKLIST</h2>
+    <h2 id="section4-header">4. ON-SITE CHECKLIST</h2>
     
     <!-- SOLAR PV ACCORDION -->
     <div class="accordion-section">
@@ -910,6 +1115,65 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // --- Dynamic Accordion Visibility & Print Preparation ---
+    function updateAccordionVisibility() {
+        const sections = document.querySelectorAll('.accordion-section');
+        sections.forEach(sec => {
+            const checkboxes = sec.querySelectorAll('input[type="checkbox"]');
+            const findingInputs = sec.querySelectorAll('.finding-input');
+            let hasContent = false;
+
+            // Check if any checkbox inside this section is checked
+            checkboxes.forEach(cb => {
+                if (cb.checked) hasContent = true;
+            });
+
+            // Check if any finding notes have been typed
+            findingInputs.forEach(ta => {
+                if (ta.value.trim() !== '') hasContent = true;
+            });
+
+            const content = sec.querySelector('.accordion-content');
+            const icon = sec.querySelector('.accordion-icon');
+
+            if (hasContent) {
+                sec.classList.add('visible-section');
+                sec.classList.remove('hidden-section');
+                content.style.display = "block";
+                if (icon) icon.textContent = "-";
+            } else {
+                sec.classList.remove('visible-section');
+                sec.classList.add('hidden-section');
+                content.style.display = "none";
+                if (icon) icon.textContent = "+";
+            }
+        });
+
+        // Additional Notes visibility check for print
+        const notesTa = document.getElementById('additional-notes-textarea');
+        const notesContainer = document.getElementById('additional-notes-container');
+        if (notesTa && notesContainer) {
+            if (notesTa.value.trim() === '') {
+                notesTa.classList.add('empty-notes-area');
+                notesContainer.classList.add('empty-notes-container');
+            } else {
+                notesTa.classList.remove('empty-notes-area');
+                notesContainer.classList.remove('empty-notes-container');
+            }
+        }
+    }
+
+    // Update section visibility on any change or input
+    document.addEventListener('change', updateAccordionVisibility);
+    document.addEventListener('input', updateAccordionVisibility);
+
+    // Ensure visibility check runs before print
+    window.addEventListener('beforeprint', updateAccordionVisibility);
+
+    // Initial check on load
+    updateAccordionVisibility();
+
 
     // --- References ---
     const btnAddFan = document.getElementById('btn-add-fan');
