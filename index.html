@@ -246,6 +246,19 @@
             cursor: pointer;
             min-height: 40px;
         }
+        .btn-remove-row {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            min-height: 36px;
+            font-weight: bold;
+        }
+        .btn-remove-photo:hover, .btn-remove-row:hover {
+            background-color: #c9302c;
+        }
 
         /* Mobile Adjustments for Phones */
         @media (max-width: 600px) {
@@ -267,7 +280,7 @@
             .container { box-shadow: none; padding: 0; max-width: 100%; }
             input, textarea, select { border: 1px solid #ddd; background: transparent !important; }
             textarea { height: auto !important; overflow: visible !important; }
-            .btn-add, .btn-photo, .btn-remove-photo { display: none; }
+            .btn-add, .btn-photo, .btn-remove-photo, .btn-remove-row, .no-print-col { display: none !important; }
             .accordion-header { border: 1px solid #000; background-color: #eee !important; -webkit-print-color-adjust: exact; }
             .accordion-icon { display: none; } /* Hide +/- when printing */
         }
@@ -283,7 +296,6 @@
             <div id="header-address"></div>
         </div>
         <div>
-            <!-- Added alt attribute, assuming placeholder since rand-logo.png isn't available -->
             <img src="rand-logo.png" alt="Rand Associates Logo" class="logo-img" onerror="this.style.display='none'">
         </div>
     </div>
@@ -313,14 +325,10 @@
         <table>
             <thead>
                 <tr>
-                    <th style="width: 40px;">No.</th>
-                    <th style="width: 180px;">Component</th>
-                    <th style="width: 220px;">Inspection Finding</th>
-                    <th style="width: 110px;">Priority (H/M/L)</th>
-                    <th>Recommended Remedial Action</th>
-                    <th style="width: 120px;">Target Comp.</th>
-                    <th style="width: 120px;">Actual Comp.</th>
-                    <th style="width: 90px;">Sign Off</th>
+                    <th style="width: 50px;">No.</th>
+                    <th style="width: 250px;">Component</th>
+                    <th>Inspection Finding</th>
+                    <th style="width: 75px;" class="center no-print-col">Action</th>
                 </tr>
             </thead>
             <tbody id="remedial-register-body">
@@ -328,8 +336,8 @@
             </tbody>
         </table>
     </div>
-    <!-- Custom Finding Button added here -->
-    <button type="button" id="btn-add-custom-finding" class="btn-add">+ Add Custom Finding</button>
+    <!-- Custom Finding Button -->
+    <button type="button" id="btn-add-custom-finding" class="btn-add">+ Add Custom</button>
     
     <h3>Additional Notes</h3>
     <textarea class="notes-area" placeholder="Enter any additional general site observations..."></textarea>
@@ -857,7 +865,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-    // --- NEW: Auto-Resize Textarea Logic for PDF Generation & Typing ---
+    // --- Auto-Resize Textarea Logic ---
     function autoResizeTextarea(el) {
         el.style.height = 'auto'; // Reset to auto to calculate true scroll height
         el.style.height = (el.scrollHeight) + 'px';
@@ -868,21 +876,21 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target.tagName.toLowerCase() === 'textarea') {
             autoResizeTextarea(e.target);
             
-            // If they are typing in a custom finding row component box, update photo dropdowns live
+            // If typing in custom row component box, update photo dropdowns live
             if (e.target.closest('.custom-finding-row') && e.target.closest('td').cellIndex === 1) {
                 updateAllPhotoDropdowns();
             }
         }
     });
 
-    // Ensure all textareas are fully expanded just before a user attempts to Print to PDF
+    // Ensure all textareas are fully expanded before Print/PDF
     window.addEventListener('beforeprint', function() {
         document.querySelectorAll('textarea').forEach(ta => {
             autoResizeTextarea(ta);
         });
     });
 
-    // Run once on load just in case there's placeholder/pre-loaded text
+    // Initial calculation on load
     document.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
 
 
@@ -920,7 +928,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- NEW: Add Custom Finding Row ---
+    // --- Add Custom Finding Row ---
     if (btnAddCustomFinding) {
         btnAddCustomFinding.addEventListener('click', function() {
             customFindingCount++;
@@ -933,12 +941,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td class="center"><strong></strong></td>
                 <td><textarea class="custom-row-input" placeholder="Type component name..."></textarea></td>
                 <td><textarea class="custom-row-input" placeholder="Type finding details..."></textarea></td>
-                <td><input type="text" placeholder="H/M/L"></td>
-                <td><textarea class="custom-row-input" placeholder="Recommended action..."></textarea></td>
-                <td><input type="date"></td>
-                <td><input type="date"></td>
-                <td class="center"><input type="text" placeholder="Sign"></td>
+                <td class="center no-print-col"><button type="button" class="btn-remove-row" title="Delete custom row">Delete</button></td>
             `;
+            
+            tr.querySelector('.btn-remove-row').addEventListener('click', function() {
+                tr.remove();
+                updateActionNumbers();
+            });
+
             registerBody.appendChild(tr);
             updateActionNumbers();
             
@@ -1037,7 +1047,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- Dynamic Photo Dropdown sync ---
+    // --- Dynamic Photo Dropdown Sync ---
     function getRegisterItems() {
         const items = [];
         const rows = registerBody.querySelectorAll('tr');
@@ -1072,12 +1082,12 @@ document.addEventListener('DOMContentLoaded', function() {
             items.forEach(item => {
                 const opt = document.createElement('option');
                 opt.value = item.id;
-                // Truncate the text if it's too long
+                // Truncate text if too long
                 opt.textContent = item.label.length > 45 ? item.label.substring(0, 42) + '...' : item.label;
                 select.appendChild(opt);
             });
             
-            // Re-select the previously chosen option if it still exists
+            // Re-select previously chosen option if it still exists
             if (currentValue && select.querySelector(`option[value="${currentValue}"]`)) {
                 select.value = currentValue;
             }
@@ -1101,14 +1111,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     <td class="center"><strong></strong></td>
                     <td>${cb.dataset.category} - ${cb.dataset.item}</td>
                     <td><span class="register-finding-text">${findingText || "No notes entered"}</span></td>
-                    <td><input type="text" placeholder="H/M/L"></td>
-                    <td><textarea class="custom-row-input" placeholder="Action..."></textarea></td>
-                    <td><input type="date"></td>
-                    <td><input type="date"></td>
-                    <td class="center"><input type="text" placeholder="Sign"></td>
+                    <td class="center no-print-col"><span style="color:#aaa; font-size: 0.8em;">Auto</span></td>
                 `;
                 
-                // Keep custom fields grouped at the bottom, insert auto ones before them if possible
                 registerBody.appendChild(tr);
             } else {
                 const rowToRemove = document.getElementById(rowId);
@@ -1144,7 +1149,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Every time a row number updates (or a row is added/removed), update the photo dropdowns
+        // Update photo dropdown options whenever action numbers or rows change
         updateAllPhotoDropdowns();
     }
 
