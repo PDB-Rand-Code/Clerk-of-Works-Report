@@ -526,7 +526,6 @@
                 display: block !important;
             }
 
-            /* STRICT FIX: Respect screen accordion state in print - do NOT force open closed accordions */
             .accordion-header { 
                 border: 1px solid #000 !important; 
                 background-color: #e6f0fa !important; 
@@ -570,10 +569,11 @@
                 background: transparent !important;
                 font-size: 10px !important;
                 padding: 2px 4px !important;
-                height: auto !important;
                 display: block !important;
                 white-space: pre-wrap !important;
                 word-wrap: break-word !important;
+                box-sizing: border-box !important;
+                width: 100% !important;
             }
 
             ::placeholder { 
@@ -620,6 +620,10 @@
                 background-color: #e6ffe6 !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
+            }
+
+            .no-print-empty-notes {
+                display: none !important;
             }
         }
     </style>
@@ -1269,41 +1273,41 @@
 </div>
 
 <script>
+function showToast(msg) {
+    const toast = document.getElementById('toast-message');
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+
+function autoResizeTextarea(el) {
+    if (!el) return;
+    el.style.height = 'auto';
+    el.style.height = (el.scrollHeight) + 'px';
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-
-    // Toast helper
-    function showToast(msg) {
-        const toast = document.getElementById('toast-message');
-        if (!toast) return;
-        toast.textContent = msg;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
-    // Default inspection date to today
-    const dateInput = document.getElementById('inspection-date');
-    if (dateInput && !dateInput.value) {
-        const today = new Date().toISOString().split('T')[0];
-        dateInput.value = today;
-    }
-
-    function autoResizeTextarea(el) {
-        if (!el) return;
-        el.style.height = 'auto';
-        el.style.height = (el.scrollHeight + 4) + 'px';
-    }
-    
     document.addEventListener('input', function(e) {
-        if (e.target.tagName && e.target.tagName.toLowerCase() === 'textarea') {
+        if (e.target && e.target.tagName === 'TEXTAREA') {
             autoResizeTextarea(e.target);
-            if (e.target.closest('.custom-finding-row') && e.target.closest('td') && e.target.closest('td').cellIndex === 1) {
-                updateAllPhotoDropdowns();
-            }
         }
     });
 
-    // Prepare all textareas and DOM elements before print dialog triggers
     function prepareForPrint() {
+        // Hide additional notes section if empty
+        const notesArea = document.getElementById('additional-notes-textarea');
+        const notesContainer = document.getElementById('additional-notes-container');
+        if (notesArea && notesContainer) {
+            if (!notesArea.value || !notesArea.value.trim()) {
+                notesContainer.classList.add('no-print-empty-notes');
+            } else {
+                notesContainer.classList.remove('no-print-empty-notes');
+            }
+        }
+
         // Synchronize HTML checked and value attributes for print drivers & WebKit engines
         document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
             if (cb.checked) {
@@ -1319,8 +1323,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         document.querySelectorAll('textarea').forEach(ta => {
             ta.textContent = ta.value;
-            autoResizeTextarea(ta);
-            ta.style.height = (ta.scrollHeight + 6) + 'px';
+            ta.style.height = 'auto';
+            const expandedHeight = Math.max(38, ta.scrollHeight + 6);
+            ta.style.height = expandedHeight + 'px';
             ta.style.overflow = 'hidden';
         });
     }
@@ -1363,7 +1368,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const accordions = document.querySelectorAll('.accordion-header');
     accordions.forEach(acc => {
-        acc.addEventListener('click', function() {
+        acc.addEventListener('click', function(e) {
+            // Prevent toggling if user clicks select or button inside header
+            if (e.target.tagName === 'SELECT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'OPTION') {
+                return;
+            }
             const sec = this.closest('.accordion-section');
             const content = this.nextElementSibling;
             const isCurrentlyOpen = content.style.display === "block";
