@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Clerk of Works Inspection Report</title>
     <style>
         body {
@@ -10,19 +10,91 @@
             margin: 0;
             padding: 8px;
             color: #333;
-            background-color: #f9f9f9;
-            font-size: 13px; /* Reduced base font size for better portrait fit */
+            background-color: #f4f6f8;
+            font-size: 13px;
             line-height: 1.35;
+            -webkit-tap-highlight-color: transparent;
         }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             background: #fff;
-            padding: 15px;
+            padding: 18px;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
         }
-        
+
+        /* Fixed Top Action Toolbar for Tablet/Mobile Convenience */
+        .top-action-bar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #004080;
+            color: #fff;
+            padding: 10px 15px;
+            margin: -18px -18px 18px -18px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        .action-title {
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action-top {
+            background-color: #ffffff;
+            color: #004080;
+            border: none;
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-action-top:hover, .btn-action-top:active {
+            background-color: #e6f0fa;
+            transform: translateY(-1px);
+        }
+
+        .btn-action-top.btn-primary {
+            background-color: #28a745;
+            color: #ffffff;
+        }
+
+        .btn-action-top.btn-primary:hover {
+            background-color: #218838;
+        }
+
+        .tablet-tip {
+            font-size: 11px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #e6f0fa;
+        }
+
         /* Header Layout with Logo */
         .header-top {
             display: flex;
@@ -83,7 +155,6 @@
             gap: 8px; 
         }
 
-        /* Building Regulation Reference Style */
         .b-reg-ref {
             display: block;
             margin-top: 3px;
@@ -92,11 +163,11 @@
             font-style: italic;
         }
 
-        /* Accordion Styles for Section 4 */
+        /* Accordion Styles */
         .accordion-header {
             background-color: #e6f0fa;
             color: #004080;
-            padding: 8px 12px;
+            padding: 10px 12px;
             cursor: pointer;
             border-radius: 4px;
             display: flex;
@@ -105,6 +176,7 @@
             margin-top: 10px;
             border: 1px solid #b3d1ff;
             transition: background-color 0.2s ease;
+            user-select: none;
         }
         .accordion-header:hover {
             background-color: #cce0ff;
@@ -116,7 +188,7 @@
             font-size: 13px;
         }
         .accordion-content {
-            display: none; /* Hidden by default */
+            display: none;
             padding-top: 8px;
         }
         .accordion-icon {
@@ -138,7 +210,7 @@
         }
         th, td {
             border: 1px solid #ccc;
-            padding: 6px 8px; /* Tighter padding for compact portrait layout */
+            padding: 6px 8px;
             text-align: left;
             vertical-align: top;
             font-size: 12.5px;
@@ -149,11 +221,12 @@
         }
         .center { text-align: center; }
         
-        /* Touch target sizing for Phone & iPad */
+        /* Touch target sizing for Tablets and Phones */
         input[type="checkbox"] {
             width: 22px;
             height: 22px;
             cursor: pointer;
+            accent-color: #004080;
         }
         input[type="text"], input[type="date"], textarea, select {
             width: 100%;
@@ -165,8 +238,8 @@
             box-sizing: border-box;
         }
         textarea {
-            resize: none; /* Prevent manual resize to let JS handle it */
-            overflow: hidden !important; /* Hide scrollbar completely */
+            resize: none;
+            overflow: hidden !important;
             min-height: 38px;
             box-sizing: border-box;
         }
@@ -192,7 +265,7 @@
             color: #fff;
             border: none;
             padding: 10px 16px;
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: bold;
             border-radius: 4px;
             cursor: pointer;
@@ -205,18 +278,34 @@
         }
         
         .location-select {
-            width: 170px;
+            width: 180px;
             padding: 4px 6px;
             font-size: 12px;
         }
 
-        /* Photo Grid */
+        .fan-header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f0f4f8;
+            padding: 6px 10px;
+            border-radius: 4px;
+            border-left: 4px solid #004080;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+
+        .fan-header-container h4 {
+            margin: 0;
+        }
+
+        /* Photo Grid Layout */
         .photo-upload-container {
             margin-bottom: 20px;
         }
         .photo-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* FORCED TO 2 COLUMNS ON SCREEN */
+            grid-template-columns: repeat(2, 1fr);
             gap: 12px;
             margin-top: 10px;
         }
@@ -229,7 +318,7 @@
         }
         .photo-card img {
             width: 100%;
-            aspect-ratio: 1 / 1; /* Forces height to equal width (square preview) */
+            aspect-ratio: 1 / 1;
             object-fit: cover;
             border-radius: 4px;
             margin-bottom: 8px;
@@ -242,18 +331,19 @@
             gap: 8px;
         }
         .photo-ref-select {
-            width: 130px; 
+            width: 140px; 
             padding: 4px;
             font-size: 12px;
         }
-        .btn-remove-photo {
+        .btn-remove-photo, .btn-remove-fan {
             background-color: #d9534f;
             color: white;
             border: none;
             padding: 6px 10px;
             border-radius: 4px;
             cursor: pointer;
-            min-height: 34px;
+            min-height: 32px;
+            font-size: 12px;
         }
         .btn-remove-row {
             background-color: #d9534f;
@@ -266,117 +356,165 @@
             font-weight: bold;
             font-size: 11px;
         }
-        .btn-remove-photo:hover, .btn-remove-row:hover {
+        .btn-remove-photo:hover, .btn-remove-row:hover, .btn-remove-fan:hover {
             background-color: #c9302c;
         }
 
-        /* Mobile Adjustments for Phones */
-        @media (max-width: 600px) {
-            body { margin: 0; padding: 4px; }
-            .container { padding: 10px; }
-            .header-top {
-                flex-direction: column-reverse;
-                align-items: flex-start;
-            }
-            .logo-img { height: 45px; }
-            .location-select { width: 100%; margin-left: 0; margin-top: 4px; }
-            .btn-add, .btn-photo { width: 100%; text-align: center; }
-            .photo-ref-select { width: 110px; }
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .top-action-bar { flex-direction: column; align-items: stretch; }
+            .action-buttons { justify-content: space-between; }
             .photo-grid { grid-template-columns: 1fr; }
         }
 
-        /* Page Setup & Print CSS */
+        /* --- STRICT PRINT & PDF STYLES --- */
         @page {
             size: A4 portrait;
-            margin: 10mm 8mm; /* Tightened margins to prevent clipping */
+            margin: 10mm 8mm;
         }
 
         @media print {
             body { 
-                background-color: #fff; 
-                margin: 0; 
-                padding: 0; 
-                font-size: 11px; /* Further scaled down for strict portrait sheet fit */
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+                background-color: #fff !important; 
+                margin: 0 !important; 
+                padding: 0 !important; 
+                font-size: 11px !important; 
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
             .container { 
-                box-shadow: none; 
-                padding: 0; 
-                max-width: 100%; 
-                width: 100%;
+                box-shadow: none !important; 
+                padding: 0 !important; 
+                max-width: 100% !important; 
+                width: 100% !important;
             }
 
-            /* Prevent Headings from being separated from content */
-            h1, h2, h3, h4 { 
-                break-after: avoid; 
-                page-break-after: avoid; 
+            /* Hide Top Toolbar & Action Controls in Print */
+            .top-action-bar, .no-print, .no-print-col, .btn-add, .btn-photo, .btn-remove-photo, .btn-remove-row, .btn-remove-fan { 
+                display: none !important; 
             }
 
-            h1 { font-size: 17px !important; }
-            h2 { font-size: 13px !important; margin-top: 15px !important; margin-bottom: 6px !important; }
-            h3 { font-size: 12px !important; }
-            h4 { font-size: 11px !important; }
+            /* Un-restrict Table Wrappers for Print so horizontal scrolling never truncates content */
+            .table-wrapper {
+                overflow: visible !important;
+                display: block !important;
+                margin-bottom: 10px !important;
+            }
+            table {
+                min-width: 100% !important;
+                width: 100% !important;
+                table-layout: fixed !important;
+                page-break-inside: auto;
+            }
 
-            /* Header Section */
+            th, td {
+                padding: 4px 6px !important;
+                font-size: 10px !important;
+                word-wrap: break-word !important;
+                overflow-wrap: break-word !important;
+            }
+
+            /* Avoid isolated headings */
+            h1, h2, h3, h4, .fan-header-container { 
+                break-after: avoid !important; 
+                page-break-after: avoid !important; 
+            }
+
+            h1 { font-size: 16px !important; }
+            h2 { font-size: 12.5px !important; margin-top: 14px !important; margin-bottom: 6px !important; }
+            h3 { font-size: 11.5px !important; }
+            h4 { font-size: 10.5px !important; }
+
             .header-top {
                 break-inside: avoid !important;
                 page-break-inside: avoid !important;
                 margin-bottom: 10px !important;
                 padding-bottom: 8px !important;
             }
-            .logo-img { height: 45px !important; }
+            .logo-img { height: 42px !important; }
 
-            /* Table compactness for print */
-            th, td {
-                padding: 4px 6px !important;
-                font-size: 10.5px !important;
-            }
-            input[type="checkbox"] {
-                width: 14px !important;
-                height: 14px !important;
-            }
-
-            /* Prevent Table Rows from splitting mid-row across pages */
+            /* Prevent Individual Rows from splitting across pages */
             tr { 
                 break-inside: avoid !important; 
                 page-break-inside: avoid !important; 
             }
-            table {
-                page-break-inside: auto;
-                margin-bottom: 10px !important;
+
+            .accordion-section {
+                page-break-inside: auto !important;
+                break-inside: auto !important;
             }
 
-            /* --- SECTION PAGE BREAK LOGIC --- */
-            /* Prevent Section 4 header from being isolated alone at the bottom of a page */
+            .fan-section {
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+                margin-bottom: 12px !important;
+                display: block !important;
+            }
+
             #section4-header {
                 page-break-after: avoid !important;
                 break-after: avoid !important;
             }
-            
-            /* Prevent individual accordion sections from splitting across pages */
-            .accordion-section.visible-section {
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
-                page-break-before: auto !important;
-                break-before: auto !important;
-                margin-bottom: 15px !important;
-            }
 
-            /* Hide empty accordion sections completely in print */
-            .accordion-section.hidden-section {
-                display: none !important;
-            }
-
-            /* Hide Additional Notes block in print if it's empty */
-            .notes-area.empty-notes-area {
-                display: none !important;
-            }
+            .accordion-section.hidden-section,
+            .notes-area.empty-notes-area,
             #additional-notes-container.empty-notes-container {
                 display: none !important;
             }
 
-            /* --- FIX FOR PDF PHOTO PAGE-BREAK & 4-PER-PAGE LAYOUT --- */
+            /* Force Accordion Content Display in Print */
+            .accordion-content { 
+                display: block !important; 
+            }
+            .accordion-header { 
+                border: 1px solid #000 !important; 
+                background-color: #e6f0fa !important; 
+                padding: 5px 8px !important;
+                margin-top: 8px !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .accordion-icon { 
+                display: none !important; 
+            }
+
+            /* Text & Select Inputs Print Appearance */
+            input[type="text"], input[type="date"], textarea, select { 
+                border: 1px solid #aaa !important; 
+                background: transparent !important; 
+                box-shadow: none !important;
+                font-size: 10px !important;
+                padding: 2px 4px !important;
+                appearance: none !important;
+                -webkit-appearance: none !important;
+            }
+
+            /* STRICT FIX FOR CHECKBOX PRINT VISIBILITY */
+            input[type="checkbox"] {
+                appearance: checkbox !important;
+                -webkit-appearance: checkbox !important;
+                width: 16px !important;
+                height: 16px !important;
+                margin: 0 auto !important;
+                display: inline-block !important;
+                cursor: pointer;
+                accent-color: #004080 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            textarea { 
+                overflow: visible !important; 
+            }
+            .notes-area {
+                min-height: 50px !important;
+            }
+
+            ::placeholder { 
+                color: transparent !important; 
+            }
+
+            /* PHOTO GRID PRINT LAYOUT */
             .photo-grid {
                 display: block !important; 
                 clear: both !important;
@@ -394,8 +532,6 @@
                 padding: 6px !important;
                 box-sizing: border-box !important;
                 vertical-align: top !important;
-                
-                /* Strict page break rules to prevent slicing across pages */
                 break-inside: avoid !important; 
                 page-break-inside: avoid !important; 
                 -webkit-column-break-inside: avoid !important; 
@@ -407,80 +543,27 @@
                 width: 100% !important;
                 aspect-ratio: 1 / 1 !important;
                 height: auto !important;
-                max-height: none !important;
                 object-fit: cover !important;
                 margin-bottom: 4px !important;
             }
             .photo-card textarea {
                 min-height: 30px !important;
                 max-height: 55px !important;
-                font-size: 10px !important;
-                padding: 3px 4px !important;
+                font-size: 9.5px !important;
+                padding: 2px 4px !important;
                 line-height: 1.2 !important;
             }
-            .photo-card-controls {
-                margin-top: 3px !important;
-                font-size: 10px !important;
-            }
-            .photo-ref-select {
-                font-size: 10px !important;
-                padding: 2px !important;
-                width: auto !important;
-                max-width: 120px !important;
-            }
 
-            /* Ensure all Accordion Sections expand and display when printed */
-            .accordion-content { 
-                display: block !important; 
-            }
-            .accordion-header { 
-                border: 1px solid #000; 
-                background-color: #e6f0fa !important; 
-                padding: 6px 10px !important;
-                margin-top: 8px !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            .accordion-icon { 
-                display: none; 
-            }
-
-            /* Input and Textarea Styling for PDF Export */
-            input, textarea, select { 
-                border: 1px solid #bbb; 
-                background: transparent !important; 
-                box-shadow: none !important;
-                font-size: 10.5px !important;
-                padding: 3px 5px !important;
-            }
-            /* Allow textareas to expand fully and prevent clipping/scrollbars in print */
-            textarea { 
-                overflow: visible !important; 
-            }
-            .notes-area {
-                min-height: 60px !important;
-            }
-
-            /* Hide Placeholder text on blank fields when printed */
-            ::placeholder { 
-                color: transparent !important; 
-            }
-
-            /* Hide Buttons and interactive controls */
-            .btn-add, .btn-photo, .btn-remove-photo, .btn-remove-row, .no-print-col { 
-                display: none !important; 
-            }
-
-            /* Color Preservation for Highlighted Rows */
+            /* Row Colors */
             .auto-populated {
                 background-color: #fff3e6 !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
             .custom-finding-row {
                 background-color: #e6ffe6 !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
         }
     </style>
@@ -488,6 +571,19 @@
 <body>
 
 <div class="container">
+
+    <!-- Top Action Bar (Tablet / Desktop Quick Controls) -->
+    <div class="top-action-bar no-print">
+        <div class="action-title">
+            📋 Clerk of Works Inspection Tool
+        </div>
+        <div class="action-buttons">
+            <span class="tablet-tip">📱 Tablet Tip: Tap Print, then pinch preview outward to save PDF</span>
+            <button type="button" class="btn-action-top" id="btn-toggle-accordions">↔️ Expand All</button>
+            <button type="button" class="btn-action-top btn-primary" id="btn-trigger-print">🖨️ Print / Save PDF</button>
+        </div>
+    </div>
+
     <!-- Header with Title and Logo -->
     <div class="header-top">
         <div>
@@ -505,19 +601,19 @@
         <table>
             <tr>
                 <th style="width: 18%;">Date of Inspection:</th>
-                <td style="width: 32%;"><input type="date"></td>
+                <td style="width: 32%;"><input type="date" id="inspection-date"></td>
                 <th style="width: 18%;">Inspected By:</th>
-                <td style="width: 32%;"><input type="text"></td>
+                <td style="width: 32%;"><input type="text" placeholder="Inspector Name"></td>
             </tr>
             <tr>
                 <th>Contractor Name:</th>
-                <td><input type="text"></td>
+                <td><input type="text" placeholder="Contractor Company"></td>
                 <th>Inspection Reference:</th>
                 <td><input type="text" value="1 of 1"></td>
             </tr>
             <tr>
                 <th>Property Address:</th>
-                <td colspan="3"><textarea id="prop-address" placeholder="Enter full address..."></textarea></td>
+                <td colspan="3"><textarea id="prop-address" placeholder="Enter full property address..."></textarea></td>
             </tr>
         </table>
     </div>
@@ -541,7 +637,7 @@
         </table>
     </div>
     <!-- Custom Finding Button -->
-    <button type="button" id="btn-add-custom-finding" class="btn-add">+ Add Custom</button>
+    <button type="button" id="btn-add-custom-finding" class="btn-add">+ Add Custom Finding</button>
     
     <div id="additional-notes-container">
         <h3>Additional Notes</h3>
@@ -551,9 +647,9 @@
     <!-- SECTION 3: SITE PHOTOGRAPHS -->
     <h2>3. SITE PHOTOGRAPHS & DEFECT REFERENCES</h2>
     <div class="photo-upload-container">
-        <p><em>Upload photos from your gallery or take pictures directly using your phone/iPad camera. Use the 'Ref' dropdown to link photos to items in the register above.</em></p>
+        <p><em>Upload photos from your gallery or take pictures directly using your phone/tablet camera. Use the 'Ref' dropdown to link photos to items in the register above.</em></p>
         <input type="file" id="photo-file-input" accept="image/*" multiple style="display: none;">
-        <button type="button" class="btn-photo" id="btn-add-photos">+ Upload / Take Photos</button>
+        <button type="button" class="btn-photo" id="btn-add-photos">📷 Upload / Take Photos</button>
         <div class="photo-grid" id="photo-grid">
             <!-- Photos dynamically added here -->
         </div>
@@ -879,18 +975,20 @@
         </div>
         <div class="accordion-content">
             <div id="fans-container">
-                <!-- Fan 1 Container -->
-                <div class="fan-section" id="fan-section-1">
-                    <h4>Fan 1 
-                        <select class="location-select">
-                            <option value="">Select Location...</option>
-                            <option value="Kitchen">Kitchen</option>
-                            <option value="Bathroom">Bathroom</option>
-                            <option value="WC">WC</option>
-                            <option value="En-suite">En-suite</option>
-                            <option value="Utility">Utility</option>
-                        </select>
-                    </h4>
+                <!-- Fan 1 Section -->
+                <div class="fan-section" id="fan-section-1" data-fan-num="1">
+                    <div class="fan-header-container">
+                        <h4>Fan 1 
+                            <select class="location-select fan-location-select" data-fan-num="1">
+                                <option value="">Select Location...</option>
+                                <option value="Kitchen">Kitchen</option>
+                                <option value="Bathroom">Bathroom</option>
+                                <option value="WC">WC</option>
+                                <option value="En-suite">En-suite</option>
+                                <option value="Utility">Utility</option>
+                            </select>
+                        </h4>
+                    </div>
                     <div class="table-wrapper">
                         <table>
                             <tr>
@@ -1071,53 +1169,94 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
+    // Default inspection date to today
+    const dateInput = document.getElementById('inspection-date');
+    if (dateInput && !dateInput.value) {
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.value = today;
+    }
+
     // --- Auto-Resize Textarea Logic ---
     function autoResizeTextarea(el) {
-        el.style.height = 'auto'; // Reset to auto to calculate true scroll height
-        el.style.height = (el.scrollHeight + 4) + 'px'; // Add slight buffer to prevent any scrollbar triggers
+        if (!el) return;
+        el.style.height = 'auto';
+        el.style.height = (el.scrollHeight + 4) + 'px';
     }
     
-    // Attach listener to current and future textareas
     document.addEventListener('input', function(e) {
-        if (e.target.tagName.toLowerCase() === 'textarea') {
+        if (e.target.tagName && e.target.tagName.toLowerCase() === 'textarea') {
             autoResizeTextarea(e.target);
-            
-            // If typing in custom row component box, update photo dropdowns live
-            if (e.target.closest('.custom-finding-row') && e.target.closest('td').cellIndex === 1) {
+            if (e.target.closest('.custom-finding-row') && e.target.closest('td') && e.target.closest('td').cellIndex === 1) {
                 updateAllPhotoDropdowns();
             }
         }
     });
 
-    // Ensure all textareas are fully expanded before Print/PDF
-    window.addEventListener('beforeprint', function() {
+    // Prepare all textareas and sections before print dialog triggers
+    function prepareForPrint() {
+        // Synchronize HTML checked attributes so PDF generators & print drivers preserve checkmarks
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            if (cb.checked) {
+                cb.setAttribute('checked', 'checked');
+            } else {
+                cb.removeAttribute('checked');
+            }
+        });
+
         document.querySelectorAll('textarea').forEach(ta => {
             autoResizeTextarea(ta);
         });
-    });
+        updateAccordionVisibility();
+    }
 
-    // Initial calculation on load
-    document.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
+    window.addEventListener('beforeprint', prepareForPrint);
 
+    const btnTriggerPrint = document.getElementById('btn-trigger-print');
+    if (btnTriggerPrint) {
+        btnTriggerPrint.addEventListener('click', function() {
+            prepareForPrint();
+            setTimeout(() => {
+                window.print();
+            }, 100);
+        });
+    }
 
-    // --- Accordion Toggle Logic ---
+    // --- Accordion Toggle & Expand All Logic ---
+    let allExpanded = false;
+    const btnToggleAccordions = document.getElementById('btn-toggle-accordions');
+    
+    function setAccordionState(sec, expand) {
+        const content = sec.querySelector('.accordion-content');
+        const icon = sec.querySelector('.accordion-icon');
+        if (expand) {
+            content.style.display = "block";
+            if (icon) icon.textContent = "-";
+        } else {
+            content.style.display = "none";
+            if (icon) icon.textContent = "+";
+        }
+    }
+
+    if (btnToggleAccordions) {
+        btnToggleAccordions.addEventListener('click', function() {
+            allExpanded = !allExpanded;
+            const sections = document.querySelectorAll('.accordion-section');
+            sections.forEach(sec => setAccordionState(sec, allExpanded));
+            this.textContent = allExpanded ? "↔️ Collapse All" : "↔️ Expand All";
+        });
+    }
+
     const accordions = document.querySelectorAll('.accordion-header');
     accordions.forEach(acc => {
         acc.addEventListener('click', function() {
+            const sec = this.closest('.accordion-section');
             const content = this.nextElementSibling;
-            const icon = this.querySelector('.accordion-icon');
-            
-            if (content.style.display === "block") {
-                content.style.display = "none";
-                icon.textContent = "+";
-            } else {
-                content.style.display = "block";
-                icon.textContent = "-";
-            }
+            const isCurrentlyOpen = content.style.display === "block";
+            setAccordionState(sec, !isCurrentlyOpen);
         });
     });
 
-    // --- Dynamic Accordion Visibility & Print Preparation ---
+    // Dynamic Visibility Logic for Print
     function updateAccordionVisibility() {
         const sections = document.querySelectorAll('.accordion-section');
         sections.forEach(sec => {
@@ -1125,12 +1264,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const findingInputs = sec.querySelectorAll('.finding-input');
             let hasContent = false;
 
-            // Check if any checkbox inside this section is checked
             checkboxes.forEach(cb => {
                 if (cb.checked) hasContent = true;
             });
 
-            // Check if any finding notes have been typed
             findingInputs.forEach(ta => {
                 if (ta.value.trim() !== '') hasContent = true;
             });
@@ -1146,12 +1283,13 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 sec.classList.remove('visible-section');
                 sec.classList.add('hidden-section');
-                content.style.display = "none";
-                if (icon) icon.textContent = "+";
+                if (!allExpanded) {
+                    content.style.display = "none";
+                    if (icon) icon.textContent = "+";
+                }
             }
         });
 
-        // Additional Notes visibility check for print
         const notesTa = document.getElementById('additional-notes-textarea');
         const notesContainer = document.getElementById('additional-notes-container');
         if (notesTa && notesContainer) {
@@ -1165,35 +1303,169 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Update section visibility on any change or input
-    document.addEventListener('change', updateAccordionVisibility);
-    document.addEventListener('input', updateAccordionVisibility);
-
-    // Ensure visibility check runs before print
-    window.addEventListener('beforeprint', updateAccordionVisibility);
-
-    // Initial check on load
-    updateAccordionVisibility();
-
-
-    // --- References ---
     const btnAddFan = document.getElementById('btn-add-fan');
     const fansContainer = document.getElementById('fans-container');
     const registerBody = document.getElementById('remedial-register-body');
     const propAddressInput = document.getElementById('prop-address');
     const headerAddressDiv = document.getElementById('header-address');
     const btnAddCustomFinding = document.getElementById('btn-add-custom-finding');
-    let fanCount = 1;
+    
+    let fanCounter = 1;
     let customFindingCount = 0;
 
-    // Header address sync
     if (propAddressInput && headerAddressDiv) {
         propAddressInput.addEventListener('input', function() {
             headerAddressDiv.textContent = this.value;
         });
     }
 
-    // --- Add Custom Finding Row ---
+    // Helper to update Fan category naming based on selected location
+    function updateFanCategoryName(fanNum) {
+        const fanSection = document.getElementById(`fan-section-${fanNum}`);
+        if (!fanSection) return;
+        
+        const locSelect = fanSection.querySelector('.fan-location-select');
+        const locationVal = locSelect ? locSelect.value : "";
+        const categoryLabel = locationVal ? `Mechanical Ventilation (Fan ${fanNum} - ${locationVal})` : `Mechanical Ventilation (Fan ${fanNum})`;
+
+        const checkboxes = fanSection.querySelectorAll('.action-req-cb');
+        checkboxes.forEach(cb => {
+            cb.dataset.category = categoryLabel;
+            
+            if (cb.checked) {
+                const rowId = 'register-row-' + cb.dataset.id;
+                const regRow = document.getElementById(rowId);
+                if (regRow) {
+                    regRow.cells[1].textContent = `${cb.dataset.category} - ${cb.dataset.item}`;
+                }
+            }
+        });
+        updateAllPhotoDropdowns();
+    }
+
+    // Change and input listener for live DOM updates
+    document.addEventListener('change', function(e) {
+        if (e.target && e.target.type === 'checkbox') {
+            if (e.target.checked) {
+                e.target.setAttribute('checked', 'checked');
+            } else {
+                e.target.removeAttribute('checked');
+            }
+        }
+        if (e.target && e.target.classList.contains('fan-location-select')) {
+            const fanNum = e.target.dataset.fanNum;
+            if (fanNum) updateFanCategoryName(fanNum);
+        }
+        updateAccordionVisibility();
+    });
+
+    if (btnAddFan && fansContainer) {
+        btnAddFan.addEventListener('click', function() {
+            fanCounter++;
+            const fanNum = fanCounter;
+            const fanSection = document.createElement('div');
+            fanSection.className = 'fan-section';
+            fanSection.id = `fan-section-${fanNum}`;
+            fanSection.dataset.fanNum = fanNum;
+
+            fanSection.innerHTML = `
+                <div class="fan-header-container">
+                    <h4>Fan ${fanNum} 
+                        <select class="location-select fan-location-select" data-fan-num="${fanNum}">
+                            <option value="">Select Location...</option>
+                            <option value="Kitchen">Kitchen</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="WC">WC</option>
+                            <option value="En-suite">En-suite</option>
+                            <option value="Utility">Utility</option>
+                        </select>
+                    </h4>
+                    <button type="button" class="btn-remove-fan no-print">Delete Fan ${fanNum}</button>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <tr>
+                            <th>Item Description</th>
+                            <th class="center" style="width: 50px;">Sat.</th>
+                            <th class="center" style="width: 60px;">Action Req.</th>
+                            <th class="center" style="width: 50px;">N/A</th>
+                            <th>Inspection Finding / Reference</th>
+                        </tr>
+                        <tr>
+                            <td>Unit Type (Intermittent / dMEV / MEV / PIV) & Model/ Manufacturer
+                                <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
+                            </td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-1-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="Unit Type & Manufacturer"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td><textarea class="finding-input" id="finding-vent-1-fan${fanNum}" placeholder="Enter findings..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>Wall or Ceiling Mounting
+                                <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
+                            </td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-2-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="Mounting Security"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td><textarea class="finding-input" id="finding-vent-2-fan${fanNum}" placeholder="Enter findings..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>Ducting Material (Rigid/Flexi) & Insulation in Cold Voids
+                                <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
+                            </td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-3-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="Ducting Material & Insulation"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td><textarea class="finding-input" id="finding-vent-3-fan${fanNum}" placeholder="Enter findings..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>Local Fused Isolation Switch
+                                <span class="b-reg-ref">Ref: Approved Document P (Electrical Safety)</span>
+                            </td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-4-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="Isolation Switch Installed"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td><textarea class="finding-input" id="finding-vent-4-fan${fanNum}" placeholder="Enter findings..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>External Ducting Grille
+                                <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
+                            </td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-5-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="External Ducting Grille"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td><textarea class="finding-input" id="finding-vent-5-fan${fanNum}" placeholder="Enter findings..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>Measured Trickle & Boost Airflow Rates
+                                <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
+                            </td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-6-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="Trickle & Boost Airflow Rates"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td><textarea class="finding-input" id="finding-vent-6-fan${fanNum}" placeholder="Enter findings..."></textarea></td>
+                        </tr>
+                    </table>
+                </div>
+            `;
+
+            fanSection.querySelector('.btn-remove-fan').addEventListener('click', function() {
+                const cbs = fanSection.querySelectorAll('.action-req-cb');
+                cbs.forEach(cb => {
+                    const rowToRemove = document.getElementById('register-row-' + cb.dataset.id);
+                    if (rowToRemove) rowToRemove.remove();
+                });
+                fanSection.remove();
+                updateActionNumbers();
+                updateAccordionVisibility();
+            });
+
+            fansContainer.appendChild(fanSection);
+            fanSection.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
+            updateAccordionVisibility();
+        });
+    }
+
     if (btnAddCustomFinding) {
         btnAddCustomFinding.addEventListener('click', function() {
             customFindingCount++;
@@ -1216,111 +1488,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
             registerBody.appendChild(tr);
             updateActionNumbers();
-            
-            // Trigger auto resize for newly added elements
             tr.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
         });
     }
 
-    // Dynamic Fan Addition
-    if (btnAddFan && fansContainer) {
-        btnAddFan.addEventListener('click', function() {
-            fanCount++;
-            const fanSection = document.createElement('div');
-            fanSection.className = 'fan-section';
-            fanSection.id = `fan-section-${fanCount}`;
-            
-            fanSection.innerHTML = `
-                <h4>Fan ${fanCount} 
-                    <select class="location-select">
-                        <option value="">Select Location...</option>
-                        <option value="Kitchen">Kitchen</option>
-                        <option value="Bathroom">Bathroom</option>
-                        <option value="WC">WC</option>
-                        <option value="En-suite">En-suite</option>
-                        <option value="Utility">Utility</option>
-                    </select>
-                </h4>
-                <div class="table-wrapper">
-                    <table>
-                        <tr>
-                            <th>Item Description</th>
-                            <th class="center" style="width: 50px;">Sat.</th>
-                            <th class="center" style="width: 60px;">Action Req.</th>
-                            <th class="center" style="width: 50px;">N/A</th>
-                            <th>Inspection Finding / Reference</th>
-                        </tr>
-                        <tr>
-                            <td>Unit Type (Intermittent / dMEV / MEV / PIV) & Model/ Manufacturer
-                                <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
-                            </td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-1-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Unit Type & Manufacturer"></td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td><textarea class="finding-input" id="finding-vent-1-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
-                        </tr>
-                        <tr>
-                            <td>Wall or Ceiling Mounting
-                                <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
-                            </td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-2-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Mounting Security"></td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td><textarea class="finding-input" id="finding-vent-2-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
-                        </tr>
-                        <tr>
-                            <td>Ducting Material (Rigid/Flexi taut) & Insulation in Cold Voids
-                                <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
-                            </td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-3-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Ducting Material & Insulation"></td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td><textarea class="finding-input" id="finding-vent-3-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
-                        </tr>
-                        <tr>
-                            <td>Local Fused Isolation Switch
-                                <span class="b-reg-ref">Ref: Approved Document P (Electrical Safety)</span>
-                            </td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-4-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Isolation Switch Installed"></td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td><textarea class="finding-input" id="finding-vent-4-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
-                        </tr>
-                        <tr>
-                            <td>External Ducting Grille
-                                <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
-                            </td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-5-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="External Ducting Grille"></td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td><textarea class="finding-input" id="finding-vent-5-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
-                        </tr>
-                        <tr>
-                            <td>Measured Trickle & Boost Airflow Commissioning Rates
-                                <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
-                            </td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-6-fan${fanCount}" data-category="Mechanical Ventilation (Fan ${fanCount})" data-item="Trickle & Boost Airflow Rates"></td>
-                            <td class="center"><input type="checkbox"></td>
-                            <td><textarea class="finding-input" id="finding-vent-6-fan${fanCount}" placeholder="Enter findings..."></textarea></td>
-                        </tr>
-                    </table>
-                </div>
-            `;
-            fansContainer.appendChild(fanSection);
-            fanSection.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
-        });
-    }
-
-    // --- Dynamic Photo Dropdown Sync ---
+    // Dynamic Photo Dropdown Sync
     function getRegisterItems() {
         const items = [];
         const rows = registerBody.querySelectorAll('tr');
         rows.forEach((row, index) => {
             const num = index + 1;
             let componentText = "";
-            
-            // Check if it's a custom row (has a textarea) or an auto-populated row (has text content)
             const componentTextArea = row.cells[1].querySelector('textarea');
             if (componentTextArea) {
                 componentText = componentTextArea.value || "Custom Item";
@@ -1347,19 +1525,17 @@ document.addEventListener('DOMContentLoaded', function() {
             items.forEach(item => {
                 const opt = document.createElement('option');
                 opt.value = item.id;
-                // Truncate text if too long
-                opt.textContent = item.label.length > 45 ? item.label.substring(0, 42) + '...' : item.label;
+                opt.textContent = item.label.length > 42 ? item.label.substring(0, 39) + '...' : item.label;
                 select.appendChild(opt);
             });
             
-            // Re-select previously chosen option if it still exists
             if (currentValue && select.querySelector(`option[value="${currentValue}"]`)) {
                 select.value = currentValue;
             }
         });
     }
 
-    // Action Required Checkboxes -> Dynamically populate Remedial Register
+    // Action Required Checkbox Handler
     document.addEventListener('change', function(e) {
         if (e.target && e.target.classList.contains('action-req-cb')) {
             const cb = e.target;
@@ -1381,7 +1557,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 registerBody.appendChild(tr);
             } else {
-                const rowToRemove = document.getElementById(rowId);
+                const rowToRemove = document.getElementById('register-row-' + cb.dataset.id);
                 if (rowToRemove) {
                     rowToRemove.remove();
                 }
@@ -1390,7 +1566,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Sync finding notes live into the register table
+    // Live sync finding inputs into register text
     document.addEventListener('input', function(e) {
         if (e.target && e.target.classList.contains('finding-input') && e.target.id) {
             const idPart = e.target.id.replace('finding-', '');
@@ -1413,12 +1589,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 numCell.textContent = index + 1;
             }
         });
-        
-        // Update photo dropdown options whenever action numbers or rows change
         updateAllPhotoDropdowns();
     }
 
-    // --- Photo Upload Handling ---
     const btnAddPhotos = document.getElementById('btn-add-photos');
     const photoFileInput = document.getElementById('photo-file-input');
     const photoGrid = document.getElementById('photo-grid');
@@ -1458,11 +1631,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     photoGrid.appendChild(card);
                     
-                    // Hook up textarea resize for the new photo description
                     const newTextarea = card.querySelector('textarea');
                     autoResizeTextarea(newTextarea);
-
-                    // Immediately populate the dropdown on this newly created photo card
                     updateAllPhotoDropdowns();
                 };
                 reader.readAsDataURL(file);
