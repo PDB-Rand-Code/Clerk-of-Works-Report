@@ -184,7 +184,7 @@
             font-size: 13px;
         }
         .accordion-content {
-            display: none;
+            display: none; /* Hidden by default */
             padding-top: 8px;
         }
         .accordion-icon {
@@ -515,8 +515,14 @@
             }
 
             .accordion-section {
-                page-break-inside: auto !important;
-                break-inside: auto !important;
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+                margin-bottom: 15px !important;
+            }
+
+            /* Force all accordion contents to show on PDF print regardless of screen state */
+            .accordion-content {
+                display: block !important;
             }
 
             .fan-section {
@@ -580,33 +586,32 @@
                 color: transparent !important; 
             }
 
+            /* Optimized iPad Print Photo Grid */
             .photo-grid {
                 display: block !important; 
-                clear: both !important;
-            }
-            .photo-grid::after {
-                content: "" !important;
-                display: table !important;
                 clear: both !important;
             }
             .photo-card { 
                 display: inline-block !important; 
                 float: left !important;
-                width: 48.5% !important; 
-                margin: 0 1.5% 10px 0 !important;
+                width: 46% !important; 
+                margin: 0 2% 15px 2% !important;
                 padding: 6px !important;
                 box-sizing: border-box !important;
                 vertical-align: top !important;
                 break-inside: avoid !important; 
                 page-break-inside: avoid !important; 
             }
-            .photo-card:nth-child(2n) {
-                margin-right: 0 !important;
+            .photo-card:nth-child(2n+1) {
+                clear: both !important;
+            }
+            .photo-card:nth-child(4n) {
+                page-break-after: always !important; 
+                break-after: page !important;
             }
             .photo-card img {
                 width: 100% !important;
-                aspect-ratio: 1 / 1 !important;
-                height: auto !important;
+                height: 250px !important; /* Fixed height overrides unpredictable aspect-ratio in print */
                 object-fit: cover !important;
                 margin-bottom: 4px !important;
             }
@@ -635,15 +640,14 @@
     <!-- Top Action Bar (Offline Saving & Print Controls) -->
     <div class="top-action-bar no-print">
         <div class="action-title">
-            📋 Clerk of Works Inspection Tool
+            Clerk of Works Inspection Tool
         </div>
         <div class="action-buttons">
-            <button type="button" class="btn-action-top btn-offline" id="btn-save-draft" title="Save draft to device memory">💾 Save Draft</button>
-            <button type="button" class="btn-action-top btn-offline" id="btn-load-draft" title="Load draft from device memory">📂 Load Draft</button>
-            <button type="button" class="btn-action-top btn-offline" id="btn-export-offline" title="Save standalone file with custom name">📥 Offline File</button>
-            <button type="button" class="btn-action-top btn-share" id="btn-share-file" title="Share report file directly">✉️ Send / Share</button>
-            <button type="button" class="btn-action-top" id="btn-toggle-accordions">↔️ Expand All</button>
-            <button type="button" class="btn-action-top btn-primary" id="btn-trigger-print">🖨️ Print / Save PDF</button>
+            <button type="button" class="btn-action-top btn-offline" id="btn-save-draft" title="Save draft to device memory">Save Draft</button>
+            <button type="button" class="btn-action-top btn-offline" id="btn-load-draft" title="Load draft from device memory">Load Draft</button>
+            <button type="button" class="btn-action-top btn-offline" id="btn-export-offline" title="Save standalone file with custom name">Offline File</button>
+            <button type="button" class="btn-action-top btn-share" id="btn-share-file" title="Share report file directly">Send / Share</button>
+            <button type="button" class="btn-action-top btn-primary" id="btn-trigger-print">Print / Save PDF</button>
         </div>
     </div>
 
@@ -652,8 +656,8 @@
     <!-- Share Explanation Modal -->
     <div id="share-modal" class="modal-overlay no-print">
         <div class="modal-box">
-            <h3>✉️ Sending & Sharing the Offline Report</h3>
-            <p><strong>1. Save the Offline File:</strong> Click <strong>📥 Offline File</strong> in the top bar to download the report with your address in the filename.</p>
+            <h3>Sending & Sharing the Offline Report</h3>
+            <p><strong>1. Save the Offline File:</strong> Click <strong>Offline File</strong> in the top bar to download the report with your address in the filename.</p>
             <p><strong>2. Attach & Send Directly:</strong> The downloaded <code>.html</code> file is 100% self-contained—it includes all form data and photos embedded directly inside it.</p>
             <p><strong>3. No PDF Conversion Needed:</strong> You can attach this file directly to an Email, WhatsApp, Teams, or Outlook message. Anyone receiving it can open it immediately in any phone or PC browser!</p>
             <div class="modal-buttons">
@@ -669,7 +673,7 @@
             <div id="header-address"></div>
         </div>
         <div>
-            <img src="rand-logo.png" alt="Rand Associates Logo" class="logo-img" onerror="this.style.display='none'">
+            <img src="RAND Master Icon Col RGB.png" alt="Rand Associates Logo" class="logo-img">
         </div>
     </div>
 
@@ -727,7 +731,7 @@
     <div class="photo-upload-container">
         <p><em>Upload photos from gallery or camera. Photos are automatically compressed to save space and work offline.</em></p>
         <input type="file" id="photo-file-input" accept="image/*" multiple style="display: none;">
-        <button type="button" class="btn-photo" id="btn-add-photos">📷 Upload / Take Photos</button>
+        <button type="button" class="btn-photo" id="btn-add-photos">Upload / Take Photos</button>
         <div class="photo-grid" id="photo-grid">
             <!-- Photos dynamically added here -->
         </div>
@@ -755,6 +759,15 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td>Solar PV Functioning at the time of visit
+                                <span class="b-reg-ref">Ref: Operational Check</span>
+                            </td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="solar-0" data-category="Photovoltaic Solar Panels" data-item="Solar PV Functioning at the time of visit"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td><textarea class="finding-input" id="finding-solar-0" placeholder="Enter findings..."></textarea></td>
+                        </tr>
                         <tr>
                             <td>Array Orientation, Pitch & Shading Factor
                                 <span class="b-reg-ref">Ref: Part L (Conservation of Fuel and Power)</span>
@@ -1341,9 +1354,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 100);
         });
     }
-
-    let allExpanded = false;
-    const btnToggleAccordions = document.getElementById('btn-toggle-accordions');
     
     function setAccordionState(sec, expand) {
         const content = sec.querySelector('.accordion-content');
@@ -1357,15 +1367,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    if (btnToggleAccordions) {
-        btnToggleAccordions.addEventListener('click', function() {
-            allExpanded = !allExpanded;
-            const sections = document.querySelectorAll('.accordion-section');
-            sections.forEach(sec => setAccordionState(sec, allExpanded));
-            this.textContent = allExpanded ? "↔️ Collapse All" : "↔️ Expand All";
-        });
-    }
-
     const accordions = document.querySelectorAll('.accordion-header');
     accordions.forEach(acc => {
         acc.addEventListener('click', function(e) {
@@ -1375,7 +1376,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             const sec = this.closest('.accordion-section');
             const content = this.nextElementSibling;
-            const isCurrentlyOpen = content.style.display === "block";
+            const isCurrentlyOpen = (getComputedStyle(content).display === "block");
             setAccordionState(sec, !isCurrentlyOpen);
         });
     });
@@ -1814,16 +1815,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             localStorage.setItem('clerk_report_draft', JSON.stringify(draftPayload));
-            showToast("💾 Draft Saved Locally!");
+            showToast("Draft Saved Locally!");
         } catch (err) {
-            showToast("⚠️ Storage limit reached! Download Offline File instead.");
+            showToast("Storage limit reached! Download Offline File instead.");
         }
     }
 
     function loadDraftFromStorage() {
         const jsonStr = localStorage.getItem('clerk_report_draft');
         if (!jsonStr) {
-            showToast("⚠️ No saved draft found on this device.");
+            showToast("No saved draft found on this device.");
             return;
         }
 
@@ -1872,9 +1873,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateAllPhotoDropdowns();
             }
 
-            showToast("📂 Draft Loaded Successfully!");
+            showToast("Draft Loaded Successfully!");
         } catch (err) {
-            showToast("⚠️ Error loading saved draft.");
+            showToast("Error loading saved draft.");
         }
     }
 
@@ -1903,7 +1904,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(downloadLink);
         URL.revokeObjectURL(downloadLink.href);
 
-        showToast(`📥 Saved as "${filename}"!`);
+        showToast(`Saved as "${filename}"!`);
     }
 
     // Direct Web Share or modal guide
@@ -1922,7 +1923,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     title: 'Clerk of Works Inspection Report',
                     text: `Clerk of Works Inspection Report for ${document.getElementById('prop-address')?.value || 'Property'}`
                 });
-                showToast("✉️ Report Shared!");
+                showToast("Report Shared!");
                 return;
             } catch (err) {
                 if (err.name !== 'AbortError') {
@@ -1951,3 +1952,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </body>
 </html>
+```eof
