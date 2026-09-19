@@ -490,26 +490,43 @@
 
         @page {
             size: A4 portrait;
-            margin: 10mm 8mm;
+            margin: 12mm 10mm;
         }
 
+        /* PRINT SETTINGS */
         @media print {
-            body { 
+            body, html { 
                 background-color: #fff !important; 
                 margin: 0 !important; 
                 padding: 0 !important; 
                 font-size: 11px !important; 
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
+                overflow: visible !important;
             }
+
             .container { 
                 box-shadow: none !important; 
                 padding: 0 !important; 
                 max-width: 100% !important; 
                 width: 100% !important;
+                overflow: visible !important;
             }
 
-            .top-action-bar, .toast-msg, .no-print, .no-print-col, .btn-add, .btn-photo, .btn-remove-photo, .btn-remove-row, .btn-remove-fan, .modal-overlay { 
+            .top-action-bar, 
+            .toast-msg, 
+            .no-print, 
+            .no-print-col, 
+            .btn-add, 
+            .btn-photo, 
+            .btn-remove-photo, 
+            .btn-remove-row, 
+            .btn-remove-fan, 
+            .modal-overlay,
+            .no-print-accordion,
+            .no-print-fan,
+            .no-print-empty-notes,
+            .no-print-empty-photos { 
                 display: none !important; 
             }
 
@@ -517,12 +534,22 @@
                 overflow: visible !important;
                 display: block !important;
                 margin-bottom: 10px !important;
+                break-inside: auto !important;
+                page-break-inside: auto !important;
             }
+
             table {
                 min-width: 100% !important;
                 width: 100% !important;
                 table-layout: fixed !important;
-                page-break-inside: auto;
+                break-inside: auto !important;
+                page-break-inside: auto !important;
+            }
+
+            /* Prevent table rows and text cells from splitting mid-line */
+            tr { 
+                break-inside: avoid !important; 
+                page-break-inside: avoid !important; 
             }
 
             th, td {
@@ -530,6 +557,8 @@
                 font-size: 10px !important;
                 word-wrap: break-word !important;
                 overflow-wrap: break-word !important;
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
             }
 
             h1, h2, h3, h4, .fan-header-container { 
@@ -538,7 +567,7 @@
             }
 
             h1 { font-size: 16px !important; }
-            h2 { font-size: 12.5px !important; margin-top: 14px !important; margin-bottom: 6px !important; }
+            h2 { font-size: 12.5px !important; margin-top: 16px !important; margin-bottom: 6px !important; }
             h3 { font-size: 11.5px !important; }
             h4 { font-size: 10.5px !important; }
 
@@ -550,19 +579,16 @@
             }
             .logo-img { height: 42px !important; }
 
-            tr { 
-                break-inside: avoid !important; 
-                page-break-inside: avoid !important; 
-            }
-
             .accordion-section {
-                break-inside: avoid !important;
-                page-break-inside: avoid !important;
+                break-inside: auto !important;
+                page-break-inside: auto !important;
                 margin-bottom: 15px !important;
             }
 
+            /* Only display accordion content if not marked as hidden/collapsed */
             .accordion-content {
                 display: block !important;
+                padding-top: 4px !important;
             }
 
             .fan-section {
@@ -573,10 +599,12 @@
             }
 
             .accordion-header { 
-                border: 1px solid #000 !important; 
+                border: 1px solid #004080 !important; 
                 background-color: #e6f0fa !important; 
-                padding: 5px 8px !important;
-                margin-top: 8px !important;
+                padding: 6px 10px !important;
+                margin-top: 10px !important;
+                break-after: avoid !important;
+                page-break-after: avoid !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
@@ -608,51 +636,80 @@
                 print-color-adjust: exact !important;
             }
 
-            textarea, .finding-input, .notes-area { 
+            /* Text boxes formatted to avoid breaking across page seams */
+            textarea, .finding-input, .notes-area, .custom-row-input { 
                 overflow: hidden !important; 
                 resize: none !important;
                 border: 1px solid #aaa !important;
                 background: transparent !important;
                 font-size: 10px !important;
-                padding: 2px 4px !important;
+                padding: 3px 5px !important;
                 display: block !important;
                 white-space: pre-wrap !important;
                 word-wrap: break-word !important;
                 box-sizing: border-box !important;
                 width: 100% !important;
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+            }
+
+            #additional-notes-container {
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
             }
 
             ::placeholder { 
                 color: transparent !important; 
             }
 
-            .photo-grid {
-                display: block !important; 
+            /* Photos Clean 2-Column Grid to Prevent Collapsing and Merging */
+            #section3-container {
                 clear: both !important;
+                margin-top: 15px !important;
+                margin-bottom: 20px !important;
             }
+
+            .photo-upload-container {
+                clear: both !important;
+                display: block !important;
+                margin-bottom: 15px !important;
+            }
+
+            .photo-grid {
+                display: grid !important; 
+                grid-template-columns: 1fr 1fr !important;
+                gap: 12px !important;
+                clear: both !important;
+                margin-top: 8px !important;
+            }
+
             .photo-card { 
-                display: inline-block !important; 
-                float: left !important;
-                width: 46% !important; 
-                margin: 0 2% 15px 2% !important;
+                display: block !important; 
+                float: none !important;
+                width: 100% !important; 
+                margin: 0 !important;
                 padding: 6px !important;
                 box-sizing: border-box !important;
-                vertical-align: top !important;
+                border: 1px solid #ccc !important;
+                border-radius: 4px !important;
                 break-inside: avoid !important; 
                 page-break-inside: avoid !important; 
             }
-            .photo-card:nth-child(2n+1) {
-                clear: both !important;
-            }
-            .photo-card:nth-child(4n) {
-                page-break-after: always !important; 
-                break-after: page !important;
-            }
+
             .photo-card img {
                 width: 100% !important;
-                height: 250px !important;
+                height: 220px !important;
                 object-fit: cover !important;
                 margin-bottom: 4px !important;
+                display: block !important;
+            }
+
+            /* Keep Section 4 strictly below Section 3 */
+            #section4-header {
+                clear: both !important;
+                margin-top: 25px !important;
+                break-before: auto !important;
+                page-break-before: auto !important;
             }
 
             .auto-populated {
@@ -664,10 +721,6 @@
                 background-color: #e6ffe6 !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
-            }
-
-            .no-print-empty-notes {
-                display: none !important;
             }
         }
     </style>
@@ -712,7 +765,7 @@
             <div id="header-address"></div>
         </div>
         <div>
-            <img src="rand-logo.png" alt="Rand Associates Logo" class="logo-img">
+            <img src="RAND Master Icon Col RGB.png" alt="Rand Associates Logo" class="logo-img">
         </div>
     </div>
 
@@ -758,7 +811,7 @@
         </table>
     </div>
     <!-- Custom Finding Button -->
-    <button type="button" id="btn-add-custom-finding" class="btn-add">+ Add Custom Finding</button>
+    <button type="button" id="btn-add-custom-finding" class="btn-add no-print">+ Add Custom Finding</button>
     
     <div id="additional-notes-container">
         <h3>Additional Notes</h3>
@@ -766,13 +819,15 @@
     </div>
 
     <!-- SECTION 3: SITE PHOTOGRAPHS -->
-    <h2>3. SITE PHOTOGRAPHS & DEFECT REFERENCES</h2>
-    <div class="photo-upload-container">
-        <p><em>Upload photos from gallery or camera. Photos are automatically compressed to save space and work offline.</em></p>
-        <input type="file" id="photo-file-input" accept="image/*" multiple style="display: none;">
-        <button type="button" class="btn-photo" id="btn-add-photos">Upload / Take Photos</button>
-        <div class="photo-grid" id="photo-grid">
-            <!-- Photos dynamically added here -->
+    <div id="section3-container">
+        <h2 id="section3-header">3. SITE PHOTOGRAPHS & DEFECT REFERENCES</h2>
+        <div class="photo-upload-container">
+            <p class="no-print"><em>Upload photos from gallery or camera. Photos are automatically compressed to save space and work offline.</em></p>
+            <input type="file" id="photo-file-input" accept="image/*" multiple style="display: none;">
+            <button type="button" class="btn-photo no-print" id="btn-add-photos">Upload / Take Photos</button>
+            <div class="photo-grid" id="photo-grid">
+                <!-- Photos dynamically added here -->
+            </div>
         </div>
     </div>
 
@@ -1253,7 +1308,7 @@
                     </div>
                 </div>
             </div>
-            <button type="button" id="btn-add-fan" class="btn-add">+ Add Another Fan</button>
+            <button type="button" id="btn-add-fan" class="btn-add no-print">+ Add Another Fan</button>
         </div>
     </div>
 
@@ -1502,7 +1557,6 @@ function evaluateFanCompliance(fanNum) {
 
     reqBanner.innerHTML = `<small><strong>Approved Document F Target (${location} - ${unitType}):</strong> Required Trickle: ${reqs.trickle} L/s | Required Boost: ${reqs.boost} L/s</small>`;
 
-    // If no values are filled in yet, display standard requirement without flagging non-compliance
     if (trickleValStr === '' && boostValStr === '') {
         reqBanner.className = 'doc-f-req-banner';
         evaluateSystemWideCompliance();
@@ -1514,12 +1568,10 @@ function evaluateFanCompliance(fanNum) {
 
     let isNonCompliant = false;
 
-    // Check Trickle rate requirement (if continuous dMEV / MEV / PIV or trickle entered)
     if (reqs.trickle > 0 && trickleVal < reqs.trickle) {
         isNonCompliant = true;
     }
 
-    // Check Boost rate requirement
     if (boostVal < reqs.boost) {
         isNonCompliant = true;
     }
@@ -1539,7 +1591,6 @@ function evaluateFanCompliance(fanNum) {
             actionCb.dataset.autoFlagged = "true";
             actionCb.dispatchEvent(new Event('change', { bubbles: true }));
         } else {
-            // Update finding in main remedial register
             const regRow = document.getElementById('register-row-' + actionCb.dataset.id);
             if (regRow) {
                 const span = regRow.querySelector('.register-finding-text');
@@ -1547,13 +1598,11 @@ function evaluateFanCompliance(fanNum) {
             }
         }
     } else {
-        // Rates meet or exceed regulation requirements
         reqBanner.className = 'doc-f-req-banner compliant';
         reqBanner.innerHTML = `<small><strong>COMPLIANT (Approved Document F):</strong> Measured airflow rates meet requirements for ${location} ${unitType}.</small>`;
 
         actionCb.dataset.autoFinding = "";
 
-        // Uncheck action requirement if it was automatically flagged
         if (actionCb.dataset.autoFlagged === "true" && actionCb.checked) {
             actionCb.checked = false;
             actionCb.removeAttribute('checked');
@@ -1600,7 +1649,6 @@ function evaluateDuctingCompliance(fanNum) {
             actionCb.dataset.autoFlaggedDuct = "true";
             actionCb.dispatchEvent(new Event('change', { bubbles: true }));
         } else {
-            // Update register if already checked
             const regRow = document.getElementById('register-row-' + actionCb.dataset.id);
             if (regRow) {
                 const span = regRow.querySelector('.register-finding-text');
@@ -1608,7 +1656,6 @@ function evaluateDuctingCompliance(fanNum) {
             }
         }
     } else {
-        // Only unflag if it was auto-flagged by this specific rule
         if (actionCb.dataset.autoFlaggedDuct === "true") {
             actionCb.dataset.autoFinding = "";
             actionCb.checked = false;
@@ -1616,13 +1663,39 @@ function evaluateDuctingCompliance(fanNum) {
             delete actionCb.dataset.autoFlaggedDuct;
             actionCb.dispatchEvent(new Event('change', { bubbles: true }));
             
-            // clear if it still matches the exact auto string
             if (findingInput.value.includes("[DEFECT] Ceiling mounted fan")) {
                 findingInput.value = "";
                 autoResizeTextarea(findingInput);
             }
         }
     }
+}
+
+// Check if a section has any inspected or entered content
+function isElementFilled(container) {
+    if (!container) return false;
+    
+    const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+    for (const cb of checkboxes) {
+        if (cb.checked) return true;
+    }
+    
+    const inputs = container.querySelectorAll('input[type="text"], input[type="number"], input[type="date"]');
+    for (const inp of inputs) {
+        if (inp.value && inp.value.trim() !== '') return true;
+    }
+    
+    const textareas = container.querySelectorAll('textarea');
+    for (const ta of textareas) {
+        if (ta.value && ta.value.trim() !== '') return true;
+    }
+    
+    const selects = container.querySelectorAll('select');
+    for (const sel of selects) {
+        if (sel.value && sel.value.trim() !== '') return true;
+    }
+    
+    return false;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -1632,7 +1705,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Run compliance checking when inputs inside ventilation section are updated
     document.addEventListener('input', function(e) {
         if (e.target && (e.target.classList.contains('fan-trickle-input') || e.target.classList.contains('fan-boost-input') || e.target.classList.contains('fan-model-input'))) {
             const fanNum = e.target.dataset.fanNum || e.target.closest('.fan-section')?.dataset.fanNum;
@@ -1653,6 +1725,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function prepareForPrint() {
+        // 1. Check Additional Notes
         const notesArea = document.getElementById('additional-notes-textarea');
         const notesContainer = document.getElementById('additional-notes-container');
         if (notesArea && notesContainer) {
@@ -1663,6 +1736,53 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
+        // 2. Check Photo Section: Hide if empty to save space and prevent overlap
+        const photoSection = document.getElementById('section3-container');
+        const photoCards = document.querySelectorAll('.photo-card');
+        if (photoSection) {
+            if (photoCards.length === 0) {
+                photoSection.classList.add('no-print-empty-photos');
+            } else {
+                photoSection.classList.remove('no-print-empty-photos');
+            }
+        }
+
+        // 3. Filter Accordion Checklists: Hide collapsed or unfilled sections
+        let visibleAccordionsCount = 0;
+        document.querySelectorAll('.accordion-section').forEach(sec => {
+            const content = sec.querySelector('.accordion-content');
+            const isCurrentlyOpen = content && (content.style.display === 'block');
+            const hasData = isElementFilled(sec);
+
+            // Print ONLY if open and filled in
+            if (isCurrentlyOpen && hasData) {
+                sec.classList.remove('no-print-accordion');
+                visibleAccordionsCount++;
+
+                // If ventilation, hide blank fan sub-blocks
+                sec.querySelectorAll('.fan-section').forEach(fanSec => {
+                    if (isElementFilled(fanSec)) {
+                        fanSec.classList.remove('no-print-fan');
+                    } else {
+                        fanSec.classList.add('no-print-fan');
+                    }
+                });
+            } else {
+                sec.classList.add('no-print-accordion');
+            }
+        });
+
+        // Hide Section 4 header if no checklists are printing
+        const sec4Header = document.getElementById('section4-header');
+        if (sec4Header) {
+            if (visibleAccordionsCount === 0) {
+                sec4Header.classList.add('no-print');
+            } else {
+                sec4Header.classList.remove('no-print');
+            }
+        }
+
+        // 4. Synchronize values into attributes for PDF output
         document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
             if (cb.checked) {
                 cb.setAttribute('checked', 'checked');
@@ -1683,16 +1803,31 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        // 5. Expand textareas to match content height without splitting
         document.querySelectorAll('textarea').forEach(ta => {
             ta.textContent = ta.value;
             ta.style.height = 'auto';
-            const expandedHeight = Math.max(38, ta.scrollHeight + 6);
-            ta.style.height = expandedHeight + 'px';
+            if (ta.value && ta.value.trim() !== '') {
+                ta.style.height = (ta.scrollHeight + 4) + 'px';
+            } else {
+                ta.style.height = '28px';
+            }
             ta.style.overflow = 'hidden';
         });
     }
 
+    function cleanupAfterPrint() {
+        document.querySelectorAll('.no-print-accordion').forEach(el => el.classList.remove('no-print-accordion'));
+        document.querySelectorAll('.no-print-fan').forEach(el => el.classList.remove('no-print-fan'));
+        const photoSection = document.getElementById('section3-container');
+        if (photoSection) photoSection.classList.remove('no-print-empty-photos');
+        const sec4Header = document.getElementById('section4-header');
+        if (sec4Header) sec4Header.classList.remove('no-print');
+        document.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
+    }
+
     window.addEventListener('beforeprint', prepareForPrint);
+    window.addEventListener('afterprint', cleanupAfterPrint);
 
     const btnTriggerPrint = document.getElementById('btn-trigger-print');
     if (btnTriggerPrint) {
@@ -1711,7 +1846,6 @@ document.addEventListener('DOMContentLoaded', function() {
             content.style.display = "block";
             if (icon) icon.textContent = "-";
             
-            // If the opened section is mechanical ventilation, evaluate compliance
             if (sec.id === 'ventilation-accordion-section' || sec.querySelector('#fans-container')) {
                 evaluateAllFansCompliance();
             }
@@ -2104,7 +2238,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <option value="">General</option>
                             </select>
                         </label>
-                        <button type="button" class="btn-remove-photo">Delete</button>
+                        <button type="button" class="btn-remove-photo no-print">Delete</button>
                     </div>
                 `;
                 
@@ -2263,7 +2397,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <option value="">General</option>
                                 </select>
                             </label>
-                            <button type="button" class="btn-remove-photo">Delete</button>
+                            <button type="button" class="btn-remove-photo no-print">Delete</button>
                         </div>
                     `;
                     card.querySelector('.btn-remove-photo').addEventListener('click', function() {
