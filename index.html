@@ -228,8 +228,8 @@
         .col-find { width: 42%; }
         
         input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
             accent-color: #004080;
             margin: 2px auto;
@@ -328,45 +328,79 @@
             margin: 0;
         }
 
-        /* Ventilation Airflow and Unit Type Container Styles */
-        .airflow-inputs-container {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 6px;
-            flex-wrap: wrap;
-        }
-        .airflow-field {
-            flex: 1;
-            min-width: 110px;
+        /* Ventilation Airflow Section Styles */
+        .fan-flow-control-group {
             display: flex;
             flex-direction: column;
+            gap: 8px;
+            background: #fafbfc;
+            padding: 8px;
+            border: 1px solid #e1e4e8;
+            border-radius: 4px;
+            margin-bottom: 6px;
         }
-        .airflow-field label {
-            font-size: 11px;
+
+        .fan-flow-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .fan-flow-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
             font-weight: bold;
             color: #004080;
-            margin-bottom: 2px;
+            font-size: 12px;
+            user-select: none;
+            margin: 0;
         }
+
+        .fan-flow-label input[type="checkbox"] {
+            margin: 0;
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+        }
+
+        .fan-rate-input-container {
+            display: none; /* revealed when respective checkbox checked */
+            align-items: center;
+            gap: 6px;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .fan-rate-input-container.active {
+            display: flex;
+        }
+
+        .fan-rate-input-container label {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: #555;
+            white-space: nowrap;
+        }
+
+        .fan-rate-input-container input[type="number"] {
+            width: 90px;
+            height: 28px;
+            padding: 3px 6px;
+            font-size: 12px;
+        }
+
         .doc-f-req-banner {
             background-color: #f0f4f8;
             border-left: 3px solid #004080;
-            padding: 5px 8px;
-            font-size: 11px;
-            margin-bottom: 6px;
+            padding: 6px 10px;
+            font-size: 11.5px;
+            margin-top: 4px;
             border-radius: 0 4px 4px 0;
-            line-height: 1.3;
-        }
-        .doc-f-req-banner.non-compliant {
-            background-color: #fdf2f2;
-            border-left-color: #d9534f;
-            color: #a94442;
-            font-weight: bold;
-        }
-        .doc-f-req-banner.compliant {
-            background-color: #f2f9f2;
-            border-left-color: #28a745;
-            color: #155724;
-            font-weight: bold;
+            line-height: 1.35;
+            color: #004080;
         }
 
         .photo-upload-container {
@@ -546,7 +580,6 @@
                 page-break-inside: auto !important;
             }
 
-            /* Prevent table rows and text cells from splitting mid-line */
             tr { 
                 break-inside: avoid !important; 
                 page-break-inside: avoid !important; 
@@ -585,7 +618,6 @@
                 margin-bottom: 15px !important;
             }
 
-            /* Only display accordion content if not marked as hidden/collapsed */
             .accordion-content {
                 display: block !important;
                 padding-top: 4px !important;
@@ -626,17 +658,20 @@
             input[type="checkbox"] {
                 appearance: checkbox !important;
                 -webkit-appearance: checkbox !important;
-                width: 16px !important;
-                height: 16px !important;
-                margin: 0 auto !important;
-                display: block !important;
+                width: 14px !important;
+                height: 14px !important;
                 cursor: pointer;
                 accent-color: #004080 !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
 
-            /* Text boxes formatted to avoid breaking across page seams */
+            .fan-flow-control-group {
+                border: none !important;
+                background: transparent !important;
+                padding: 2px 0 !important;
+            }
+
             textarea, .finding-input, .notes-area, .custom-row-input { 
                 overflow: hidden !important; 
                 resize: none !important;
@@ -662,7 +697,6 @@
                 color: transparent !important; 
             }
 
-            /* Photos Clean 2-Column Grid to Prevent Collapsing and Merging */
             #section3-container {
                 clear: both !important;
                 margin-top: 15px !important;
@@ -704,7 +738,6 @@
                 display: block !important;
             }
 
-            /* Keep Section 4 strictly below Section 3 */
             #section4-header {
                 clear: both !important;
                 margin-top: 25px !important;
@@ -729,7 +762,7 @@
 
 <div class="container">
 
-    <!-- Top Action Bar (Offline Saving & Print Controls) -->
+    <!-- Top Action Bar -->
     <div class="top-action-bar no-print">
         <div class="action-title">
             Clerk of Works Inspection Tool
@@ -810,7 +843,6 @@
             </tbody>
         </table>
     </div>
-    <!-- Custom Finding Button -->
     <button type="button" id="btn-add-custom-finding" class="btn-add no-print">+ Add Custom Finding</button>
     
     <div id="additional-notes-container">
@@ -1171,11 +1203,10 @@
     <!-- MECHANICAL VENTILATION ACCORDION -->
     <div class="accordion-section" id="ventilation-accordion-section">
         <div class="accordion-header" id="ventilation-accordion-header">
-            <h3>Mechanical Ventilation Systems</h3>
+            <h3>Mechanical Ventilation</h3>
             <span class="accordion-icon">+</span>
         </div>
         <div class="accordion-content" id="ventilation-accordion-content">
-            <div id="system-vent-warning" class="doc-f-req-banner non-compliant" style="display: none; margin-bottom: 15px;"></div>
             <div id="fans-container">
                 <!-- Fan 1 Section -->
                 <div class="fan-section" id="fan-section-1" data-fan-num="1">
@@ -1216,7 +1247,6 @@
                                             <option value="dMEV">dMEV</option>
                                             <option value="MEV">MEV</option>
                                             <option value="Intermittent">Intermittent</option>
-                                            <option value="PIV">PIV</option>
                                         </select>
                                         <input type="text" class="fan-model-input" id="model-fan1" placeholder="Model / Manufacturer details..." style="margin-bottom: 4px;">
                                     </td>
@@ -1288,19 +1318,38 @@
                                     <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-6-fan1" data-category="Mechanical Ventilation (Fan 1)" data-item="Measured Airflow Rates"></td>
                                     <td class="center"><input type="checkbox"></td>
                                     <td>
-                                        <div class="airflow-inputs-container">
-                                            <div class="airflow-field">
-                                                <label for="trickle-fan1">Trickle Rate (L/s):</label>
-                                                <input type="number" step="0.1" min="0" class="fan-trickle-input" id="trickle-fan1" data-fan-num="1" placeholder="e.g. 8">
+                                        <div class="fan-flow-control-group">
+                                            <!-- Fan Working toggle -->
+                                            <div class="fan-flow-row">
+                                                <label class="fan-flow-label">
+                                                    <input type="checkbox" class="fan-working-cb" id="fan-working-fan1" data-fan-num="1">
+                                                    Fan Working
+                                                </label>
+                                                <div class="fan-rate-input-container" id="trickle-container-fan1">
+                                                    <label for="trickle-fan1">Trickle Rate:</label>
+                                                    <input type="number" step="0.1" min="0" class="fan-trickle-input" id="trickle-fan1" data-fan-num="1" placeholder="L/s">
+                                                </div>
                                             </div>
-                                            <div class="airflow-field">
-                                                <label for="boost-fan1">Boost Rate (L/s):</label>
-                                                <input type="number" step="0.1" min="0" class="fan-boost-input" id="boost-fan1" data-fan-num="1" placeholder="e.g. 15">
+
+                                            <!-- Manual Boost toggle -->
+                                            <div class="fan-flow-row">
+                                                <label class="fan-flow-label">
+                                                    <input type="checkbox" class="fan-boost-cb" id="fan-boost-cb-fan1" data-fan-num="1">
+                                                    Manual Boost
+                                                </label>
+                                                <div class="fan-rate-input-container" id="boost-container-fan1">
+                                                    <label for="boost-fan1">Boost Rate:</label>
+                                                    <input type="number" step="0.1" min="0" class="fan-boost-input" id="boost-fan1" data-fan-num="1" placeholder="L/s">
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="doc-f-req-banner" id="doc-f-req-fan1">
-                                            <small><em>Select location & unit type to view Doc F minimum rates</em></small>
+
+                                        <!-- Doc F Boost Requirement Highlight Box -->
+                                        <div class="doc-f-req-banner" id="doc-f-req-fan1" style="display: none;">
+                                            <!-- Dynamically populated if dMEV is chosen -->
                                         </div>
+
+                                        <textarea class="finding-input" id="finding-vent-6-fan1" placeholder="Airflow findings or notes..." style="margin-top: 4px;"></textarea>
                                     </td>
                                 </tr>
                             </tbody>
@@ -1443,235 +1492,66 @@ function autoResizeTextarea(el) {
     el.style.height = (el.scrollHeight) + 'px';
 }
 
-// Minimum airflow rate guidelines under UK Building Regulations Approved Document F
-const docFRequirements = {
-    'Kitchen': {
-        'Intermittent': { trickle: 0, boost: 30, note: '30 L/s (adjacent to hob) or 60 L/s' },
-        'dMEV':         { trickle: 8, boost: 13, note: 'Min 8 L/s trickle, 13 L/s boost' },
-        'MEV':          { trickle: 8, boost: 13, note: 'Min 8 L/s trickle, 13 L/s boost' },
-        'PIV':          { trickle: 8, boost: 13, note: 'Min 8 L/s trickle, 13 L/s boost' }
-    },
-    'Utility': {
-        'Intermittent': { trickle: 0, boost: 30, note: '30 L/s intermittent boost' },
-        'dMEV':         { trickle: 6,  boost: 8,  note: 'Min 6 L/s trickle, 8 L/s boost' },
-        'MEV':          { trickle: 6,  boost: 8,  note: 'Min 6 L/s trickle, 8 L/s boost' },
-        'PIV':          { trickle: 6,  boost: 8,  note: 'Min 6 L/s trickle, 8 L/s boost' }
-    },
-    'Bathroom': {
-        'Intermittent': { trickle: 0, boost: 15, note: '15 L/s intermittent boost' },
-        'dMEV':         { trickle: 6,  boost: 8,  note: 'Min 6 L/s trickle, 8 L/s boost' },
-        'MEV':          { trickle: 6,  boost: 8,  note: 'Min 6 L/s trickle, 8 L/s boost' },
-        'PIV':          { trickle: 6,  boost: 8,  note: 'Min 6 L/s trickle, 8 L/s boost' }
-    },
-    'En-suite': {
-        'Intermittent': { trickle: 0, boost: 15, note: '15 L/s intermittent boost' },
-        'dMEV':         { trickle: 6,  boost: 8,  note: 'Min 6 L/s trickle, 8 L/s boost' },
-        'MEV':          { trickle: 6,  boost: 8,  note: 'Min 6 L/s trickle, 8 L/s boost' },
-        'PIV':          { trickle: 6,  boost: 8,  note: 'Min 6 L/s trickle, 8 L/s boost' }
-    },
-    'WC': {
-        'Intermittent': { trickle: 0, boost: 6,  note: '6 L/s intermittent boost' },
-        'dMEV':         { trickle: 4,  boost: 6,  note: 'Min 4 L/s trickle, 6 L/s boost' },
-        'MEV':          { trickle: 4,  boost: 6,  note: 'Min 4 L/s trickle, 6 L/s boost' },
-        'PIV':          { trickle: 4,  boost: 6,  note: 'Min 4 L/s trickle, 6 L/s boost' }
-    }
+// Approved Document F (Ventilation) minimum boost rates for dMEV
+const dmevDocFBoostReqs = {
+    'Kitchen': 13,
+    'Utility': 8,
+    'Bathroom': 8,
+    'En-suite': 8,
+    'WC': 6
 };
 
-function evaluateSystemWideCompliance() {
-    const fanSections = document.querySelectorAll('.fan-section');
-    let hasIntermittent = false;
-    let hasContinuous = false;
-
-    fanSections.forEach(section => {
-        const unitType = section.querySelector('.fan-unittype-select')?.value;
-        if (unitType === 'Intermittent') hasIntermittent = true;
-        if (unitType === 'dMEV' || unitType === 'MEV' || unitType === 'PIV') hasContinuous = true;
-    });
-
-    const warningBanner = document.getElementById('system-vent-warning');
-    const registerBody = document.getElementById('remedial-register-body');
-    if (!warningBanner || !registerBody) return;
-
-    const rowId = 'register-row-system-vent-conflict';
-    const conflictMsg = "[DEFECT] Mixed ventilation strategy detected (Intermittent + Continuous). This conflicts with Approved Document F.";
-
-    if (hasIntermittent && hasContinuous) {
-        warningBanner.style.display = 'block';
-        warningBanner.innerHTML = `<small><strong>SYSTEM CONFLICT:</strong> Mixed ventilation strategy (Intermittent + Continuous) violates Approved Document F.</small>`;
-
-        if (!document.getElementById(rowId)) {
-            const tr = document.createElement('tr');
-            tr.id = rowId;
-            tr.className = 'auto-populated';
-            tr.innerHTML = `
-                <td class="center"><strong></strong></td>
-                <td>Mechanical Ventilation (System Wide)</td>
-                <td><span class="register-finding-text">${conflictMsg}</span></td>
-                <td class="center no-print-col"><span style="color:#aaa; font-size: 0.8em;">Auto</span></td>
-            `;
-            registerBody.appendChild(tr);
-            if (typeof updateActionNumbers === 'function') updateActionNumbers();
-        }
-    } else {
-        warningBanner.style.display = 'none';
-        const conflictRow = document.getElementById(rowId);
-        if (conflictRow) {
-            conflictRow.remove();
-            if (typeof updateActionNumbers === 'function') updateActionNumbers();
-        }
-    }
-}
-
-function evaluateFanCompliance(fanNum) {
+function updateFanAirflowUI(fanNum) {
     const fanSection = document.getElementById(`fan-section-${fanNum}`);
     if (!fanSection) return;
 
-    const locSelect = fanSection.querySelector('.fan-location-select');
+    const workingCb = fanSection.querySelector('.fan-working-cb');
+    const trickleContainer = document.getElementById(`trickle-container-fan${fanNum}`);
+    if (workingCb && trickleContainer) {
+        if (workingCb.checked) {
+            trickleContainer.classList.add('active');
+        } else {
+            trickleContainer.classList.remove('active');
+        }
+    }
+
+    const boostCb = fanSection.querySelector('.fan-boost-cb');
+    const boostContainer = document.getElementById(`boost-container-fan${fanNum}`);
+    if (boostCb && boostContainer) {
+        if (boostCb.checked) {
+            boostContainer.classList.add('active');
+        } else {
+            boostContainer.classList.remove('active');
+        }
+    }
+
+    // Check whether to show the Approved Document F boost requirement banner
     const unitTypeSelect = fanSection.querySelector('.fan-unittype-select');
-    const trickleInput = fanSection.querySelector('.fan-trickle-input');
-    const boostInput = fanSection.querySelector('.fan-boost-input');
+    const locSelect = fanSection.querySelector('.fan-location-select');
     const reqBanner = document.getElementById(`doc-f-req-fan${fanNum}`);
-    const actionCb = fanSection.querySelector(`.action-req-cb[data-id="vent-6-fan${fanNum}"]`);
 
-    if (!locSelect || !unitTypeSelect || !trickleInput || !boostInput || !reqBanner || !actionCb) return;
+    if (unitTypeSelect && locSelect && reqBanner) {
+        const unitType = unitTypeSelect.value;
+        const location = locSelect.value;
 
-    const location = locSelect.value;
-    const unitType = unitTypeSelect.value;
-    const trickleValStr = trickleInput.value.trim();
-    const boostValStr = boostInput.value.trim();
-
-    if (!location || !unitType) {
-        reqBanner.className = 'doc-f-req-banner';
-        reqBanner.innerHTML = '<small><em>Select location & unit type to view Approved Document F minimum rates</em></small>';
-        evaluateSystemWideCompliance();
-        return;
-    }
-
-    const reqs = (docFRequirements[location] && docFRequirements[location][unitType]) ? docFRequirements[location][unitType] : null;
-    if (!reqs) {
-        reqBanner.className = 'doc-f-req-banner';
-        reqBanner.innerHTML = `<small>Approved Document F Min: Trickle 8 L/s, Boost 15 L/s (Default standard)</small>`;
-        evaluateSystemWideCompliance();
-        return;
-    }
-
-    reqBanner.innerHTML = `<small><strong>Approved Document F Target (${location} - ${unitType}):</strong> Required Trickle: ${reqs.trickle} L/s | Required Boost: ${reqs.boost} L/s</small>`;
-
-    if (trickleValStr === '' && boostValStr === '') {
-        reqBanner.className = 'doc-f-req-banner';
-        evaluateSystemWideCompliance();
-        return;
-    }
-
-    const trickleVal = trickleValStr !== '' ? parseFloat(trickleValStr) : 0;
-    const boostVal = boostValStr !== '' ? parseFloat(boostValStr) : 0;
-
-    let isNonCompliant = false;
-
-    if (reqs.trickle > 0 && trickleVal < reqs.trickle) {
-        isNonCompliant = true;
-    }
-
-    if (boostVal < reqs.boost) {
-        isNonCompliant = true;
-    }
-
-    if (isNonCompliant) {
-        reqBanner.className = 'doc-f-req-banner non-compliant';
-        reqBanner.innerHTML = `<small><strong>NON-COMPLIANT:</strong> Measured rates (Trickle: ${trickleVal} L/s, Boost: ${boostVal} L/s) are below requirements.</small>`;
-
-        const reqString = reqs.trickle > 0 ? `Trickle ${reqs.trickle} L/s, Boost ${reqs.boost} L/s` : `Boost ${reqs.boost} L/s`;
-        const fullDefectMsg = `[DEFECT] Does not meet approved doc F requirement for ${location}. Required: ${reqString}.`;
-        
-        actionCb.dataset.autoFinding = fullDefectMsg;
-
-        if (!actionCb.checked) {
-            actionCb.checked = true;
-            actionCb.setAttribute('checked', 'checked');
-            actionCb.dataset.autoFlagged = "true";
-            actionCb.dispatchEvent(new Event('change', { bubbles: true }));
+        if (unitType === 'dMEV' && location && dmevDocFBoostReqs[location]) {
+            reqBanner.style.display = 'block';
+            reqBanner.innerHTML = `<strong>Approved Document F Requirement:</strong> Minimum Boost Rate for <em>${location}</em> is <strong>${dmevDocFBoostReqs[location]} L/s</strong>.`;
         } else {
-            const regRow = document.getElementById('register-row-' + actionCb.dataset.id);
-            if (regRow) {
-                const span = regRow.querySelector('.register-finding-text');
-                if (span) span.textContent = fullDefectMsg;
-            }
-        }
-    } else {
-        reqBanner.className = 'doc-f-req-banner compliant';
-        reqBanner.innerHTML = `<small><strong>COMPLIANT (Approved Document F):</strong> Measured airflow rates meet requirements for ${location} ${unitType}.</small>`;
-
-        actionCb.dataset.autoFinding = "";
-
-        if (actionCb.dataset.autoFlagged === "true" && actionCb.checked) {
-            actionCb.checked = false;
-            actionCb.removeAttribute('checked');
-            delete actionCb.dataset.autoFlagged;
-            actionCb.dispatchEvent(new Event('change', { bubbles: true }));
+            reqBanner.style.display = 'none';
+            reqBanner.innerHTML = '';
         }
     }
-    
-    evaluateSystemWideCompliance();
 }
 
-function evaluateAllFansCompliance() {
-    const fanSections = document.querySelectorAll('.fan-section');
-    fanSections.forEach(section => {
+function updateAllFansAirflowUI() {
+    document.querySelectorAll('.fan-section').forEach(section => {
         const fanNum = section.dataset.fanNum;
-        if (fanNum) evaluateFanCompliance(fanNum);
+        if (fanNum) updateFanAirflowUI(fanNum);
     });
 }
 
-function evaluateDuctingCompliance(fanNum) {
-    const fanSection = document.getElementById(`fan-section-${fanNum}`);
-    if (!fanSection) return;
-
-    const mountingSelect = fanSection.querySelector(`#mounting-fan${fanNum}`);
-    const insulationSelect = fanSection.querySelector(`#duct-insul-fan${fanNum}`);
-    const actionCb = fanSection.querySelector(`.action-req-cb[data-id="vent-3-fan${fanNum}"]`);
-    const findingInput = fanSection.querySelector(`#finding-vent-3-fan${fanNum}`);
-    
-    if (!mountingSelect || !insulationSelect || !actionCb || !findingInput) return;
-
-    const mounting = mountingSelect.value;
-    const insulation = insulationSelect.value;
-
-    if (mounting === 'Ceiling' && insulation === 'Not Insulated') {
-        const defectMsg = "[DEFECT] Ceiling mounted fan with uninsulated ducting risks condensation and conflicts with Approved Document F.";
-        
-        actionCb.dataset.autoFinding = defectMsg;
-        findingInput.value = defectMsg;
-        autoResizeTextarea(findingInput);
-        
-        if (!actionCb.checked) {
-            actionCb.checked = true;
-            actionCb.setAttribute('checked', 'checked');
-            actionCb.dataset.autoFlaggedDuct = "true";
-            actionCb.dispatchEvent(new Event('change', { bubbles: true }));
-        } else {
-            const regRow = document.getElementById('register-row-' + actionCb.dataset.id);
-            if (regRow) {
-                const span = regRow.querySelector('.register-finding-text');
-                if (span) span.textContent = defectMsg;
-            }
-        }
-    } else {
-        if (actionCb.dataset.autoFlaggedDuct === "true") {
-            actionCb.dataset.autoFinding = "";
-            actionCb.checked = false;
-            actionCb.removeAttribute('checked');
-            delete actionCb.dataset.autoFlaggedDuct;
-            actionCb.dispatchEvent(new Event('change', { bubbles: true }));
-            
-            if (findingInput.value.includes("[DEFECT] Ceiling mounted fan")) {
-                findingInput.value = "";
-                autoResizeTextarea(findingInput);
-            }
-        }
-    }
-}
-
-// Check if a section has any inspected or entered content
+// Check if an element or container has any inspected/entered data
 function isElementFilled(container) {
     if (!container) return false;
     
@@ -1705,22 +1585,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    document.addEventListener('input', function(e) {
-        if (e.target && (e.target.classList.contains('fan-trickle-input') || e.target.classList.contains('fan-boost-input') || e.target.classList.contains('fan-model-input'))) {
-            const fanNum = e.target.dataset.fanNum || e.target.closest('.fan-section')?.dataset.fanNum;
-            if (fanNum) evaluateFanCompliance(fanNum);
-        }
-    });
-
+    // Handle fan toggles and inputs
     document.addEventListener('change', function(e) {
-        if (e.target && (e.target.classList.contains('fan-unittype-select') || e.target.classList.contains('fan-location-select'))) {
+        if (e.target && (
+            e.target.classList.contains('fan-working-cb') || 
+            e.target.classList.contains('fan-boost-cb') || 
+            e.target.classList.contains('fan-unittype-select') || 
+            e.target.classList.contains('fan-location-select')
+        )) {
             const fanNum = e.target.dataset.fanNum || e.target.closest('.fan-section')?.dataset.fanNum;
-            if (fanNum) evaluateFanCompliance(fanNum);
-            evaluateSystemWideCompliance();
-        }
-        if (e.target && (e.target.classList.contains('fan-mounting-select') || e.target.classList.contains('fan-duct-type-select') || e.target.classList.contains('fan-duct-insul-select'))) {
-            const fanNum = e.target.dataset.fanNum || e.target.closest('.fan-section')?.dataset.fanNum;
-            if (fanNum) evaluateDuctingCompliance(fanNum);
+            if (fanNum) updateFanAirflowUI(fanNum);
         }
     });
 
@@ -1736,7 +1610,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // 2. Check Photo Section: Hide if empty to save space and prevent overlap
+        // 2. Check Photo Section
         const photoSection = document.getElementById('section3-container');
         const photoCards = document.querySelectorAll('.photo-card');
         if (photoSection) {
@@ -1747,19 +1621,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // 3. Filter Accordion Checklists: Hide collapsed or unfilled sections
+        // 3. Filter Accordion Checklists
         let visibleAccordionsCount = 0;
         document.querySelectorAll('.accordion-section').forEach(sec => {
             const content = sec.querySelector('.accordion-content');
             const isCurrentlyOpen = content && (content.style.display === 'block');
             const hasData = isElementFilled(sec);
 
-            // Print ONLY if open and filled in
             if (isCurrentlyOpen && hasData) {
                 sec.classList.remove('no-print-accordion');
                 visibleAccordionsCount++;
 
-                // If ventilation, hide blank fan sub-blocks
                 sec.querySelectorAll('.fan-section').forEach(fanSec => {
                     if (isElementFilled(fanSec)) {
                         fanSec.classList.remove('no-print-fan');
@@ -1772,7 +1644,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Hide Section 4 header if no checklists are printing
         const sec4Header = document.getElementById('section4-header');
         if (sec4Header) {
             if (visibleAccordionsCount === 0) {
@@ -1782,7 +1653,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // 4. Synchronize values into attributes for PDF output
+        // 4. Synchronize values into DOM attributes for PDF printing
         document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
             if (cb.checked) {
                 cb.setAttribute('checked', 'checked');
@@ -1803,7 +1674,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // 5. Expand textareas to match content height without splitting
+        // 5. Expand textareas to match content height
         document.querySelectorAll('textarea').forEach(ta => {
             ta.textContent = ta.value;
             ta.style.height = 'auto';
@@ -1845,9 +1716,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (expand) {
             content.style.display = "block";
             if (icon) icon.textContent = "-";
-            
-            if (sec.id === 'ventilation-accordion-section' || sec.querySelector('#fans-container')) {
-                evaluateAllFansCompliance();
+            if (sec.id === 'ventilation-accordion-section') {
+                updateAllFansAirflowUI();
             }
         } else {
             content.style.display = "none";
@@ -1917,164 +1787,181 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (e.target && e.target.classList.contains('fan-location-select')) {
             const fanNum = e.target.dataset.fanNum;
-            if (fanNum) updateFanCategoryName(fanNum);
+            if (fanNum) {
+                updateFanCategoryName(fanNum);
+                updateFanAirflowUI(fanNum);
+            }
         }
     });
+
+    function createFanBlock(fanNum) {
+        const fanSection = document.createElement('div');
+        fanSection.className = 'fan-section';
+        fanSection.id = `fan-section-${fanNum}`;
+        fanSection.dataset.fanNum = fanNum;
+
+        fanSection.innerHTML = `
+            <div class="fan-header-container">
+                <h4>Fan ${fanNum} 
+                    <select class="location-select fan-location-select" data-fan-num="${fanNum}">
+                        <option value="">Select Location...</option>
+                        <option value="Kitchen">Kitchen</option>
+                        <option value="Bathroom">Bathroom</option>
+                        <option value="WC">WC</option>
+                        <option value="En-suite">En-suite</option>
+                        <option value="Utility">Utility</option>
+                    </select>
+                </h4>
+                <button type="button" class="btn-remove-fan no-print">Delete Fan ${fanNum}</button>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="col-desc">Item Description</th>
+                            <th class="center col-sat">Sat.</th>
+                            <th class="center col-act">Action Req.</th>
+                            <th class="center col-na">N/A</th>
+                            <th class="col-find">Inspection Finding / Reference</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Unit Type Selection & Model / Manufacturer
+                                <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
+                            </td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-1-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="Unit Type & Manufacturer"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td>
+                                <select class="fan-unittype-select" data-fan-num="${fanNum}" id="unittype-fan${fanNum}" style="margin-bottom: 4px;">
+                                    <option value="">Select Unit Type...</option>
+                                    <option value="dMEV">dMEV</option>
+                                    <option value="MEV">MEV</option>
+                                    <option value="Intermittent">Intermittent</option>
+                                </select>
+                                <input type="text" class="fan-model-input" id="model-fan${fanNum}" placeholder="Model / Manufacturer details..." style="margin-bottom: 4px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Wall or Ceiling Mounting
+                                <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
+                            </td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-2-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="Mounting Security"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td>
+                                <select class="fan-mounting-select" data-fan-num="${fanNum}" id="mounting-fan${fanNum}" style="margin-bottom: 4px;">
+                                    <option value="">Select Mounting...</option>
+                                    <option value="External Wall">External Wall</option>
+                                    <option value="Internal Wall">Internal Wall</option>
+                                    <option value="Ceiling">Ceiling</option>
+                                    <option value="Window Mounting">Window Mounting</option>
+                                </select>
+                                <textarea class="finding-input" id="finding-vent-2-fan${fanNum}" placeholder="Enter findings..."></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ducting Material (Rigid/Flexi) & Insulation in Cold Voids
+                                <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
+                            </td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-3-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="Ducting Material & Insulation"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td>
+                                <div style="display: flex; gap: 6px; margin-bottom: 4px;">
+                                    <select class="fan-duct-type-select" data-fan-num="${fanNum}" id="duct-type-fan${fanNum}" style="flex: 1;">
+                                        <option value="">Rigid / Flexi...</option>
+                                        <option value="Rigid">Rigid</option>
+                                        <option value="Flexi">Flexi</option>
+                                    </select>
+                                    <select class="fan-duct-insul-select" data-fan-num="${fanNum}" id="duct-insul-fan${fanNum}" style="flex: 1;">
+                                        <option value="">Insulation...</option>
+                                        <option value="Insulated">Insulated</option>
+                                        <option value="Not Insulated">Not Insulated</option>
+                                    </select>
+                                </div>
+                                <textarea class="finding-input" id="finding-vent-3-fan${fanNum}" placeholder="Enter findings..."></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Local Fused Isolation Switch
+                                <span class="b-reg-ref">Ref: Approved Document P (Electrical Safety)</span>
+                            </td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-4-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="Isolation Switch Installed"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td><textarea class="finding-input" id="finding-vent-4-fan${fanNum}" placeholder="Enter findings..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>External Ducting Grille
+                                <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
+                            </td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-5-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="External Ducting Grille"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td><textarea class="finding-input" id="finding-vent-5-fan${fanNum}" placeholder="Enter findings..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>Measured Airflow Rates (Litres / second)
+                                <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
+                            </td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-6-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="Measured Airflow Rates"></td>
+                            <td class="center"><input type="checkbox"></td>
+                            <td>
+                                <div class="fan-flow-control-group">
+                                    <div class="fan-flow-row">
+                                        <label class="fan-flow-label">
+                                            <input type="checkbox" class="fan-working-cb" id="fan-working-fan${fanNum}" data-fan-num="${fanNum}">
+                                            Fan Working
+                                        </label>
+                                        <div class="fan-rate-input-container" id="trickle-container-fan${fanNum}">
+                                            <label for="trickle-fan${fanNum}">Trickle Rate:</label>
+                                            <input type="number" step="0.1" min="0" class="fan-trickle-input" id="trickle-fan${fanNum}" data-fan-num="${fanNum}" placeholder="L/s">
+                                        </div>
+                                    </div>
+
+                                    <div class="fan-flow-row">
+                                        <label class="fan-flow-label">
+                                            <input type="checkbox" class="fan-boost-cb" id="fan-boost-cb-fan${fanNum}" data-fan-num="${fanNum}">
+                                            Manual Boost
+                                        </label>
+                                        <div class="fan-rate-input-container" id="boost-container-fan${fanNum}">
+                                            <label for="boost-fan${fanNum}">Boost Rate:</label>
+                                            <input type="number" step="0.1" min="0" class="fan-boost-input" id="boost-fan${fanNum}" data-fan-num="${fanNum}" placeholder="L/s">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="doc-f-req-banner" id="doc-f-req-fan${fanNum}" style="display: none;"></div>
+
+                                <textarea class="finding-input" id="finding-vent-6-fan${fanNum}" placeholder="Airflow findings or notes..." style="margin-top: 4px;"></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        `;
+
+        fanSection.querySelector('.btn-remove-fan').addEventListener('click', function() {
+            const cbs = fanSection.querySelectorAll('.action-req-cb');
+            cbs.forEach(cb => {
+                const rowToRemove = document.getElementById('register-row-' + cb.dataset.id);
+                if (rowToRemove) rowToRemove.remove();
+            });
+            fanSection.remove();
+            updateActionNumbers();
+        });
+
+        fansContainer.appendChild(fanSection);
+        fanSection.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
+    }
 
     if (btnAddFan && fansContainer) {
         btnAddFan.addEventListener('click', function() {
             fanCounter++;
-            const fanNum = fanCounter;
-            const fanSection = document.createElement('div');
-            fanSection.className = 'fan-section';
-            fanSection.id = `fan-section-${fanNum}`;
-            fanSection.dataset.fanNum = fanNum;
-
-            fanSection.innerHTML = `
-                <div class="fan-header-container">
-                    <h4>Fan ${fanNum} 
-                        <select class="location-select fan-location-select" data-fan-num="${fanNum}">
-                            <option value="">Select Location...</option>
-                            <option value="Kitchen">Kitchen</option>
-                            <option value="Bathroom">Bathroom</option>
-                            <option value="WC">WC</option>
-                            <option value="En-suite">En-suite</option>
-                            <option value="Utility">Utility</option>
-                        </select>
-                    </h4>
-                    <button type="button" class="btn-remove-fan no-print">Delete Fan ${fanNum}</button>
-                </div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th class="col-desc">Item Description</th>
-                                <th class="center col-sat">Sat.</th>
-                                <th class="center col-act">Action Req.</th>
-                                <th class="center col-na">N/A</th>
-                                <th class="col-find">Inspection Finding / Reference</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Unit Type Selection & Model / Manufacturer
-                                    <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
-                                </td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-1-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="Unit Type & Manufacturer"></td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td>
-                                    <select class="fan-unittype-select" data-fan-num="${fanNum}" id="unittype-fan${fanNum}" style="margin-bottom: 4px;">
-                                        <option value="">Select Unit Type...</option>
-                                        <option value="dMEV">dMEV</option>
-                                        <option value="MEV">MEV</option>
-                                        <option value="Intermittent">Intermittent</option>
-                                        <option value="PIV">PIV</option>
-                                    </select>
-                                    <input type="text" class="fan-model-input" id="model-fan${fanNum}" placeholder="Model / Manufacturer details..." style="margin-bottom: 4px;">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Wall or Ceiling Mounting
-                                    <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
-                                </td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-2-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="Mounting Security"></td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td>
-                                    <select class="fan-mounting-select" data-fan-num="${fanNum}" id="mounting-fan${fanNum}" style="margin-bottom: 4px;">
-                                        <option value="">Select Mounting...</option>
-                                        <option value="External Wall">External Wall</option>
-                                        <option value="Internal Wall">Internal Wall</option>
-                                        <option value="Ceiling">Ceiling</option>
-                                        <option value="Window Mounting">Window Mounting</option>
-                                    </select>
-                                    <textarea class="finding-input" id="finding-vent-2-fan${fanNum}" placeholder="Enter findings..."></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Ducting Material (Rigid/Flexi) & Insulation in Cold Voids
-                                    <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
-                                </td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-3-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="Ducting Material & Insulation"></td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td>
-                                    <div style="display: flex; gap: 6px; margin-bottom: 4px;">
-                                        <select class="fan-duct-type-select" data-fan-num="${fanNum}" id="duct-type-fan${fanNum}" style="flex: 1;">
-                                            <option value="">Rigid / Flexi...</option>
-                                            <option value="Rigid">Rigid</option>
-                                            <option value="Flexi">Flexi</option>
-                                        </select>
-                                        <select class="fan-duct-insul-select" data-fan-num="${fanNum}" id="duct-insul-fan${fanNum}" style="flex: 1;">
-                                            <option value="">Insulation...</option>
-                                            <option value="Insulated">Insulated</option>
-                                            <option value="Not Insulated">Not Insulated</option>
-                                        </select>
-                                    </div>
-                                    <textarea class="finding-input" id="finding-vent-3-fan${fanNum}" placeholder="Enter findings..."></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Local Fused Isolation Switch
-                                    <span class="b-reg-ref">Ref: Approved Document P (Electrical Safety)</span>
-                                </td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-4-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="Isolation Switch Installed"></td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td><textarea class="finding-input" id="finding-vent-4-fan${fanNum}" placeholder="Enter findings..."></textarea></td>
-                            </tr>
-                            <tr>
-                                <td>External Ducting Grille
-                                    <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
-                                </td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-5-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="External Ducting Grille"></td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td><textarea class="finding-input" id="finding-vent-5-fan${fanNum}" placeholder="Enter findings..."></textarea></td>
-                            </tr>
-                            <tr>
-                                <td>Measured Airflow Rates (Litres / second)
-                                    <span class="b-reg-ref">Ref: Approved Document F (Ventilation)</span>
-                                </td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td class="center"><input type="checkbox" class="action-req-cb" data-id="vent-6-fan${fanNum}" data-category="Mechanical Ventilation (Fan ${fanNum})" data-item="Measured Airflow Rates"></td>
-                                <td class="center"><input type="checkbox"></td>
-                                <td>
-                                    <div class="airflow-inputs-container">
-                                        <div class="airflow-field">
-                                            <label for="trickle-fan${fanNum}">Trickle Rate (L/s):</label>
-                                            <input type="number" step="0.1" min="0" class="fan-trickle-input" id="trickle-fan${fanNum}" data-fan-num="${fanNum}" placeholder="e.g. 8">
-                                        </div>
-                                        <div class="airflow-field">
-                                            <label for="boost-fan${fanNum}">Boost Rate (L/s):</label>
-                                            <input type="number" step="0.1" min="0" class="fan-boost-input" id="boost-fan${fanNum}" data-fan-num="${fanNum}" placeholder="e.g. 15">
-                                        </div>
-                                    </div>
-                                    <div class="doc-f-req-banner" id="doc-f-req-fan${fanNum}">
-                                        <small><em>Select location & unit type to view Doc F minimum rates</em></small>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            `;
-
-            fanSection.querySelector('.btn-remove-fan').addEventListener('click', function() {
-                const cbs = fanSection.querySelectorAll('.action-req-cb');
-                cbs.forEach(cb => {
-                    const rowToRemove = document.getElementById('register-row-' + cb.dataset.id);
-                    if (rowToRemove) rowToRemove.remove();
-                });
-                fanSection.remove();
-                evaluateSystemWideCompliance();
-                updateActionNumbers();
-            });
-
-            fansContainer.appendChild(fanSection);
-            fanSection.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
-            evaluateFanCompliance(fanNum);
+            createFanBlock(fanCounter);
         });
     }
 
@@ -2146,6 +2033,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Manual Action Required checkbox handling
     document.addEventListener('change', function(e) {
         if (e.target && e.target.classList.contains('action-req-cb')) {
             const cb = e.target;
@@ -2155,17 +2043,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 const findingInput = document.getElementById('finding-' + cb.dataset.id);
                 let findingText = findingInput ? findingInput.value : "";
                 
-                if (cb.dataset.autoFinding) {
-                    findingText = cb.dataset.autoFinding;
-                }
-                
                 const tr = document.createElement('tr');
                 tr.id = rowId;
                 tr.className = 'auto-populated';
                 tr.innerHTML = `
                     <td class="center"><strong></strong></td>
                     <td>${cb.dataset.category} - ${cb.dataset.item}</td>
-                    <td><span class="register-finding-text">${findingText || "No notes entered"}</span></td>
+                    <td><span class="register-finding-text">${findingText || "Action required noted"}</span></td>
                     <td class="center no-print-col"><span style="color:#aaa; font-size: 0.8em;">Auto</span></td>
                 `;
                 
@@ -2187,7 +2071,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (row) {
                 const span = row.querySelector('.register-finding-text');
                 if (span) {
-                    span.textContent = e.target.value || "No notes entered";
+                    span.textContent = e.target.value || "Action required noted";
                 }
             }
         }
@@ -2368,6 +2252,14 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const payload = JSON.parse(jsonStr);
 
+            // Recreate additional fans if any were saved
+            if (payload.fanCounter && payload.fanCounter > fanCounter) {
+                for (let i = fanCounter + 1; i <= payload.fanCounter; i++) {
+                    fanCounter = i;
+                    createFanBlock(i);
+                }
+            }
+
             if (payload.inputs) {
                 payload.inputs.forEach(item => {
                     const el = document.getElementById(item.id);
@@ -2378,6 +2270,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         } else {
                             el.value = item.value;
                             el.dispatchEvent(new Event('input', { bubbles: true }));
+                            el.dispatchEvent(new Event('change', { bubbles: true }));
                         }
                     }
                 });
@@ -2410,7 +2303,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateAllPhotoDropdowns();
             }
 
-            evaluateAllFansCompliance();
+            updateAllFansAirflowUI();
             showToast("Draft Loaded Successfully!");
         } catch (err) {
             showToast("Error loading saved draft.");
@@ -2419,7 +2312,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function downloadOfflineFile() {
         prepareForPrint();
-        evaluateAllFansCompliance();
+        updateAllFansAirflowUI();
         
         const defaultName = getFormattedFileName();
         const customName = prompt("Enter file name for offline report:", defaultName);
@@ -2447,7 +2340,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function shareOfflineFile() {
         prepareForPrint();
-        evaluateAllFansCompliance();
+        updateAllFansAirflowUI();
         const filename = getFormattedFileName();
         const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
         const blob = new Blob([htmlContent], { type: "text/html" });
@@ -2483,6 +2376,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (btnCloseShareModal) btnCloseShareModal.addEventListener('click', function() {
         shareModal.classList.remove('show');
     });
+
+    // Initial check on load
+    updateAllFansAirflowUI();
 });
 </script>
 
