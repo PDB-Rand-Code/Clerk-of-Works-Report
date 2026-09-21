@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Clerk of Works Inspection Report</title>
+    <!-- Google Fonts: Libre Franklin -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Libre Franklin', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 8px;
             color: #333;
@@ -14,6 +18,10 @@
             font-size: 13px;
             line-height: 1.35;
             -webkit-tap-highlight-color: transparent;
+        }
+
+        input, select, textarea, button {
+            font-family: 'Libre Franklin', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         .container {
@@ -43,7 +51,7 @@
         }
 
         .action-title {
-            font-weight: bold;
+            font-weight: 700;
             font-size: 14px;
             display: flex;
             align-items: center;
@@ -62,7 +70,7 @@
             border: none;
             padding: 8px 12px;
             font-size: 12px;
-            font-weight: bold;
+            font-weight: 700;
             border-radius: 4px;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -119,13 +127,14 @@
             border: none;
             padding: 0;
             font-size: 20px;
+            font-weight: 700;
         }
         .header-top p {
             margin: 3px 0 0 0;
             color: #555;
         }
         #header-address {
-            font-weight: bold;
+            font-weight: 700;
             color: #004080;
             font-size: 1em;
             margin-top: 5px;
@@ -144,12 +153,14 @@
             margin-bottom: 10px;
             text-transform: uppercase;
             font-size: 15px;
+            font-weight: 700;
         }
         
         h3 {
             color: #004080;
             font-size: 13.5px;
             margin: 12px 0 6px 0;
+            font-weight: 600;
         }
 
         .b-reg-ref {
@@ -184,12 +195,12 @@
             font-size: 13px;
         }
         .accordion-content {
-            display: none; /* Hidden by default */
+            display: none;
             padding-top: 8px;
         }
         .accordion-icon {
             font-size: 1.3em;
-            font-weight: bold;
+            font-weight: 700;
             line-height: 1;
         }
         
@@ -216,7 +227,7 @@
         }
         th {
             background-color: #f2f2f2;
-            font-weight: bold;
+            font-weight: 600;
         }
         .center { text-align: center; }
 
@@ -245,7 +256,6 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 12px;
-            font-family: inherit;
             background-color: #fff;
         }
 
@@ -255,7 +265,6 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 12.5px;
-            font-family: inherit;
             box-sizing: border-box;
             height: 32px;
         }
@@ -265,7 +274,6 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 12.5px;
-            font-family: inherit;
             box-sizing: border-box;
             resize: none;
             overflow: hidden !important;
@@ -295,7 +303,7 @@
             border: none;
             padding: 10px 16px;
             font-size: 13.5px;
-            font-weight: bold;
+            font-weight: 700;
             border-radius: 4px;
             cursor: pointer;
             margin-bottom: 15px;
@@ -326,18 +334,55 @@
 
         .fan-header-container h4 {
             margin: 0;
+            font-weight: 700;
         }
 
         /* Ventilation Airflow Section Styles */
         .fan-flow-control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
             background: #fafbfc;
-            padding: 8px;
+            padding: 8px 10px;
             border: 1px solid #e1e4e8;
             border-radius: 4px;
             margin-bottom: 6px;
+        }
+
+        .fan-working-selector-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 4px;
+        }
+
+        .fan-working-title {
+            font-weight: 700;
+            color: #004080;
+            font-size: 12.5px;
+        }
+
+        .fan-yn-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            user-select: none;
+            margin: 0;
+        }
+
+        .fan-yn-label input[type="radio"] {
+            width: 17px;
+            height: 17px;
+            cursor: pointer;
+            accent-color: #004080;
+            margin: 0;
+        }
+
+        .fan-operational-details {
+            display: none; /* Shown only when "Yes" is selected */
+            border-top: 1px solid #e1e4e8;
+            padding-top: 8px;
+            margin-top: 6px;
         }
 
         .fan-flow-row {
@@ -345,6 +390,7 @@
             align-items: center;
             gap: 10px;
             flex-wrap: wrap;
+            margin-bottom: 6px;
         }
 
         .fan-flow-label {
@@ -352,7 +398,7 @@
             align-items: center;
             gap: 6px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 700;
             color: #004080;
             font-size: 12px;
             user-select: none;
@@ -367,7 +413,7 @@
         }
 
         .fan-rate-input-container {
-            display: none; /* revealed when respective checkbox checked */
+            display: none; /* Revealed when boost is ticked */
             align-items: center;
             gap: 6px;
             flex: 1;
@@ -385,7 +431,7 @@
             white-space: nowrap;
         }
 
-        .fan-rate-input-container input[type="number"] {
+        .fan-rate-input-container input[type="number"], .fan-trickle-input-wrap input[type="number"] {
             width: 90px;
             height: 28px;
             padding: 3px 6px;
@@ -447,6 +493,7 @@
             cursor: pointer;
             min-height: 32px;
             font-size: 12px;
+            font-weight: 600;
         }
         .btn-remove-row {
             background-color: #d9534f;
@@ -456,7 +503,7 @@
             border-radius: 4px;
             cursor: pointer;
             min-height: 30px;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 11px;
         }
 
@@ -470,7 +517,7 @@
             border-radius: 6px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             z-index: 9999;
-            font-weight: bold;
+            font-weight: 700;
             opacity: 0;
             transition: opacity 0.3s ease;
             pointer-events: none;
@@ -658,6 +705,17 @@
             input[type="checkbox"] {
                 appearance: checkbox !important;
                 -webkit-appearance: checkbox !important;
+                width: 14px !important;
+                height: 14px !important;
+                cursor: pointer;
+                accent-color: #004080 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            input[type="radio"] {
+                appearance: radio !important;
+                -webkit-appearance: radio !important;
                 width: 14px !important;
                 height: 14px !important;
                 cursor: pointer;
@@ -1319,37 +1377,43 @@
                                     <td class="center"><input type="checkbox"></td>
                                     <td>
                                         <div class="fan-flow-control-group">
-                                            <!-- Fan Working toggle -->
-                                            <div class="fan-flow-row">
-                                                <label class="fan-flow-label">
-                                                    <input type="checkbox" class="fan-working-cb" id="fan-working-fan1" data-fan-num="1">
-                                                    Fan Working
+                                            <!-- Fan Working Yes / No -->
+                                            <div class="fan-working-selector-row">
+                                                <span class="fan-working-title">Fan Working:</span>
+                                                <label class="fan-yn-label">
+                                                    <input type="radio" name="fan-working-opt-fan1" id="fan-working-yes-fan1" class="fan-working-radio" data-fan-num="1" value="yes">
+                                                    Yes
                                                 </label>
-                                                <div class="fan-rate-input-container" id="trickle-container-fan1">
-                                                    <label for="trickle-fan1">Trickle Rate:</label>
-                                                    <input type="number" step="0.1" min="0" class="fan-trickle-input" id="trickle-fan1" data-fan-num="1" placeholder="L/s">
-                                                </div>
+                                                <label class="fan-yn-label">
+                                                    <input type="radio" name="fan-working-opt-fan1" id="fan-working-no-fan1" class="fan-working-radio" data-fan-num="1" value="no">
+                                                    No
+                                                </label>
                                             </div>
 
-                                            <!-- Manual Boost toggle -->
-                                            <div class="fan-flow-row">
-                                                <label class="fan-flow-label">
-                                                    <input type="checkbox" class="fan-boost-cb" id="fan-boost-cb-fan1" data-fan-num="1">
-                                                    Manual Boost
-                                                </label>
-                                                <div class="fan-rate-input-container" id="boost-container-fan1">
-                                                    <label for="boost-fan1">Boost Rate:</label>
-                                                    <input type="number" step="0.1" min="0" class="fan-boost-input" id="boost-fan1" data-fan-num="1" placeholder="L/s">
+                                            <!-- Operational details (revealed when Yes is selected) -->
+                                            <div class="fan-operational-details" id="fan-operational-fan1">
+                                                <div class="fan-flow-row fan-trickle-input-wrap">
+                                                    <label for="trickle-fan1" style="font-weight: 600; font-size: 11.5px; color: #004080; min-width: 110px;">Trickle Rate (L/s):</label>
+                                                    <input type="number" step="0.1" min="0" class="fan-trickle-input" id="trickle-fan1" data-fan-num="1" placeholder="e.g. 6">
                                                 </div>
+
+                                                <div class="fan-flow-row">
+                                                    <label class="fan-flow-label">
+                                                        <input type="checkbox" class="fan-boost-cb" id="fan-boost-cb-fan1" data-fan-num="1">
+                                                        Manual Boost
+                                                    </label>
+                                                    <div class="fan-rate-input-container" id="boost-container-fan1">
+                                                        <label for="boost-fan1">Boost Rate (L/s):</label>
+                                                        <input type="number" step="0.1" min="0" class="fan-boost-input" id="boost-fan1" data-fan-num="1" placeholder="e.g. 13">
+                                                    </div>
+                                                </div>
+
+                                                <!-- Doc F Boost Requirement Highlight Box -->
+                                                <div class="doc-f-req-banner" id="doc-f-req-fan1" style="display: none;"></div>
+
+                                                <textarea class="finding-input" id="finding-vent-6-fan1" placeholder="Airflow findings or notes..." style="margin-top: 6px;"></textarea>
                                             </div>
                                         </div>
-
-                                        <!-- Doc F Boost Requirement Highlight Box -->
-                                        <div class="doc-f-req-banner" id="doc-f-req-fan1" style="display: none;">
-                                            <!-- Dynamically populated if dMEV is chosen -->
-                                        </div>
-
-                                        <textarea class="finding-input" id="finding-vent-6-fan1" placeholder="Airflow findings or notes..." style="margin-top: 4px;"></textarea>
                                     </td>
                                 </tr>
                             </tbody>
@@ -1505,16 +1569,20 @@ function updateFanAirflowUI(fanNum) {
     const fanSection = document.getElementById(`fan-section-${fanNum}`);
     if (!fanSection) return;
 
-    const workingCb = fanSection.querySelector('.fan-working-cb');
-    const trickleContainer = document.getElementById(`trickle-container-fan${fanNum}`);
-    if (workingCb && trickleContainer) {
-        if (workingCb.checked) {
-            trickleContainer.classList.add('active');
+    // Check Fan Working selection
+    const yesRadio = document.getElementById(`fan-working-yes-fan${fanNum}`);
+    const operationalContainer = document.getElementById(`fan-operational-fan${fanNum}`);
+    
+    if (yesRadio && operationalContainer) {
+        if (yesRadio.checked) {
+            operationalContainer.style.display = 'block';
+            operationalContainer.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
         } else {
-            trickleContainer.classList.remove('active');
+            operationalContainer.style.display = 'none';
         }
     }
 
+    // Check Boost rate container visibility
     const boostCb = fanSection.querySelector('.fan-boost-cb');
     const boostContainer = document.getElementById(`boost-container-fan${fanNum}`);
     if (boostCb && boostContainer) {
@@ -1551,11 +1619,10 @@ function updateAllFansAirflowUI() {
     });
 }
 
-// Check if an element or container has any inspected/entered data
 function isElementFilled(container) {
     if (!container) return false;
     
-    const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+    const checkboxes = container.querySelectorAll('input[type="checkbox"], input[type="radio"]');
     for (const cb of checkboxes) {
         if (cb.checked) return true;
     }
@@ -1585,10 +1652,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Handle fan toggles and inputs
     document.addEventListener('change', function(e) {
         if (e.target && (
-            e.target.classList.contains('fan-working-cb') || 
+            e.target.classList.contains('fan-working-radio') ||
             e.target.classList.contains('fan-boost-cb') || 
             e.target.classList.contains('fan-unittype-select') || 
             e.target.classList.contains('fan-location-select')
@@ -1654,7 +1720,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // 4. Synchronize values into DOM attributes for PDF printing
-        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(cb => {
             if (cb.checked) {
                 cb.setAttribute('checked', 'checked');
             } else {
@@ -1911,32 +1977,40 @@ document.addEventListener('DOMContentLoaded', function() {
                             <td class="center"><input type="checkbox"></td>
                             <td>
                                 <div class="fan-flow-control-group">
-                                    <div class="fan-flow-row">
-                                        <label class="fan-flow-label">
-                                            <input type="checkbox" class="fan-working-cb" id="fan-working-fan${fanNum}" data-fan-num="${fanNum}">
-                                            Fan Working
+                                    <div class="fan-working-selector-row">
+                                        <span class="fan-working-title">Fan Working:</span>
+                                        <label class="fan-yn-label">
+                                            <input type="radio" name="fan-working-opt-fan${fanNum}" id="fan-working-yes-fan${fanNum}" class="fan-working-radio" data-fan-num="${fanNum}" value="yes">
+                                            Yes
                                         </label>
-                                        <div class="fan-rate-input-container" id="trickle-container-fan${fanNum}">
-                                            <label for="trickle-fan${fanNum}">Trickle Rate:</label>
-                                            <input type="number" step="0.1" min="0" class="fan-trickle-input" id="trickle-fan${fanNum}" data-fan-num="${fanNum}" placeholder="L/s">
-                                        </div>
+                                        <label class="fan-yn-label">
+                                            <input type="radio" name="fan-working-opt-fan${fanNum}" id="fan-working-no-fan${fanNum}" class="fan-working-radio" data-fan-num="${fanNum}" value="no">
+                                            No
+                                        </label>
                                     </div>
 
-                                    <div class="fan-flow-row">
-                                        <label class="fan-flow-label">
-                                            <input type="checkbox" class="fan-boost-cb" id="fan-boost-cb-fan${fanNum}" data-fan-num="${fanNum}">
-                                            Manual Boost
-                                        </label>
-                                        <div class="fan-rate-input-container" id="boost-container-fan${fanNum}">
-                                            <label for="boost-fan${fanNum}">Boost Rate:</label>
-                                            <input type="number" step="0.1" min="0" class="fan-boost-input" id="boost-fan${fanNum}" data-fan-num="${fanNum}" placeholder="L/s">
+                                    <div class="fan-operational-details" id="fan-operational-fan${fanNum}">
+                                        <div class="fan-flow-row fan-trickle-input-wrap">
+                                            <label for="trickle-fan${fanNum}" style="font-weight: 600; font-size: 11.5px; color: #004080; min-width: 110px;">Trickle Rate (L/s):</label>
+                                            <input type="number" step="0.1" min="0" class="fan-trickle-input" id="trickle-fan${fanNum}" data-fan-num="${fanNum}" placeholder="e.g. 6">
                                         </div>
+
+                                        <div class="fan-flow-row">
+                                            <label class="fan-flow-label">
+                                                <input type="checkbox" class="fan-boost-cb" id="fan-boost-cb-fan${fanNum}" data-fan-num="${fanNum}">
+                                                Manual Boost
+                                            </label>
+                                            <div class="fan-rate-input-container" id="boost-container-fan${fanNum}">
+                                                <label for="boost-fan${fanNum}">Boost Rate (L/s):</label>
+                                                <input type="number" step="0.1" min="0" class="fan-boost-input" id="boost-fan${fanNum}" data-fan-num="${fanNum}" placeholder="e.g. 13">
+                                            </div>
+                                        </div>
+
+                                        <div class="doc-f-req-banner" id="doc-f-req-fan${fanNum}" style="display: none;"></div>
+
+                                        <textarea class="finding-input" id="finding-vent-6-fan${fanNum}" placeholder="Airflow findings or notes..." style="margin-top: 6px;"></textarea>
                                     </div>
                                 </div>
-
-                                <div class="doc-f-req-banner" id="doc-f-req-fan${fanNum}" style="display: none;"></div>
-
-                                <textarea class="finding-input" id="finding-vent-6-fan${fanNum}" placeholder="Airflow findings or notes..." style="margin-top: 4px;"></textarea>
                             </td>
                         </tr>
                     </tbody>
@@ -2252,7 +2326,6 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const payload = JSON.parse(jsonStr);
 
-            // Recreate additional fans if any were saved
             if (payload.fanCounter && payload.fanCounter > fanCounter) {
                 for (let i = fanCounter + 1; i <= payload.fanCounter; i++) {
                     fanCounter = i;
@@ -2264,7 +2337,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 payload.inputs.forEach(item => {
                     const el = document.getElementById(item.id);
                     if (el) {
-                        if (item.type === 'checkbox') {
+                        if (item.type === 'checkbox' || item.type === 'radio') {
                             el.checked = item.checked;
                             el.dispatchEvent(new Event('change', { bubbles: true }));
                         } else {
@@ -2377,7 +2450,6 @@ document.addEventListener('DOMContentLoaded', function() {
         shareModal.classList.remove('show');
     });
 
-    // Initial check on load
     updateAllFansAirflowUI();
 });
 </script>
